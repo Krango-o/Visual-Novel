@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
 
     public Animator anim;
-    public SpriteRenderer theSr;
+    
 
     void Start()
     {
@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
         theRB.rotation = Quaternion.Euler(new Vector3(moveInput.x, theRB.velocity.y, theRB.velocity.z));
 
         anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
+        anim.SetFloat("moveSpeedX", moveInput.x );
+        anim.SetFloat("moveSpeedY", moveInput.y );
+      
+
 
         RaycastHit hit;
         if(Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, whatIsGround))
@@ -50,12 +54,13 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("onGround", isGrounded);
 
-         if(!theSr.flipX && moveInput.x < 0)
+        if(moveInput.x > 0.1)
         {
-            theSr.flipX = true;
-        } else if (theSr.flipX && moveInput.x > 0)
+            anim.SetFloat("isFacingRight", 1 );
+        }
+        if(moveInput.x < -0.1)
         {
-            theSr.flipX = false;
+            anim.SetFloat("isFacingRight", -1 );
         }
     }
 }
