@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 628df8200402f6c4f863bf87f08a3978
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - AlertBoxPrefab: {fileID: 5993448824393393070, guid: dcf06d5d081fb9b44bab3686cceb7f41, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

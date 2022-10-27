@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 39bad514ab057154ab8327c152ebeb5f
+  m_SerializeEntries:
+  - m_GUID: 04b01f41c6dc47740ab79c2fd3197965
+    m_Address: Assets/Art/Characters/LI1/LI1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0adbcf05edfd56e439400ec6d1251ca0
+    m_Address: Assets/Art/Sprites/Character2/Character2_Idle.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1d7d1edabf9eded49aa5451623a4199b
+    m_Address: Assets/Art/Sprites/Character3/Character3_Idle.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 279b38a79aabd36469f8ae150fe4e70f
+    m_Address: Assets/Art/Sprites/LI/LI_Frown.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2db6119fde82662479a9e90c21e0f2bd
+    m_Address: Assets/Art/Backgrounds/Black.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5942b67d87cb3c643bafadfbf22a4fd3
+    m_Address: Assets/Art/Characters/LI/LI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 62514e7c72d70a34ab6f6c3140616e63
+    m_Address: Assets/Art/Sprites/Character2/Character2_Frown.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 73732873e20774c49aed7da759d43ed9
+    m_Address: Assets/Art/Sprites/LI/LI_Idle.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c780bbc793b0931488fbed7e0151f75c
+    m_Address: Assets/Audio/Music/morningbirds.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c86f7bd2b73921a419c0316092334861
+    m_Address: Assets/Art/Sprites/Character3/Character3_Frown.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d1f30edc5e14f6a41bbd751ef70b59a2
+    m_Address: Assets/TestingFolder/LI/sprites
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d339c5ebc0b9f084b90fdcda680e9034
+    m_Address: Assets/Art/Backgrounds/Bedroom.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d3d25616f22c70447b3ea4b6ff1331e8
+    m_Address: Assets/Audio/Sound Effects/downstairs.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: eda04950faffcc0499bad68b774ee4a1
+    m_Address: Assets/Art/Characters/LI2/LI2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f1ab0ea88e9bfbb478343bb3ce4fb798
+    m_Address: Assets/Audio/Sound Effects/knocking.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f7cb611df3852f041abda7ef47f3a03e
+    m_Address: Assets/Audio/Sound Effects/heavycurtain.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fb12cbd40ebb656428c0841ac69fa126
+    m_Address: Assets/Art/Backgrounds/Kitchen.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d0a37fb9e42779a4eb7807382d3a11a9, type: 2}
+    - {fileID: 11400000, guid: 223c5f0c323db724cbb3b60480132a0e, type: 2}
