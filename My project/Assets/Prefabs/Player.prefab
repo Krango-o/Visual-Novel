@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b7e2109917850234893417fd0a6c9341, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e779da63b2f1d646b88d1db66346488, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -212,7 +212,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundPoint: {fileID: 18143341048553385}
+  camCooldown: 0.4
+  camSpeed: 0.8
   anim: {fileID: 18143339956657653}
+  cam: {fileID: 0}
+  sprite: {fileID: 18143339956657654}
+  virtualCam: {fileID: 0}
 --- !u!1 &18143341048553386
 GameObject:
   m_ObjectHideFlags: 0
