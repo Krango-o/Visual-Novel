@@ -21,18 +21,6 @@ MonoBehaviour:
     m_Address: Assets/Art/Characters/LI1/LI1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 0adbcf05edfd56e439400ec6d1251ca0
-    m_Address: Assets/Art/Sprites/Character2/Character2_Idle.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 1d7d1edabf9eded49aa5451623a4199b
-    m_Address: Assets/Art/Sprites/Character3/Character3_Idle.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 279b38a79aabd36469f8ae150fe4e70f
-    m_Address: Assets/Art/Sprites/LI/LI_Frown.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 2db6119fde82662479a9e90c21e0f2bd
     m_Address: Assets/Art/Backgrounds/Black.png
     m_ReadOnly: 0
@@ -41,20 +29,8 @@ MonoBehaviour:
     m_Address: Assets/Art/Characters/LI/LI.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 62514e7c72d70a34ab6f6c3140616e63
-    m_Address: Assets/Art/Sprites/Character2/Character2_Frown.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 73732873e20774c49aed7da759d43ed9
-    m_Address: Assets/Art/Sprites/LI/LI_Idle.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: c780bbc793b0931488fbed7e0151f75c
     m_Address: Assets/Audio/Music/morningbirds.wav
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: c86f7bd2b73921a419c0316092334861
-    m_Address: Assets/Art/Sprites/Character3/Character3_Frown.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: d1f30edc5e14f6a41bbd751ef70b59a2
