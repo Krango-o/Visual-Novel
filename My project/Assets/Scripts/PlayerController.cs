@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (GameManager.instance.characterDisabled) { return; }
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
 

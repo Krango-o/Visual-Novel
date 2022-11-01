@@ -12,7 +12,7 @@ public class SaveMenu : MonoBehaviour
 
     public void OnEnable()
     {
-        List<SaveObject> saves = GameManager.instance.SaveManager.GetSaves();
+        List<SaveObject> saves = NovelManager.instance.SaveManager.GetSaves();
         SaveGridButton[] buttons = Grid.GetComponentsInChildren<SaveGridButton>();
         foreach(SaveObject save in saves)
         {
@@ -42,12 +42,12 @@ public class SaveMenu : MonoBehaviour
         }
         if (SaveMode)
         {
-            List<SaveObject> saves = GameManager.instance.SaveManager.GetSaves();
+            List<SaveObject> saves = NovelManager.instance.SaveManager.GetSaves();
             foreach(SaveObject save in saves)
             {
                 if(save.slot == index)
                 {
-                    GameObject a = GameManager.instance.UIUtility.CreateAlertBox("Overwrite this save?", this.transform.parent, () => {
+                    GameObject a = NovelManager.instance.UIUtility.CreateAlertBox("Overwrite this save?", this.transform.parent, () => {
                         SendSave(button, index);
                     }, () => { });
                     return;
@@ -57,7 +57,7 @@ public class SaveMenu : MonoBehaviour
         }
         else
         {
-            GameManager.instance.SaveManager.LoadGame(index);
+            NovelManager.instance.SaveManager.LoadGame(index);
         }
     }
 
@@ -67,6 +67,6 @@ public class SaveMenu : MonoBehaviour
         SaveGridButton gridButton = button.GetComponent<SaveGridButton>();
         gridButton.SetData(System.DateTime.Now.ToString());
         //can't use getsiblingindex
-        GameManager.instance.SaveManager.SaveGame(index, PlayerPrefs.GetString(DataConstants.PLAYERPREFS_CURRENTSCENE), dm.GetCurrentLine(), System.DateTime.Now, dm.GetChoices());
+        NovelManager.instance.SaveManager.SaveGame(index, PlayerPrefs.GetString(DataConstants.PLAYERPREFS_CURRENTSCENE), dm.GetCurrentLine(), System.DateTime.Now, dm.GetChoices());
     }
 }

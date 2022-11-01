@@ -36,6 +36,7 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.instance.characterDisabled) { return; }
         if (onTop)
         {
             if (eventSystem.currentSelectedGameObject == null && (Input.GetAxis("Horizontal") > 0.1 || Input.GetAxis("Horizontal") < -0.1f))
@@ -114,7 +115,7 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
     public void OnHomeButtonClicked()
     {
         onTop = false;
-        GameObject a = GameManager.instance.UIUtility.CreateAlertBox("Would you like to go back to the title screen?\n(Any unsaved progress will be lost.)", this.transform.parent, () => {
+        GameObject a = NovelManager.instance.UIUtility.CreateAlertBox("Would you like to go back to the title screen?\n(Any unsaved progress will be lost.)", this.transform.parent, () => {
             SceneManager.LoadScene("TitleMenu");
         }, () => { onTop = true; });
     }
@@ -122,8 +123,8 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
     public void OnQuitButtonClicked()
     {
         onTop = false;
-        GameObject a = GameManager.instance.UIUtility.CreateAlertBox("Would you like to quit the game?\n(Any unsaved progress will be lost.)", this.transform.parent, () => {
-            GameObject.Find("GameManager").GetComponent<GameManager>().ExitGame();
+        GameObject a = NovelManager.instance.UIUtility.CreateAlertBox("Would you like to quit the game?\n(Any unsaved progress will be lost.)", this.transform.parent, () => {
+            GameObject.Find("NovelManager").GetComponent<NovelManager>().ExitGame();
         }, () => { onTop = true; });
     }
 
@@ -136,7 +137,7 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
         if (positionTween != null) { positionTween.Kill(); }
         rotateTween = PauseButton.GetComponentsInChildren<Image>()[1].rectTransform.DORotate(new Vector3(0.0f, 0.0f, 0.0f), 0.2f);
         positionTween = this.GetComponent<RectTransform>().DOAnchorPosY(200.0f, 0.2f);
-        GameManager.instance.EventManager.Pause.Invoke();
+        NovelManager.instance.EventManager.Pause.Invoke();
     }
 
     private void ClosePauseMenu()
@@ -148,6 +149,6 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
         rotateTween = PauseButton.GetComponentsInChildren<Image>()[1].rectTransform.DORotate(new Vector3(0.0f, 0.0f, 180.0f), 0.2f);
         positionTween = this.GetComponent<RectTransform>().DOAnchorPosY(0.0f, 0.2f);
         eventSystem.SetSelectedGameObject(null);
-        GameManager.instance.EventManager.Unpause.Invoke();
+        NovelManager.instance.EventManager.Unpause.Invoke();
     }
 }

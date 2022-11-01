@@ -16,7 +16,6 @@ using UnityEngine.EventSystems;
 
 public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField]
     private string DialogueFileName;
     [SerializeField]
     protected GameObject BackgroundsParent;
@@ -42,6 +41,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     protected AudioSource MusicTrack;
     [SerializeField]
     protected AudioSource SoundEffect;
+    [SerializeField]
+    protected CanvasGroup NovelCanvasGroup;
     [SerializeField]
     protected float textSpeed = 0.025f;
 
@@ -85,7 +86,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        currentSave = GameManager.instance.SaveManager.GetLoaded();
+        NovelCanvasGroup.DOFade(0.0f, 0.0f);
+        currentSave = NovelManager.instance.SaveManager.GetLoaded();
         if (currentSave != null)
         {
             DialogueFileName = currentSave.sceneName;
@@ -94,9 +96,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         {
             DialogueFileName = PlayerPrefs.GetString(DataConstants.PLAYERPREFS_CURRENTSCENE);
         }
-        GameManager.instance.EventManager.Pause.AddListener(() => { paused = true; tweenSequence?.Pause(); timeScale = 0.0f; });
-        GameManager.instance.EventManager.Unpause.AddListener(() => { paused = false; tweenSequence?.TogglePause(); timeScale = 1.0f; });
-        LoadDialogue();
+        originalBoxPosition = Box.rectTransform.anchoredPosition;
+        NovelManager.instance.EventManager.Pause.AddListener(() => { paused = true; tweenSequence?.Pause(); timeScale = 0.0f; });
+        NovelManager.instance.EventManager.Unpause.AddListener(() => { paused = false; tweenSequence?.TogglePause(); timeScale = 1.0f; });
+        // LoadDialogue();
     }
 
     // Update is called once per frame
@@ -117,57 +120,65 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    void LoadDialogue()
+    public void LoadDialogue(string pDialogueFileName = "")
     {
-        using (TextFieldParser parser = new TextFieldParser(Path.Combine(Application.streamingAssetsPath, "Dialogue/" + DialogueFileName + ".csv")))
+        if(pDialogueFileName == DialogueFileName)
         {
-            parser.SetDelimiters(",");
-            lines = new List<DialogueLine>();
-            string[] titles = parser.ReadFields();
-            Dictionary<string, int> fieldsDictionary = new Dictionary<string, int>();
-            for (int i = 0; i < titles.Length; i++)
-            {
-                fieldsDictionary[titles[i]] = i;
-            }
-            while (!parser.EndOfData)
-            {
-                string[] fields = parser.ReadFields();
-                DialogueLine line = new DialogueLine();
-                line.Text = fieldsDictionary.ContainsKey(DIALOGUE) ? fields[fieldsDictionary[DIALOGUE]] : "";
-                line.Character = fieldsDictionary.ContainsKey(CHARACTER) ? fields[fieldsDictionary[CHARACTER]] : "";
-                line.FadeInList = fieldsDictionary.ContainsKey(FADE_IN_LIST) && fields[fieldsDictionary[FADE_IN_LIST]] != "" ? fields[fieldsDictionary[FADE_IN_LIST]].Trim('"').Split(',') : null;
-                if (line.FadeInList != null)
-                {
-                    List<string> sList = line.FadeInList.ToList();
-                    line.FadeInList.ToList().ForEach(s => {
-                        prefabDictionary[s.Split(' ')[0].Split('_')[0]] = null;
-                    });
-                }
-                line.FadeOutList = fieldsDictionary.ContainsKey(FADE_OUT_LIST) && fields[fieldsDictionary[FADE_OUT_LIST]] != "" ? fields[fieldsDictionary[FADE_OUT_LIST]].Trim('"').Split(',') : null;
-                line.Background = fieldsDictionary.ContainsKey(BACKGROUND) ? fields[fieldsDictionary[BACKGROUND]] : "";
-                if (line.Background != "") { backgroundDictionary[line.Background] = null; }
-                line.Music = fieldsDictionary.ContainsKey(MUSIC) ? fields[fieldsDictionary[MUSIC]] : "";
-                if (line.Music != "" && line.Music != "none") { musicDictionary[line.Music] = null; }
-                line.Sound = fieldsDictionary.ContainsKey(SOUND) ? fields[fieldsDictionary[SOUND]] : "";
-                if (line.Sound != "") { soundDictionary[line.Sound] = null; }
-                line.ExclaimTextBox = fieldsDictionary.ContainsKey(EXCLAIM_TEXT_BOX) && fields[fieldsDictionary[EXCLAIM_TEXT_BOX]] != "" ? bool.Parse(fields[fieldsDictionary[EXCLAIM_TEXT_BOX]]) : false;
-                line.ScreenFadeIn = fieldsDictionary.ContainsKey(SCREEN_FADE_IN) && fields[fieldsDictionary[SCREEN_FADE_IN]] != "" ? bool.Parse(fields[fieldsDictionary[SCREEN_FADE_IN]]) : false;
-                line.ScreenFadeOut = fieldsDictionary.ContainsKey(SCREEN_FADE_OUT) && fields[fieldsDictionary[SCREEN_FADE_OUT]] != "" ? bool.Parse(fields[fieldsDictionary[SCREEN_FADE_OUT]]) : false;
-                line.SpecialActions = fieldsDictionary.ContainsKey(SPECIAL_ACTIONS) ? fields[fieldsDictionary[SPECIAL_ACTIONS]].Trim('"').Split(';') : null;
-                lines.Add(line);
-            }
+            CheckDoneLoading(true);
         }
-        Addressables.InitializeAsync().Completed += (result) =>
+        else
         {
-            LoadBackgrounds();
-            LoadSpritePrefabs();
-            LoadMusic();
-            LoadSound();
-            if (prefabDictionary.Keys.Count == 0 && backgroundDictionary.Keys.Count == 0 && musicDictionary.Keys.Count == 0 && soundDictionary.Keys.Count == 0)
+            DialogueFileName = pDialogueFileName == "" ? DialogueFileName : pDialogueFileName;
+            using (TextFieldParser parser = new TextFieldParser(Path.Combine(Application.streamingAssetsPath, "Dialogue/" + DialogueFileName + ".csv")))
             {
-                CheckDoneLoading();
+                parser.SetDelimiters(",");
+                lines = new List<DialogueLine>();
+                string[] titles = parser.ReadFields();
+                Dictionary<string, int> fieldsDictionary = new Dictionary<string, int>();
+                for (int i = 0; i < titles.Length; i++)
+                {
+                    fieldsDictionary[titles[i]] = i;
+                }
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    DialogueLine line = new DialogueLine();
+                    line.Text = fieldsDictionary.ContainsKey(DIALOGUE) ? fields[fieldsDictionary[DIALOGUE]] : "";
+                    line.Character = fieldsDictionary.ContainsKey(CHARACTER) ? fields[fieldsDictionary[CHARACTER]] : "";
+                    line.FadeInList = fieldsDictionary.ContainsKey(FADE_IN_LIST) && fields[fieldsDictionary[FADE_IN_LIST]] != "" ? fields[fieldsDictionary[FADE_IN_LIST]].Trim('"').Split(',') : null;
+                    if (line.FadeInList != null)
+                    {
+                        List<string> sList = line.FadeInList.ToList();
+                        line.FadeInList.ToList().ForEach(s => {
+                            prefabDictionary[s.Split(' ')[0].Split('_')[0]] = null;
+                        });
+                    }
+                    line.FadeOutList = fieldsDictionary.ContainsKey(FADE_OUT_LIST) && fields[fieldsDictionary[FADE_OUT_LIST]] != "" ? fields[fieldsDictionary[FADE_OUT_LIST]].Trim('"').Split(',') : null;
+                    line.Background = fieldsDictionary.ContainsKey(BACKGROUND) ? fields[fieldsDictionary[BACKGROUND]] : "";
+                    if (line.Background != "") { backgroundDictionary[line.Background] = null; }
+                    line.Music = fieldsDictionary.ContainsKey(MUSIC) ? fields[fieldsDictionary[MUSIC]] : "";
+                    if (line.Music != "" && line.Music != "none") { musicDictionary[line.Music] = null; }
+                    line.Sound = fieldsDictionary.ContainsKey(SOUND) ? fields[fieldsDictionary[SOUND]] : "";
+                    if (line.Sound != "") { soundDictionary[line.Sound] = null; }
+                    line.ExclaimTextBox = fieldsDictionary.ContainsKey(EXCLAIM_TEXT_BOX) && fields[fieldsDictionary[EXCLAIM_TEXT_BOX]] != "" ? bool.Parse(fields[fieldsDictionary[EXCLAIM_TEXT_BOX]]) : false;
+                    line.ScreenFadeIn = fieldsDictionary.ContainsKey(SCREEN_FADE_IN) && fields[fieldsDictionary[SCREEN_FADE_IN]] != "" ? bool.Parse(fields[fieldsDictionary[SCREEN_FADE_IN]]) : false;
+                    line.ScreenFadeOut = fieldsDictionary.ContainsKey(SCREEN_FADE_OUT) && fields[fieldsDictionary[SCREEN_FADE_OUT]] != "" ? bool.Parse(fields[fieldsDictionary[SCREEN_FADE_OUT]]) : false;
+                    line.SpecialActions = fieldsDictionary.ContainsKey(SPECIAL_ACTIONS) ? fields[fieldsDictionary[SPECIAL_ACTIONS]].Trim('"').Split(';') : null;
+                    lines.Add(line);
+                }
             }
-        };
+            Addressables.InitializeAsync().Completed += (result) =>
+            {
+                LoadBackgrounds();
+                LoadSpritePrefabs();
+                LoadMusic();
+                LoadSound();
+                if (prefabDictionary.Keys.Count == 0 && backgroundDictionary.Keys.Count == 0 && musicDictionary.Keys.Count == 0 && soundDictionary.Keys.Count == 0)
+                {
+                    CheckDoneLoading();
+                }
+            };
+        }
     }
 
     void LoadMusic()
@@ -323,11 +334,11 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         CheckDoneLoading();
     }
 
-    void CheckDoneLoading()
+    void CheckDoneLoading(bool pForceDone = false)
     {
-        if (dataLoaded == backgroundDictionary.Keys.Count + prefabDictionary.Keys.Count + musicDictionary.Keys.Count + soundDictionary.Keys.Count)
+        if (dataLoaded == backgroundDictionary.Keys.Count + prefabDictionary.Keys.Count + musicDictionary.Keys.Count + soundDictionary.Keys.Count || pForceDone)
         {
-            originalBoxPosition = Box.rectTransform.anchoredPosition;
+            NovelCanvasGroup.DOFade(1.0f, 0.2f);
             if (currentSave != null)
             {
                 CatchUp();
@@ -336,8 +347,15 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             {
                 if (lines[0].Background != "")
                 {
-                    currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
-                    currentBackground.sprite = backgroundDictionary[lines[0].Background];
+                    if (currentBackground != null)
+                    {
+                        currentBackground.sprite = backgroundDictionary[lines[0].Background];
+                    }
+                    else
+                    {
+                        currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
+                        currentBackground.sprite = backgroundDictionary[lines[0].Background];
+                    }
                 }
                 FadeImage.color = new Color(0, 0, 0, 1);
                 FadeIn().onComplete = () =>
@@ -405,7 +423,6 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             }
         }
         DisplayBackground(catchupBackground);
-        currentBackground.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         ShowCharacters(currentSprites);
         FadeBoxIn();
         moveOn = true;
@@ -521,6 +538,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     MusicTrack.Stop();
                     MusicTrack.clip = musicDictionary[current.Music];
                     MusicTrack.Play();
+                    MusicTrack.DOFade(1.0f, 1.0f);
                 }
                 else
                 {
@@ -757,7 +775,28 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         active = false;
         currentCharacter = 0;
         timer = 0;
-        FadeBoxOut().onComplete = () => { FadeOut(); };
+        FadeBoxOut().onComplete = () => {
+            MusicTrack.DOFade(0.0f, 1.0f);
+            FadeOut().onComplete = () =>
+            {
+                NovelCanvasGroup.DOFade(0.0f, 0.2f).onComplete = () => {
+                    GameManager.instance.characterDisabled = false;
+                    Reset();
+                };
+            };
+        };
+    }
+
+    void Reset()
+    {
+        currentCharacter = 0;
+        currentLine = 0;
+        foreach( string k in characterDictionary.Keys)
+        {
+            Destroy(characterDictionary[k].gameObject);
+        }
+        characterDictionary = new Dictionary<string, AnimatedSprite>();
+        currentSave = null;
     }
 
     Tween FadeIn()

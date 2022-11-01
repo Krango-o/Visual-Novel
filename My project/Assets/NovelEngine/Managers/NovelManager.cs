@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class NovelManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static NovelManager instance = null;
     
     public EventManager EventManager { get; private set; }
     public UIUtility UIUtility { get; private set; }
