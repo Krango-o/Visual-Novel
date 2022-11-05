@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class EscMenu : MonoBehaviour
 {
-    public GameObject escMenu;
+    public Animator playerAnim;
     public static bool isPaused;
+    public Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        escMenu.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -32,21 +33,23 @@ public class EscMenu : MonoBehaviour
 
     public void PauseGame()
     {
-        escMenu.SetActive(true);
-        Time.timeScale = 0f;
+        anim.SetBool("Show", true);
+        playerAnim.SetBool("isPaused" , true);
+        GameManager.instance.characterDisabled = true;
         isPaused = true;
     }
 
     public void ResumeGame()
     {
-        escMenu.SetActive(false);
-        Time.timeScale = 1f;
+        anim.SetBool("Show", false);
+        playerAnim.SetBool("isPaused", false);
+        GameManager.instance.characterDisabled = false;
         isPaused = false;
     }
 
     public void GoToMainMenu()
     {
-        Time.timeScale = 1f;
+        
         SceneManager.LoadScene("MainMenu");
     }
 
