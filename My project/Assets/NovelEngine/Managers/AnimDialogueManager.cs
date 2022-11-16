@@ -44,6 +44,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     protected CanvasGroup NovelCanvasGroup;
     [SerializeField]
+    protected ChoiceList ChoicesList;
+    [SerializeField]
     protected float textSpeed = 0.025f;
 
     protected int currentLine = -1;
@@ -53,6 +55,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     private bool active = false;
     private bool moveOn = false;
     private bool paused = false;
+    private bool choosing = false;
     private Vector3 originalBoxPosition;
     private List<DialogueLine> lines;
     private Sequence tweenSequence;
@@ -63,7 +66,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     private Dictionary<string, AudioClip> soundDictionary = new Dictionary<string, AudioClip>();
     private int dataLoaded = 0;
     private Dictionary<string, AnimatedSprite> characterDictionary = new Dictionary<string, AnimatedSprite>();
-    private Dictionary<string, string> choices = new Dictionary<string, string>();
+    private List<string> choices = new List<string>();
     private SaveObject currentSave;
     private float[] spritePositions = { -1500.0f, -600.0f, -350.0f, 0.0f, 350.0f, 600.0f, 1500.0f };
     private Tween plateTween = null;
@@ -79,6 +82,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     const string SCREEN_FADE_IN = "Screen Fade In";
     const string SCREEN_FADE_OUT = "Screen Fade Out";
     const string SPECIAL_ACTIONS = "Special Actions";
+    const string CHOICE1 = "Choice 1";
+    const string CHOICE2 = "Choice 2";
+    const string CHOICE3 = "Choice 3";
+    const string REQUIREMENT_KEY = "Requirement Key";
 
     const string NORMAL_TEXTBOX_NAME = "Background";
     const string EXCLAIM_TEXTBOX_NAME = "Background";
@@ -91,6 +98,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         if (currentSave != null)
         {
             DialogueFileName = currentSave.sceneName;
+            choices = currentSave.choices.ToList();
         }
         else if (PlayerPrefs.GetString(DataConstants.PLAYERPREFS_CURRENTSCENE) != "")
         {
@@ -164,6 +172,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     line.ScreenFadeIn = fieldsDictionary.ContainsKey(SCREEN_FADE_IN) && fields[fieldsDictionary[SCREEN_FADE_IN]] != "" ? bool.Parse(fields[fieldsDictionary[SCREEN_FADE_IN]]) : false;
                     line.ScreenFadeOut = fieldsDictionary.ContainsKey(SCREEN_FADE_OUT) && fields[fieldsDictionary[SCREEN_FADE_OUT]] != "" ? bool.Parse(fields[fieldsDictionary[SCREEN_FADE_OUT]]) : false;
                     line.SpecialActions = fieldsDictionary.ContainsKey(SPECIAL_ACTIONS) ? fields[fieldsDictionary[SPECIAL_ACTIONS]].Trim('"').Split(';') : null;
+                    line.Choice1 = fieldsDictionary.ContainsKey(CHOICE1) ? fields[fieldsDictionary[CHOICE1]].Trim('"').Split(';') : null;
+                    line.Choice2 = fieldsDictionary.ContainsKey(CHOICE2) ? fields[fieldsDictionary[CHOICE2]].Trim('"').Split(';') : null;
+                    line.Choice3 = fieldsDictionary.ContainsKey(CHOICE3) ? fields[fieldsDictionary[CHOICE3]].Trim('"').Split(';') : null;
+                    line.RequirementKey = fieldsDictionary.ContainsKey(REQUIREMENT_KEY) ? fields[fieldsDictionary[REQUIREMENT_KEY]].Trim('"') : null;
                     lines.Add(line);
                 }
             }
@@ -466,11 +478,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 if (currentCharacter >= lines[currentLine].Text.Length)
                 {
                     //end of line
-                    moveOn = true;
-                    if (lines[currentLine].Character != "" && lines[currentLine].Character != "Player" && characterDictionary.ContainsKey(lines[currentLine].Character))
-                    {
-                        characterDictionary[lines[currentLine].Character].ToggleTalking(false);
-                    }
+                    EndLine();
                 }
             }
         }
@@ -493,6 +501,12 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
         currentLine++;
         DialogueLine current = lines[currentLine];
+        // Doesn't have the correct requirement key saved
+        if (current.RequirementKey != "" && !choices.Contains(current.RequirementKey))
+        {
+            ContinueDialogue();
+            return;
+        }
         if (current.ScreenFadeIn)
         {
             tweenSequence.Append(FadeIn());
@@ -754,20 +768,45 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     SceneEnd();
                 }
             }
-            else
+            else if(!choosing)
             {
-                if (lines[currentLine].Character != "" && lines[currentLine].Character != "Player" && characterDictionary.ContainsKey(lines[currentLine].Character))
-                {
-                    characterDictionary[lines[currentLine].Character].ToggleTalking(false);
-                }
+                EndLine();
                 //Skip animation.
                 tweenSequence?.Complete();
                 plateTween?.Complete();
                 BoxText.text = lines[currentLine].Text;
                 currentCharacter = lines[currentLine].Text.Length;
-                moveOn = true;
             }
         }
+    }
+
+    void EndLine()
+    {
+        if (lines[currentLine].Character != "" && characterDictionary.ContainsKey(lines[currentLine].Character))
+        {
+            characterDictionary[lines[currentLine].Character].ToggleTalking(false);
+        }
+        //Populate Choices
+        if(lines[currentLine].Choice1.Length > 1 || lines[currentLine].Choice2.Length > 1 || lines[currentLine].Choice3.Length > 1)
+        {
+            choosing = true;
+            ChoicesList.SetData(lines[currentLine].Choice1, lines[currentLine].Choice2, lines[currentLine].Choice3);
+        }
+        else
+        {
+            moveOn = true;
+        }
+    }
+
+    public void MakeChoice(string choiceKey)
+    {
+        if (!choices.Contains(choiceKey))
+        {
+            choices.Add(choiceKey);
+        }
+        moveOn = false;
+        choosing = false;
+        ContinueDialogue();
     }
 
     void SceneEnd()
@@ -833,8 +872,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         return lines;
     }
 
-    public Dictionary<string, string> GetChoices()
+    public string[] GetChoices()
     {
-        return choices;
+        return choices.ToArray();
     }
 }

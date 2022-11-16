@@ -37,7 +37,7 @@ public class SaveManager : MonoBehaviour
         return saves;
     }
 
-    public void SaveGame(int slot, string sceneName, int line, DateTime date, Dictionary<string, string> choices)
+    public void SaveGame(int slot, string sceneName, int line, DateTime date, string[] choices)
     {
         SaveObject save = new SaveObject();
         save.slot = slot;

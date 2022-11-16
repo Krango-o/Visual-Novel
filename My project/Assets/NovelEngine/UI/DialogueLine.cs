@@ -15,4 +15,8 @@ public class DialogueLine : MonoBehaviour
     public bool ScreenFadeIn;
     public bool ScreenFadeOut;
     public string[] SpecialActions;
+    public string[] Choice1;
+    public string[] Choice2;
+    public string[] Choice3;
+    public string RequirementKey;
 }

@@ -9,5 +9,5 @@ public class SaveObject
     public string date;
     public string sceneName;
     public int line;
-    public Dictionary<string, string> choices;
+    public string[] choices;
 }
