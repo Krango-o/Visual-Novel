@@ -34,6 +34,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     protected Image Box;
     [SerializeField]
+    protected Image Dimmer;
+    [SerializeField]
     protected Image FadeImage;
     [SerializeField]
     protected Image NamePlate;
@@ -281,6 +283,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     void LoadBackgrounds()
     {
+        if (backgroundDictionary.ContainsKey("None"))
+        {
+            backgroundDictionary.Remove("None");
+        }
         foreach (string s in backgroundDictionary.Keys)
         {
             Addressables.LoadResourceLocationsAsync("Assets/Art/Backgrounds/" + s + ".png").Completed += (loc) =>
@@ -292,7 +298,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 }
                 else
                 {
-                    Debug.LogWarning("Trying to load an asset that doesn't exist: " + s);
+                    Debug.LogError("Trying to load an asset that doesn't exist: " + s);
                 }
             };
         }
@@ -359,16 +365,21 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             {
                 if (lines[0].Background != "")
                 {
-                    if (currentBackground != null)
+                    if (lines[0].Background == "None")
                     {
-                        currentBackground.sprite = backgroundDictionary[lines[0].Background];
+                        currentBackground.DOFade(0, 0);
                     }
                     else
                     {
-                        currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
+                        if (currentBackground == null)
+                        {
+                            currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
+                        }
                         currentBackground.sprite = backgroundDictionary[lines[0].Background];
                     }
                 }
+                Dimmer.color = new Color(0, 0, 0, 0);
+                Dimmer.DOFade(0.8f, 1.0f);
                 FadeImage.color = new Color(0, 0, 0, 1);
                 FadeIn().onComplete = () =>
                 {
@@ -486,9 +497,12 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     void DisplayBackground(string spriteName)
     {
-        currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
-        currentBackground.sprite = backgroundDictionary[spriteName];
-        currentBackground.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        if (spriteName != "None")
+        {
+            currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
+            currentBackground.sprite = backgroundDictionary[spriteName];
+            currentBackground.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        }
     }
 
     void ContinueDialogue()
@@ -536,10 +550,17 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             //new image on top, .DOFade image on top
             Image prevBackground = currentBackground;
             DisplayBackground(current.Background);
-            tweenSequence.Append(currentBackground.DOFade(1, 2.0f).OnComplete(() =>
+            if (current.Background == "None")
             {
-                GameObject.Destroy(prevBackground.gameObject);
-            }));
+                tweenSequence.Append(currentBackground.DOFade(0, 2.0f));
+            }
+            else
+            {
+                tweenSequence.Append(currentBackground.DOFade(1, 2.0f).OnComplete(() =>
+                {
+                    GameObject.Destroy(prevBackground.gameObject);
+                }));
+            }
         }
         if (current.Music != "")
         {
