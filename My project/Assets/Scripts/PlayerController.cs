@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
     public Transform groundPoint;
     private bool isGrounded;
+    private bool camPaused;
     private int camPosition = 0;
     [SerializeField]
     private float camCooldown = 1.0f;
@@ -20,10 +21,13 @@ public class PlayerController : MonoBehaviour
     private float camSpeed = 1.0f;
     private float camTimer = 0;
     private Tween camTween;
+    private Tween unpauseTween;
 
     public Animator anim;
     [SerializeField]
-    private Camera cam;
+    private Camera followCam;
+    [SerializeField]
+    private Camera pauseCam;
     [SerializeField]
     private Transform sprite;
     [SerializeField]
@@ -34,6 +38,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         orbitalCam = virtualCam.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>();
+        GameManager.instance.pauseGameEvent.AddListener(onPause);
+        GameManager.instance.unpauseGameEvent.AddListener(onUnpause);
     }
 
     
@@ -46,12 +52,12 @@ public class PlayerController : MonoBehaviour
         moveInput.Normalize();
 
         //create velocity vector
-        Vector3 m_CamForward = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1)).normalized;
-        if (cam.transform.rotation.y == 0)//checking weird quaternion forward issue
+        Vector3 m_CamForward = Vector3.Scale(followCam.transform.forward, new Vector3(1, 0, 1)).normalized;
+        if (followCam.transform.rotation.y == 0)//checking weird quaternion forward issue
         {
             m_CamForward.x += .001f;
         }
-        Vector3 m_Move = moveInput.y * m_CamForward + moveInput.x * cam.transform.right;
+        Vector3 m_Move = moveInput.y * m_CamForward + moveInput.x * followCam.transform.right;
 
         //set the velocity
         Vector3 newVelocity = Vector3.ClampMagnitude(m_Move, 1) * moveSpeed;
@@ -59,7 +65,10 @@ public class PlayerController : MonoBehaviour
         theRB.velocity = newVelocity;
 
         //Make sprite constantly look at camera
-        sprite.transform.rotation = Quaternion.LookRotation(sprite.transform.position - cam.transform.position);
+        if (!camPaused)
+        {
+            sprite.transform.rotation = Quaternion.LookRotation(sprite.transform.position - followCam.transform.position);
+        }
 
         anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
         anim.SetFloat("moveSpeedX", moveInput.x );
@@ -79,7 +88,10 @@ public class PlayerController : MonoBehaviour
             theRB.velocity += new Vector3(0f, jumpForce, 0f);
         }
 
-        RotateCamera();
+        if (!camPaused)
+        {
+            RotateCamera();
+        }
 
         anim.SetBool("onGround", isGrounded);
 
@@ -127,5 +139,33 @@ public class PlayerController : MonoBehaviour
             camTween = DOTween.To(() => orbitalCam.m_XAxis.Value, x => orbitalCam.m_XAxis.Value = x, camPositions[newCamPosition], camSpeed);
             camPosition = newCamPosition;
         }
+    }
+
+    private void onPause()
+    {
+        camPaused = true;
+        if (camTween != null)
+        {
+            camTween.Pause();
+            if (unpauseTween != null)
+            {
+                unpauseTween.Kill();
+            }
+        }
+    }
+    private void onUnpause()
+    {
+        if (unpauseTween != null)
+        {
+            unpauseTween.Kill();
+        }
+        unpauseTween = DOVirtual.DelayedCall(0.5f, () =>
+        {
+            if (camTween != null)
+            {
+                camTween.Play();
+            }
+            camPaused = false;
+        });
     }
 }
