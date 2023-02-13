@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private float camTimer = 0;
     private Tween camTween;
     private Tween unpauseTween;
+    private int[] camPositions = { 45, 135, 225, 315 };
 
     public Animator anim;
     [SerializeField]
@@ -30,22 +31,36 @@ public class PlayerController : MonoBehaviour
     private Camera pauseCam;
     [SerializeField]
     private Transform sprite;
-    [SerializeField]
-    private Cinemachine.CinemachineVirtualCamera virtualCam;
-    private Cinemachine.CinemachineOrbitalTransposer orbitalCam;
+
+    private Cinemachine.CinemachineOrbitalTransposer playerOrbitalCam;
 
 
     void Start()
     {
-        orbitalCam = virtualCam.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>();
+        playerOrbitalCam = GameManager.instance.PlayerCam.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>();
         GameManager.instance.pauseGameEvent.AddListener(onPause);
         GameManager.instance.unpauseGameEvent.AddListener(onUnpause);
+        Cinemachine.CinemachineCore.CameraUpdatedEvent.AddListener(CinemachineUpdate);
     }
 
-    
+    void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
+    {
+        //Make sprite constantly look at camera
+        if (!camPaused)
+        {
+            sprite.forward = Camera.main.transform.forward;
+        }
+    }
+
+
     void Update()
     {
-        if (GameManager.instance.characterDisabled) { return; }
+        if (GameManager.instance.characterDisabled) {
+            anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
+            anim.SetFloat("moveSpeedX", moveInput.x);
+            anim.SetFloat("moveSpeedY", moveInput.y);
+            return; 
+        }
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
 
@@ -64,11 +79,6 @@ public class PlayerController : MonoBehaviour
 
         theRB.velocity = newVelocity;
 
-        //Make sprite constantly look at camera
-        if (!camPaused)
-        {
-            sprite.transform.rotation = Quaternion.LookRotation(sprite.transform.position - followCam.transform.position);
-        }
 
         anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
         anim.SetFloat("moveSpeedX", moveInput.x );
@@ -81,11 +91,6 @@ public class PlayerController : MonoBehaviour
         }else
         {
             isGrounded = false;
-        }
-
-        if(Input.GetButtonDown("Jump") && isGrounded)
-        {
-            theRB.velocity += new Vector3(0f, jumpForce, 0f);
         }
 
         if (!camPaused)
@@ -110,14 +115,13 @@ public class PlayerController : MonoBehaviour
         camTimer -= Time.deltaTime;
         if (camTimer > 0) { return; }
         int newCamPosition = camPosition;
-        int[] camPositions = { 45, 135, 225, 315 };
         if (Input.GetButtonDown("RotateLeft"))
         {
             newCamPosition++;
             if(newCamPosition > camPositions.Length - 1)
             {
                 newCamPosition = 0;
-                orbitalCam.m_XAxis.Value = -45;
+                playerOrbitalCam.m_XAxis.Value = -45;
             }
         }
         else if (Input.GetButtonDown("RotateRight"))
@@ -126,7 +130,7 @@ public class PlayerController : MonoBehaviour
             if(newCamPosition < 0)
             {
                 newCamPosition = camPositions.Length - 1;
-                orbitalCam.m_XAxis.Value = 405;
+                playerOrbitalCam.m_XAxis.Value = 405;
             }
         }
         if(newCamPosition != camPosition)
@@ -136,7 +140,7 @@ public class PlayerController : MonoBehaviour
             {
                 camTween.Kill();
             }
-            camTween = DOTween.To(() => orbitalCam.m_XAxis.Value, x => orbitalCam.m_XAxis.Value = x, camPositions[newCamPosition], camSpeed);
+            camTween = DOTween.To(() => playerOrbitalCam.m_XAxis.Value, x => playerOrbitalCam.m_XAxis.Value = x, camPositions[newCamPosition], camSpeed);
             camPosition = newCamPosition;
         }
     }
@@ -167,5 +171,10 @@ public class PlayerController : MonoBehaviour
             }
             camPaused = false;
         });
+    }
+
+    public int GetCameraAxisPosition()
+    {
+        return camPositions[camPosition];
     }
 }

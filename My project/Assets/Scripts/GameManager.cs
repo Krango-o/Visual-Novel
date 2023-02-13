@@ -1,16 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.Events;
+
+[System.Serializable]
+public class SpeechBubbleUnityEvent : UnityEvent<string, string, string> { }
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
     public bool characterDisabled { get; set; }
+    public bool interactDisabled { get; set; }
 
     public UnityEvent pauseGameEvent = new UnityEvent();
     public UnityEvent unpauseGameEvent = new UnityEvent();
+    public UnityEvent confirmChoiceEvent = new UnityEvent();
+    public UnityEvent cancelChoiceEvent = new UnityEvent();
+    private PlayerController player;
+    public PlayerController Player { get { return player; } set { player = value; } }
+    private Cinemachine.CinemachineVirtualCamera playerCam;
+    public Cinemachine.CinemachineVirtualCamera PlayerCam { get { return playerCam; } set { playerCam = value; } }
+    private Cinemachine.CinemachineVirtualCamera npcCam;
+    public Cinemachine.CinemachineVirtualCamera NPCCam { get { return npcCam; } set { npcCam = value; } }
+    private Cinemachine.CinemachineBrain cameraBrain;
+    public Cinemachine.CinemachineBrain CameraBrain { get { return cameraBrain; } set { cameraBrain = value; } }
+    public Vector3 ActiveCameraForward { get { return cameraBrain.ActiveVirtualCamera.VirtualCameraGameObject.transform.forward; } }
 
     private void Awake()
     {
@@ -18,6 +34,13 @@ public class GameManager : MonoBehaviour
         {
             //Starting up the game
             instance = this;
+            if (GameObject.Find("Player") != null)
+            {
+                player = GameObject.Find("Player").GetComponent<PlayerController>();
+            }
+            playerCam = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            npcCam = GameObject.Find("NPCCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            cameraBrain = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineBrain>();
         }
         else if (instance != null)
         {
@@ -29,5 +52,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         characterDisabled = false;
+        interactDisabled = false;
+    }
+
+    // Used for preventing players from spamming through interactions/dialogue
+    public void DelayInteract()
+    {
+        interactDisabled = true;
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            interactDisabled = false;
+        });
     }
 }
