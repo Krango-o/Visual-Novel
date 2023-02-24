@@ -31344,10 +31344,10 @@ MonoBehaviour:
   unpauseGameEvent:
     m_PersistentCalls:
       m_Calls: []
-  confirmBubbleChoice:
+  confirmChoiceEvent:
     m_PersistentCalls:
       m_Calls: []
-  cancelBubbleChoice:
+  cancelChoiceEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &825653836
@@ -81149,15 +81149,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: startVNScene
-      value: NoneTest
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: cancelChoiceString
-      value: Not now.
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: confirmChoiceString
-      value: What's up?
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342330, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: m_Radius

@@ -19,18 +19,18 @@ public class TestAddSprite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) //Idle
-        {
-            AddSprite("LI_Idle");
-        }
-        if (Input.GetKeyDown(KeyCode.S)) //Frown
-        {
-            AddSprite("LI_Frown");
-        }
-        if (Input.GetKeyDown(KeyCode.D)) //Content
-        {
-            AddSprite("LI_Content");
-        }
+        //if (Input.GetKeyDown(KeyCode.A)) //Idle
+        //{
+        //    AddSprite("LI_Idle");
+        //}
+        //if (Input.GetKeyDown(KeyCode.S)) //Frown
+        //{
+        //    AddSprite("LI_Frown");
+        //}
+        //if (Input.GetKeyDown(KeyCode.D)) //Content
+        //{
+        //    AddSprite("LI_Content");
+        //}
     }
 
     void AddSprite(string pName)
@@ -43,7 +43,7 @@ public class TestAddSprite : MonoBehaviour
         }
         else
         {
-            AsyncOperationHandle<GameObject> animatorHandle = Addressables.LoadAssetAsync<GameObject>("Assets/TestingFolder/" + characterName + "/" + characterName + ".prefab");
+            AsyncOperationHandle<GameObject> animatorHandle = Addressables.LoadAssetAsync<GameObject>("Assets/Art/Characters/" + characterName + "/" + characterName + ".prefab");
             animatorHandle.Completed += handle =>
             {
                 if (handle.Status == AsyncOperationStatus.Succeeded)
