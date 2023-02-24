@@ -61,6 +61,10 @@ MonoBehaviour:
     m_Address: Assets/Art/Backgrounds/Kitchen.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 214be00d4e8d0094f97f34d3831d691c
+    m_Address: Assets/Images/VNSprites/Koi/sprites
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:
