@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8464644468922415103}
   - component: {fileID: 8464644468922415102}
   m_Layer: 5
-  m_Name: AnimatedCharacter
+  m_Name: Gravel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

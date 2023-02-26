@@ -65,6 +65,10 @@ MonoBehaviour:
     m_Address: Assets/Images/VNSprites/Koi/sprites
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 426a5b7f222fc5a46b158afe1b776fdf
+    m_Address: Assets/Images/VNSprites/Koi/Koi.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:
