@@ -69,6 +69,14 @@ MonoBehaviour:
     m_Address: Assets/Images/VNSprites/Koi/Koi.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: d3616147342ee81438cdc0b9b1648763
+    m_Address: Assets/Images/VNSprites/Gravel/Gravel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 475be0388d37f394e9db3a1ce89dc3bc
+    m_Address: Assets/Images/VNSprites/Gravel/sprites
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:
