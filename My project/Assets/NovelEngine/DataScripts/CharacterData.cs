@@ -5,44 +5,54 @@ using UnityEngine;
 public static class CharacterData
 {
     public enum Character{
-        PLAYER,
-        LI,
-        CHARACTER2,
-        CHARACTER3,
-        NPC
+        KOI,
+        GRAVEL,
+        JIRO,
+        JULES,
+        XANTI,
+        FERNO,
+        STRANGER
     }
 
     public static Character getCharacter(string characterName){
         switch(characterName)
         {
-            case "Player":
-                return Character.PLAYER;
-            case "LI":
-                return Character.LI;
-            case "Character 2":
-                return Character.CHARACTER2;
-            case "Character 3":
-                return Character.CHARACTER3;
-            case "NPC":
-                return Character.NPC;
+            case "Koi":
+                return Character.KOI;
+            case "Gravel":
+                return Character.GRAVEL;
+            case "Jiro":
+                return Character.JIRO;
+            case "Jules":
+                return Character.JULES;
+            case "Xanti":
+                return Character.XANTI;
+            case "Ferno":
+                return Character.FERNO;
+            case "???":
+                return Character.STRANGER;
             default:
                 Debug.Log("Could Not Find Character Name: " + characterName);
-                return Character.NPC;
+                return Character.KOI;
         }
     }
 
     public static string CharacterPlateColor(string characterName){
         switch(getCharacter(characterName))
         {
-            case Character.PLAYER:
+            case Character.KOI:
                 return "#ffff00";
-            case Character.LI:
+            case Character.GRAVEL:
                 return "#ff0000";
-            case Character.CHARACTER2:
+            case Character.JIRO:
                 return "#00ff00";
-            case Character.CHARACTER3:
+            case Character.JULES:
                 return "#0000ff";
-            case Character.NPC:
+            case Character.XANTI:
+                return "#aaaaaa";
+            case Character.FERNO:
+                return "#aaaaaa";
+            case Character.STRANGER:
                 return "#aaaaaa";
             default:
                 return "#aaaaaa";

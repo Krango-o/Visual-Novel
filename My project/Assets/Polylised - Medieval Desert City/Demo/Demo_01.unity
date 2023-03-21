@@ -81149,15 +81149,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: startVNScene
-      value: 
+      value: Scene1
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: cancelChoiceString
-      value: 
+      value: no
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: confirmChoiceString
-      value: 
+      value: yes
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342330, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: m_Radius
