@@ -92,6 +92,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     const string NORMAL_TEXTBOX_NAME = "Background";
     const string EXCLAIM_TEXTBOX_NAME = "Background";
 
+    const string VNSPRITEPATH = "Assets/Images/VNSprites/";
+    const string VNBGPATH = "Assets/Images/Background/";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -289,11 +292,11 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
         foreach (string s in backgroundDictionary.Keys)
         {
-            Addressables.LoadResourceLocationsAsync("Assets/Art/Backgrounds/" + s + ".png").Completed += (loc) =>
+            Addressables.LoadResourceLocationsAsync(VNBGPATH + s + ".png").Completed += (loc) =>
             {
                 if (loc.Result.Count > 0)
                 {
-                    AsyncOperationHandle<Sprite[]> spriteHandle = Addressables.LoadAssetAsync<Sprite[]>("Assets/Art/Backgrounds/" + s + ".png");
+                    AsyncOperationHandle<Sprite[]> spriteHandle = Addressables.LoadAssetAsync<Sprite[]>(VNBGPATH + s + ".png");
                     spriteHandle.Completed += BackgroundsLoaded;
                 }
                 else
@@ -328,7 +331,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         foreach (string s in prefabDictionary.Keys)
         {
             string characterName = s.Split('_')[0];
-            AsyncOperationHandle<GameObject> spriteHandle = Addressables.LoadAssetAsync<GameObject>("Assets/Art/Characters/" + characterName + "/" + characterName + ".prefab");
+            AsyncOperationHandle<GameObject> spriteHandle = Addressables.LoadAssetAsync<GameObject>(VNSPRITEPATH + characterName + "/" + characterName + ".prefab");
             spriteHandle.Completed += SpritePrefabsLoaded;
         }
     }

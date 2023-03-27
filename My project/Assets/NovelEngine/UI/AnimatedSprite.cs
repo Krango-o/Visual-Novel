@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -14,25 +15,28 @@ public class AnimatedSprite : MonoBehaviour
     void Start()
     {
         Addressables.InitializeAsync();
+        Image spriteImage = gameObject.GetComponent<Image>();
+        spriteImage.preserveAspect = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            animator.SetBool("Talking", false);
-            animator.SetTrigger("Frown");
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            animator.SetBool("Talking", true);
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            animator.SetBool("Talking", false);
-            blinkTimer = 3.0f;
-        }
+        // DEBUG 
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    animator.SetBool("Talking", false);
+        //    animator.SetTrigger("Frown");
+        //}
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    animator.SetBool("Talking", true);
+        //}
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    animator.SetBool("Talking", false);
+        //    blinkTimer = 3.0f;
+        //}
         if(animator.GetBool("Talking") == false)
         {
             blinkTimer -= Time.deltaTime;
@@ -77,7 +81,7 @@ public class AnimatedSprite : MonoBehaviour
     public void PlayAnimation(string pAnimName)
     {
         bool exists = false;
-        foreach(AnimatorControllerParameter param in animator.parameters)
+        foreach (AnimatorControllerParameter param in animator.parameters)
         {
             if(param.name == pAnimName)
             {
