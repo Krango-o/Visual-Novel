@@ -81149,7 +81149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: startVNScene
-      value: Scene1
+      value: Dialogue Template - Scene 1
       objectReference: {fileID: 0}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: cancelChoiceString
