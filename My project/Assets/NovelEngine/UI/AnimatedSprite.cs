@@ -22,7 +22,7 @@ public class AnimatedSprite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // DEBUG 
+        // DEBUG TO TEST ANIMATIONS
         //if (Input.GetKeyDown(KeyCode.F))
         //{
         //    animator.SetBool("Talking", false);

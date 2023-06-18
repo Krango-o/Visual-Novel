@@ -453,6 +453,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         FadeBoxIn();
         moveOn = true;
         BoxText.text = lines[currentLine].Text;
+        currentCharacter = lines[currentLine].Text.Length;
         if (lines[currentLine].Character != "")
         {
             NamePlate.rectTransform.anchoredPosition = new Vector2(NamePlate.rectTransform.anchoredPosition.x, 0);
@@ -512,25 +513,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     {
         if (tweenSequence != null) { tweenSequence.Kill(true); }
         tweenSequence = DOTween.Sequence();
-        if (currentLine >= 0 && lines[currentLine].ScreenFadeOut)
+        if (currentLine >= 1 && lines[currentLine].FadeOutList != null && lines[currentLine].FadeOutList.Length > 0)
         {
-            tweenSequence.Append(FadeOut());
-        }
-        currentLine++;
-        DialogueLine current = lines[currentLine];
-        // Doesn't have the correct requirement key saved
-        if (current.RequirementKey != "" && !choices.Contains(current.RequirementKey))
-        {
-            ContinueDialogue();
-            return;
-        }
-        if (current.ScreenFadeIn)
-        {
-            tweenSequence.Append(FadeIn());
-        }
-        if (current.FadeOutList != null && current.FadeOutList.Length > 0)
-        {
-            foreach (string character in current.FadeOutList)
+            foreach (string character in lines[currentLine].FadeOutList)
             {
                 string characterName = character.Split('_')[0];
                 if (characterDictionary.ContainsKey(characterName))
@@ -546,6 +531,22 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 }
                 //find character image and start fade out tween
             }
+        }
+        if (currentLine >= 0 && lines[currentLine].ScreenFadeOut)
+        {
+            tweenSequence.Append(FadeOut());
+        }
+        currentLine++;
+        DialogueLine current = lines[currentLine];
+        // Doesn't have the correct requirement key saved
+        if (current.RequirementKey != "" && !choices.Contains(current.RequirementKey))
+        {
+            ContinueDialogue();
+            return;
+        }
+        if (current.ScreenFadeIn)
+        {
+            tweenSequence.Append(FadeIn());
         }
         if (current.Background != "" && currentLine != 0)
         {
@@ -618,7 +619,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 string animName = characterArray[0].Split('_')[1];
                 if (characterDictionary.ContainsKey(characterName))
                 {
-                    tweenSequence.Join(Box.DOFade(Box.color.a, 0.5f).OnComplete(() => { characterDictionary[characterName].PlayAnimation(animName); }));
+                    tweenSequence.Join(DOVirtual.DelayedCall(0, () => { characterDictionary[characterName].PlayAnimation(animName); }));
                 }
                 else
                 {
@@ -630,8 +631,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                         currentImage.rectTransform.anchoredPosition = new Vector2(GetSpritePosition(float.Parse(characterArray[1])), 0);
                     }
                     characterDictionary[characterName] = currentCharacter.GetComponent<AnimatedSprite>();
-                    tweenSequence.Join(currentImage.DOFade(1.0f, 1.0f));
                     currentCharacter.PlayAnimation(animName);
+                    tweenSequence.Join(currentImage.DOFade(1.0f, 1.0f));
                 }
             }
         }
@@ -718,7 +719,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             }
             if (lines[currentLine].Character != "" && lines[currentLine].Character != "Player" && characterDictionary.ContainsKey(lines[currentLine].Character))
             {
-                characterDictionary[lines[currentLine].Character].ToggleTalking(true);
+                characterDictionary[lines[currentLine].Character].ToggleTalking(currentCharacter != lines[currentLine].Text.Length);
+                characterDictionary[lines[currentLine].Character].transform.SetAsLastSibling();
             }
             Canvas.ForceUpdateCanvases();
         };
@@ -756,11 +758,11 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     switch (keyword)
                     {
                         case "Flip":
-                            tweenSequence.Append(characterDictionary[character].GetComponent<Image>().rectTransform.DOScaleX(characterDictionary[character].GetComponent<Image>().rectTransform.localScale.x * -1, 0.1f));
+                            tweenSequence.Join(characterDictionary[character].GetComponent<Image>().rectTransform.DOScaleX(characterDictionary[character].GetComponent<Image>().rectTransform.localScale.x * -1, 0.1f));
                             break;
                         case "Move":
                             float movePos = float.Parse(trimmedAction.Split(' ')[2]);
-                            tweenSequence.Append(characterDictionary[character].GetComponent<Image>().rectTransform.DOAnchorPosX(GetSpritePosition(movePos), 1.0f));
+                            tweenSequence.Join(characterDictionary[character].GetComponent<Image>().rectTransform.DOAnchorPosX(GetSpritePosition(movePos), 1.0f));
                             break;
                         default:
                             Debug.Log("Could not find correct special actions keyword at line " + currentLine + " in sheet " + DialogueFileName);
@@ -796,10 +798,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             {
                 EndLine();
                 //Skip animation.
-                tweenSequence?.Complete();
-                plateTween?.Complete();
                 BoxText.text = lines[currentLine].Text;
                 currentCharacter = lines[currentLine].Text.Length;
+                tweenSequence?.Complete();
+                plateTween?.Complete();
             }
         }
     }
@@ -853,8 +855,13 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     void Reset()
     {
         currentCharacter = 0;
-        currentLine = 0;
-        foreach( string k in characterDictionary.Keys)
+        currentLine = -1;
+        moveOn = false;
+        choosing = false;
+        BoxText.text = "";
+        NamePlate.rectTransform.anchoredPosition = new Vector2(0, -NamePlate.rectTransform.sizeDelta.y);
+
+        foreach ( string k in characterDictionary.Keys)
         {
             Destroy(characterDictionary[k].gameObject);
         }
