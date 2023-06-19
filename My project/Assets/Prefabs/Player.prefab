@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 18143340774786890}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,9 +215,9 @@ MonoBehaviour:
   camCooldown: 0.4
   camSpeed: 0.8
   anim: {fileID: 18143339956657653}
-  cam: {fileID: 0}
+  followCam: {fileID: 0}
+  pauseCam: {fileID: 0}
   sprite: {fileID: 18143339956657654}
-  virtualCam: {fileID: 0}
 --- !u!1 &18143341048553386
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
         if (!camPaused)
         {
-            RotateCamera();
+            //RotateCamera();
         }
 
         anim.SetBool("onGround", isGrounded);
