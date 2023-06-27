@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private Cinemachine.CinemachineBrain cameraBrain;
     public Cinemachine.CinemachineBrain CameraBrain { get { return cameraBrain; } set { cameraBrain = value; } }
     public Vector3 ActiveCameraForward { get { return cameraBrain.ActiveVirtualCamera.VirtualCameraGameObject.transform.forward; } }
+    public AnimDialogueManager DialogueManager { get { return dialogueManager; } }
+    private AnimDialogueManager dialogueManager;
 
     private void Awake()
     {
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
             playerCam = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
             npcCam = GameObject.Find("NPCCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
             cameraBrain = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineBrain>();
+            dialogueManager = GameObject.Find("NovelCanvas").GetComponent<AnimDialogueManager>();
         }
         else if (instance != null)
         {

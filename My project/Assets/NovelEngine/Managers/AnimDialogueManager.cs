@@ -28,17 +28,11 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     protected GameObject SpritesPrefab;
     [SerializeField]
-    protected Text BoxText;
-    [SerializeField]
-    protected Text NameText;
-    [SerializeField]
-    protected Image Box;
+    protected DialogueBox DialogueBox;
     [SerializeField]
     protected Image Dimmer;
     [SerializeField]
     protected Image FadeImage;
-    [SerializeField]
-    protected Image NamePlate;
     [SerializeField]
     protected AudioSource MusicTrack;
     [SerializeField]
@@ -47,18 +41,15 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     protected CanvasGroup NovelCanvasGroup;
     [SerializeField]
     protected ChoiceList ChoicesList;
-    [SerializeField]
-    protected float textSpeed = 0.025f;
 
     protected int currentLine = -1;
-    protected int currentCharacter;
-    private float timer = 0;
     private float timeScale = 1.0f;
+    public bool Active { get { return active; } set { active = value; } }
     private bool active = false;
+    public bool MoveOn { get { return moveOn; } set { moveOn = value; } }
     private bool moveOn = false;
     private bool paused = false;
     private bool choosing = false;
-    private Vector3 originalBoxPosition;
     private List<DialogueLine> lines;
     private Sequence tweenSequence;
     private Image currentBackground;
@@ -71,7 +62,6 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     private List<string> choices = new List<string>();
     private SaveObject currentSave;
     private float[] spritePositions = { -1500.0f, -600.0f, -350.0f, 0.0f, 350.0f, 600.0f, 1500.0f };
-    private Tween plateTween = null;
 
     const string DIALOGUE = "Dialogue";
     const string CHARACTER = "Character";
@@ -109,9 +99,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         {
             DialogueFileName = PlayerPrefs.GetString(DataConstants.PLAYERPREFS_CURRENTSCENE);
         }
-        originalBoxPosition = Box.rectTransform.anchoredPosition;
         NovelManager.instance.EventManager.Pause.AddListener(() => { paused = true; tweenSequence?.Pause(); timeScale = 0.0f; });
         NovelManager.instance.EventManager.Unpause.AddListener(() => { paused = false; tweenSequence?.TogglePause(); timeScale = 1.0f; });
+        // DEBUG 
         // LoadDialogue();
     }
 
@@ -122,7 +112,14 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         {
             HandleInput();
         }
-        TextAnimation();
+        if (active)
+        {
+            bool shouldEndLine = DialogueBox.TextAnimation(timeScale);
+            if (shouldEndLine)
+            {
+                EndLine();
+            }
+        }
     }
 
     public void OnPointerClick(PointerEventData e)
@@ -386,7 +383,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 FadeImage.color = new Color(0, 0, 0, 1);
                 FadeIn().onComplete = () =>
                 {
-                    FadeBoxIn().onComplete = () => { ContinueDialogue(); };
+                    DialogueBox.FadeBoxIn().onComplete = () => { ContinueDialogue(); };
                 };
             }
         }
@@ -450,20 +447,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
         DisplayBackground(catchupBackground);
         ShowCharacters(currentSprites);
-        FadeBoxIn();
+        DialogueBox.FadeBoxIn();
         moveOn = true;
-        BoxText.text = lines[currentLine].Text;
-        currentCharacter = lines[currentLine].Text.Length;
-        if (lines[currentLine].Character != "")
-        {
-            NamePlate.rectTransform.anchoredPosition = new Vector2(NamePlate.rectTransform.anchoredPosition.x, 0);
-            Color plateColor;
-            ColorUtility.TryParseHtmlString(CharacterData.CharacterPlateColor(lines[currentLine].Character), out plateColor);
-            NamePlate.GetComponent<Image>().color = plateColor;
-            NameText.text = lines[currentLine].Character;
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(NamePlate.rectTransform);
-        }
+        DialogueBox.SetCompleteLine(lines[currentLine]);
     }
 
     void ShowCharacters(Dictionary<string, float> characters)
@@ -477,25 +463,6 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             characterObject.GetComponent<AnimatedSprite>().PlayAnimation(animName);
             currentSprite.rectTransform.anchoredPosition = new Vector2(GetSpritePosition(characters[key]), 0);
             characterDictionary[key.Split('_')[0]] = characterObject.GetComponent<AnimatedSprite>();
-        }
-    }
-
-    void TextAnimation()
-    {
-        if (active && currentCharacter < lines[currentLine].Text.Length)
-        {
-            timer += Time.deltaTime * timeScale;
-            if (timer >= textSpeed)
-            {
-                BoxText.text = lines[currentLine].Text.Substring(0, currentCharacter + 1);
-                timer = 0;
-                currentCharacter++;
-                if (currentCharacter >= lines[currentLine].Text.Length)
-                {
-                    //end of line
-                    EndLine();
-                }
-            }
         }
     }
 
@@ -538,6 +505,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
         currentLine++;
         DialogueLine current = lines[currentLine];
+        DialogueBox.SetLine(lines[currentLine]);
         // Doesn't have the correct requirement key saved
         if (current.RequirementKey != "" && !choices.Contains(current.RequirementKey))
         {
@@ -569,7 +537,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         if (current.Music != "")
         {
             //music
-            Tween musicTween = Box.DOFade(Box.color.a, 0.1f);
+            Tween musicTween = Dimmer.DOFade(Dimmer.color.a, 0.1f);
             musicTween.onComplete = () => {
                 Debug.Log("ChangeMusic: " + current.Music);
                 if (current.Music != "none")
@@ -586,35 +554,23 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             };
             tweenSequence.Append(musicTween);
         }
-        Image i = Box.GetComponent<Image>();
-        Tween t = Box.DOFade(Box.color.a, 0.1f);
-        t.onComplete = () => {
+        Tween soundTween = Dimmer.DOFade(Dimmer.color.a, 0.1f);
+        soundTween.onComplete = () => {
             if (current.Sound != "")
             {
                 Debug.Log("ChangeSound: " + current.Sound);
                 SoundEffect.clip = soundDictionary[current.Sound];
                 SoundEffect.Play();
             }
-            if (current.ExclaimTextBox == (Box.GetComponent<Image>().sprite.name == NORMAL_TEXTBOX_NAME))
-            {
-                if (current.ExclaimTextBox)
-                {
-                    Debug.Log("ExclaimTextBox");
-                }
-                else
-                {
-                    Debug.Log("NormalTextBox");
-                }
-            }
+            DialogueBox.SetTextBoxImage(current.ExclaimTextBox);
         };
-        tweenSequence.Append(t);
+        tweenSequence.Append(soundTween);
         if (current.FadeInList != null && current.FadeInList.Length > 0)
         {
             foreach (string character in current.FadeInList)
             {
                 //find character image and start fade in tween
                 string[] characterArray = character.Split(' ');
-                //Image currentCharacter;
                 string characterName = characterArray[0].Split('_')[0];
                 string animName = characterArray[0].Split('_')[1];
                 if (characterDictionary.ContainsKey(characterName))
@@ -636,97 +592,20 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 }
             }
         }
-        AddSpecialActions();
-        Tween nameTween = Box.DOFade(Box.color.a, 0.1f);
-        nameTween.onComplete = () => {
-            if (/*Remove after tech demo*/((current.Character != "LI" || NameText.text != "Big Cat") && NameText.text != current.Character) && current.Character != "")
-            {
-                if (NameText.text == "")
-                {
-                    //character from narrator, tween up from behind
-                    plateTween = NamePlate.rectTransform.DOAnchorPosY(0, 0.3f, true);
-                    plateTween.onComplete = () =>
-                    {
-                        if (!moveOn)
-                        {
-                            currentCharacter = 0;
-                        }
-                        timer = 0;
-                        active = true;
-                    };
-                    NameText.text = current.Character;
-                    //TAKE OUT LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    NameText.text = current.Character == "LI" ? "Big Cat" : current.Character;
-                    Canvas.ForceUpdateCanvases();
-                    LayoutRebuilder.ForceRebuildLayoutImmediate(NamePlate.rectTransform);
-                    Color plateColor;
-                    ColorUtility.TryParseHtmlString(CharacterData.CharacterPlateColor(current.Character), out plateColor);
-                    NamePlate.GetComponent<Image>().color = plateColor;
-                }
-                else
-                {
-                    //new character speaking, tween across and lift new plate up
-                    NamePlate.rectTransform.DOAnchorPosX(100, 0.2f, true);
-                    NameText.DOFade(0, 0.2f);
-                    NamePlate.DOFade(0, 0.2f).OnComplete(() => {
-                        NamePlate.rectTransform.anchoredPosition = new Vector2(0, -NamePlate.rectTransform.sizeDelta.y);
-                        NamePlate.DOFade(1, 0.01f);
-                        NameText.DOFade(1, 0.01f);
-                        plateTween = NamePlate.rectTransform.DOAnchorPosY(0, 0.3f);
-                        plateTween.onComplete = () =>
-                        {
-                            if (!moveOn)
-                            {
-                                currentCharacter = 0;
-                            }
-                            timer = 0;
-                            active = true;
-                        };
-                        NameText.text = current.Character;
-                        //TAKE OUT LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        NameText.text = current.Character == "LI" ? "Big Cat" : current.Character;
-                        Canvas.ForceUpdateCanvases();
-                        LayoutRebuilder.ForceRebuildLayoutImmediate(NamePlate.rectTransform);
-                        Color plateColor;
-                        ColorUtility.TryParseHtmlString(CharacterData.CharacterPlateColor(current.Character), out plateColor);
-                        NamePlate.GetComponent<Image>().color = plateColor;
-                    });
-                }
-            }
-            else if (current.Character == "")
-            {
-                //narrator, move nameplate underneath text box
-                plateTween = NamePlate.rectTransform.DOAnchorPosY(-NamePlate.rectTransform.sizeDelta.y, 0.3f, true);
-                plateTween.onComplete = () =>
-                {
-                    if (!moveOn)
-                    {
-                        currentCharacter = 0;
-                    }
-                    timer = 0;
-                    active = true;
-                    NameText.text = "";
-                };
-            }
-            else
-            {
-                if (!moveOn)
-                {
-                    currentCharacter = 0;
-                }
-                timer = 0;
-                active = true;
-            }
+        AddSpecialActions(); 
+        Tween nameTween = Dimmer.DOFade(Dimmer.color.a, 0.1f);
+        nameTween.onComplete = () => { 
+            DialogueBox.NextLine(lines[currentLine]);
             if (lines[currentLine].Character != "" && lines[currentLine].Character != "Player" && characterDictionary.ContainsKey(lines[currentLine].Character))
             {
-                characterDictionary[lines[currentLine].Character].ToggleTalking(currentCharacter != lines[currentLine].Text.Length);
+                characterDictionary[lines[currentLine].Character].ToggleTalking(DialogueBox.isLineComplete());
                 characterDictionary[lines[currentLine].Character].transform.SetAsLastSibling();
             }
             Canvas.ForceUpdateCanvases();
         };
         active = false;
         tweenSequence.Append(nameTween);
-        BoxText.text = "";
+        DialogueBox.ResetText();
     }
 
     float GetSpritePosition(float pos)
@@ -798,10 +677,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             {
                 EndLine();
                 //Skip animation.
-                BoxText.text = lines[currentLine].Text;
-                currentCharacter = lines[currentLine].Text.Length;
                 tweenSequence?.Complete();
-                plateTween?.Complete();
+                DialogueBox.SkipAnimation();
             }
         }
     }
@@ -838,9 +715,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     void SceneEnd()
     {
         active = false;
-        currentCharacter = 0;
-        timer = 0;
-        FadeBoxOut().onComplete = () => {
+        DialogueBox.ResetBox();
+        DialogueBox.FadeBoxOut().onComplete = () => {
             MusicTrack.DOFade(0.0f, 1.0f);
             FadeOut().onComplete = () =>
             {
@@ -854,13 +730,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     void Reset()
     {
-        currentCharacter = 0;
         currentLine = -1;
         moveOn = false;
         choosing = false;
-        BoxText.text = "";
-        NamePlate.rectTransform.anchoredPosition = new Vector2(0, -NamePlate.rectTransform.sizeDelta.y);
-
+        DialogueBox.ResetBox();
         foreach ( string k in characterDictionary.Keys)
         {
             Destroy(characterDictionary[k].gameObject);
@@ -877,20 +750,6 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     Tween FadeOut()
     {
         return FadeImage.DOFade(1, 1);
-    }
-
-    Tween FadeBoxIn()
-    {
-        Box.rectTransform.anchoredPosition = originalBoxPosition - new Vector3(0, 300, 0);
-        Box.GetComponent<CanvasGroup>().DOFade(1, 0.3f);
-        return Box.rectTransform.DOAnchorPosY(originalBoxPosition.y, 0.5f).SetEase(Ease.OutBack);
-    }
-
-    Tween FadeBoxOut()
-    {
-        Vector3 fadePos = originalBoxPosition - new Vector3(0, 50, 0);
-        Box.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
-        return Box.rectTransform.DOAnchorPosY(fadePos.y, 0.3f);
     }
 
     public int GetCurrentLine()
