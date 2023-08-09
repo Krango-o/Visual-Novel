@@ -384,6 +384,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 FadeIn().onComplete = () =>
                 {
                     DialogueBox.FadeBoxIn().onComplete = () => { ContinueDialogue(); };
+                    NovelCanvasGroup.interactable = true;
                 };
             }
         }
@@ -723,6 +724,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 NovelCanvasGroup.DOFade(0.0f, 0.2f).onComplete = () => {
                     GameManager.instance.characterDisabled = false;
                     Reset();
+                    NovelCanvasGroup.interactable = false;
                 };
             };
         };

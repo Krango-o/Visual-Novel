@@ -70,6 +70,8 @@ public class DialogueBox : MonoBehaviour
     public void ResetText()
     {
         BoxText.text = "";
+        currentCharacter = 0;
+        timer = 0;
     }
 
     public void SetLine(DialogueLine newLine)
@@ -186,8 +188,8 @@ public class DialogueBox : MonoBehaviour
     {
         BoxText.text = currentLine.Text;
         currentCharacter = currentLine.Text.Length;
-        plateTween?.Complete();
         skip = true;
+        plateTween?.Complete();
     }
 
     public void SetTextBoxImage(bool isExclaimBox)
