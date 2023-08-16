@@ -17,7 +17,7 @@ public class HistoryMenu : Graphic
     [SerializeField]
     private Image BlockerPanel;
 
-    private int previousLine = 0;
+    private int previousLine = -1;
     private float originalY;
 
     private void OnEnable()
@@ -32,6 +32,7 @@ public class HistoryMenu : Graphic
         int currentLine = DialogueManager.GetCurrentLine();
         if(previousLine < currentLine)
         {
+            previousLine += 1;
             for (int i = previousLine; i <= currentLine; i++)
             {
                 GameObject group = GameObject.Instantiate<GameObject>(HistoryGroupPrefab, ScrollParent.transform);
@@ -43,10 +44,19 @@ public class HistoryMenu : Graphic
             }
             previousLine = currentLine;
         }
-        ScrollRect.content.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
-        ScrollRect.content.GetComponent<ContentSizeFitter>().SetLayoutVertical();
+        Canvas.ForceUpdateCanvases();
+        //ScrollRect.content.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+        //ScrollRect.content.GetComponent<ContentSizeFitter>().SetLayoutVertical();
 
-        ScrollRect.verticalNormalizedPosition = 0;
+        StartCoroutine(ForceScrollDown());
+    }
+    IEnumerator ForceScrollDown() {
+        yield return new WaitForEndOfFrame();
+        Canvas.ForceUpdateCanvases();
+        ScrollRect.gameObject.SetActive(true);
+        ScrollRect.verticalNormalizedPosition = 0f;
+        ScrollRect.verticalScrollbar.value = 0;
+        Canvas.ForceUpdateCanvases();
     }
 
     void Start()
