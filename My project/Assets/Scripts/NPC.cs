@@ -21,7 +21,6 @@ public class NPC : MonoBehaviour
     private bool canInteract;
     private bool speechOpen = false;
     private SpeechBubble speechBubble;
-    private AnimDialogueManager dialogueManager;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +28,6 @@ public class NPC : MonoBehaviour
         speakIcon.SetActive(false);
         speechBubble = GameObject.Find("SpeechbubbleCanvas").GetComponent<SpeechBubble>();
         Cinemachine.CinemachineCore.CameraUpdatedEvent.AddListener(CinemachineUpdate);
-        dialogueManager = GameObject.Find("NovelCanvas").GetComponent<AnimDialogueManager>();
     }
 
     void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
@@ -42,22 +40,22 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown("Interact") && !GameManager.instance.interactDisabled)
         {
             // If the speech bubble is already open, close it. Delay interact
-            if (!GameManager.instance.interactDisabled && speechOpen && startVNScene == "")
+            if (speechOpen && startVNScene == "")
             {
                 onCloseBubble();
             }
             // If the player can interact then we can show the speech bubble
-            if (!GameManager.instance.interactDisabled && !GameManager.instance.characterDisabled && canInteract)
+            if (GameManager.instance.CurrentGameState == GameState.OVERWORLD && canInteract)
             {
                 if(!speechOpen)
                 {
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
                     speechBubble.ShowSpeechBubble(DialogueId, gameObject.transform, confirmChoiceString, cancelChoiceString);
                     speakIcon.transform.DOScale(0.00f, 0.2f).SetEase(Ease.OutQuad);
-                    GameManager.instance.characterDisabled = true;
+                    GameManager.instance.SetState(GameState.WORLDDIALOGUE);
                     speechOpen = true;
                     GameManager.instance.DelayInteract();
                     GameManager.instance.confirmChoiceEvent.AddListener(OnConfirmBubble);
@@ -94,7 +92,7 @@ public class NPC : MonoBehaviour
         speechOpen = false;
         speechBubble.HideSpeechBubble();
         speakIcon.transform.DOScale(1.0f, 0.2f).SetEase(Ease.OutQuad);
-        GameManager.instance.characterDisabled = false;
+        GameManager.instance.SetState(GameState.OVERWORLD);
         GameManager.instance.DelayInteract();
         GameManager.instance.confirmChoiceEvent.RemoveListener(OnConfirmBubble);
         GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
@@ -109,8 +107,8 @@ public class NPC : MonoBehaviour
             GameManager.instance.DelayInteract();
             GameManager.instance.confirmChoiceEvent.RemoveListener(OnConfirmBubble);
             GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
-            dialogueManager.LoadDialogue(startVNScene);
-            GameManager.instance.characterDisabled = true;
+            GameManager.instance.DialogueManager.LoadDialogue(startVNScene);
+            GameManager.instance.SetState(GameState.NOVEL);
         }
         else
         {

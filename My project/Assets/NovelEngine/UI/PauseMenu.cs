@@ -24,12 +24,6 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
         previousButton = HistoryButton;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!GameManager.instance.characterDisabled) { return; }
-    }
-
     public void OnPointerEnter(PointerEventData e)
     {
         eventSystem.SetSelectedGameObject(null);

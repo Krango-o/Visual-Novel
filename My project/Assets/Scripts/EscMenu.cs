@@ -29,7 +29,7 @@ public class EscMenu : MonoBehaviour
     {
         pauseTimer -= Time.deltaTime;
         if (pauseTimer > 0) { return; }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.instance.CurrentGameState != GameState.WORLDDIALOGUE)
         {
             pauseTimer = pauseCooldown;
             if(isPaused)
@@ -47,7 +47,7 @@ public class EscMenu : MonoBehaviour
     {
         anim.SetBool("Show", true);
         playerAnim.SetBool("isPaused" , true);
-        GameManager.instance.characterDisabled = true;
+        GameManager.instance.SetState(GameState.PAUSEMENU);
         isPaused = true;
         EscCamera.m_Priority = 2;
         EscCamera.gameObject.transform.position = FollowCamera.gameObject.transform.position + (FollowCamera.gameObject.transform.right * 4.5f);
@@ -59,7 +59,7 @@ public class EscMenu : MonoBehaviour
     {
         anim.SetBool("Show", false);
         playerAnim.SetBool("isPaused", false);
-        GameManager.instance.characterDisabled = false;
+        GameManager.instance.SetState(GameManager.instance.PrevGameState);
         isPaused = false;
         EscCamera.m_Priority = 0;
         GameManager.instance.unpauseGameEvent.Invoke();

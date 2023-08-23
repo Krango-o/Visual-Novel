@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.characterDisabled) {
+        if (GameManager.instance.CurrentGameState != GameState.OVERWORLD) {
             anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
             anim.SetFloat("moveSpeedX", moveInput.x);
             anim.SetFloat("moveSpeedY", moveInput.y);

@@ -7,17 +7,22 @@ using UnityEngine.Events;
 [System.Serializable]
 public class SpeechBubbleUnityEvent : UnityEvent<string, string, string> { }
 
+public enum GameState { OVERWORLD, NOVEL, WORLDDIALOGUE, PAUSEMENU }
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public bool characterDisabled { get; set; }
     public bool interactDisabled { get; set; }
 
     public UnityEvent pauseGameEvent = new UnityEvent();
     public UnityEvent unpauseGameEvent = new UnityEvent();
     public UnityEvent confirmChoiceEvent = new UnityEvent();
     public UnityEvent cancelChoiceEvent = new UnityEvent();
+    private GameState currentGameState;
+    public GameState CurrentGameState { get { return currentGameState; } }
+    private GameState prevGameState;
+    public GameState PrevGameState { get { return prevGameState; } }
     private PlayerController player;
     public PlayerController Player { get { return player; } set { player = value; } }
     private Cinemachine.CinemachineVirtualCamera playerCam;
@@ -40,6 +45,7 @@ public class GameManager : MonoBehaviour
             {
                 player = GameObject.Find("Player").GetComponent<PlayerController>();
             }
+            currentGameState = GameState.OVERWORLD;
             playerCam = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
             npcCam = GameObject.Find("NPCCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
             cameraBrain = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineBrain>();
@@ -54,7 +60,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        characterDisabled = false;
         interactDisabled = false;
     }
 
@@ -66,5 +71,10 @@ public class GameManager : MonoBehaviour
         {
             interactDisabled = false;
         });
+    }
+
+    public void SetState(GameState newState) {
+        prevGameState = currentGameState;
+        currentGameState = newState;
     }
 }

@@ -722,7 +722,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             FadeOut().onComplete = () =>
             {
                 NovelCanvasGroup.DOFade(0.0f, 0.2f).onComplete = () => {
-                    GameManager.instance.characterDisabled = false;
+                    GameManager.instance.SetState(GameState.OVERWORLD);
                     Reset();
                     NovelCanvasGroup.interactable = false;
                 };

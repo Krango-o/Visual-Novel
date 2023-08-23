@@ -45,8 +45,6 @@ public class HistoryMenu : Graphic
             previousLine = currentLine;
         }
         Canvas.ForceUpdateCanvases();
-        //ScrollRect.content.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
-        //ScrollRect.content.GetComponent<ContentSizeFitter>().SetLayoutVertical();
 
         StartCoroutine(ForceScrollDown());
     }
