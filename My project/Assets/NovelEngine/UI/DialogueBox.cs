@@ -22,9 +22,8 @@ public class DialogueBox : MonoBehaviour
     protected DialogueLine currentLine;
     protected bool isExclaimBox;
     private Vector3 originalBoxPosition;
-    private Tween plateTween = null;
+    private Tween nameTween = null;
     private RectTransform boxRect;
-    private bool skip = false;
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +63,6 @@ public class DialogueBox : MonoBehaviour
         BoxText.text = "";
         currentCharacter = 0;
         timer = 0;
-        NamePlate.rectTransform.anchoredPosition = new Vector2(0, -NamePlate.rectTransform.sizeDelta.y);
     }
 
     public void ResetText()
@@ -86,13 +84,7 @@ public class DialogueBox : MonoBehaviour
         currentLine = newLine;
         if (currentLine.Character != "")
         {
-            NamePlate.rectTransform.anchoredPosition = new Vector2(NamePlate.rectTransform.anchoredPosition.x, 0);
-            Color plateColor;
-            ColorUtility.TryParseHtmlString(CharacterData.CharacterPlateColor(currentLine.Character), out plateColor);
-            NamePlate.GetComponent<Image>().color = plateColor;
             NameText.text = currentLine.Character;
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(NamePlate.rectTransform);
         }
     }
 
@@ -108,62 +100,32 @@ public class DialogueBox : MonoBehaviour
         {
             if (NameText.text == "")
             {
-                //character from narrator, tween up from behind
-                plateTween = NamePlate.rectTransform.DOAnchorPosY(0, 0.3f, true);
-                plateTween.onComplete = () =>
-                {
-                    if (!GameManager.instance.DialogueManager.MoveOn)
-                    {
-                        currentCharacter = 0;
-                    }
-                    timer = 0;
-                    GameManager.instance.DialogueManager.Active = true;
-                };
+                //character from narrator
+                if (!GameManager.instance.DialogueManager.MoveOn) {
+                    currentCharacter = 0;
+                }
+                timer = 0;
+                GameManager.instance.DialogueManager.Active = true;
                 NameText.text = newLine.Character;
-                Canvas.ForceUpdateCanvases();
-                LayoutRebuilder.ForceRebuildLayoutImmediate(NamePlate.rectTransform);
-                Color plateColor;
-                ColorUtility.TryParseHtmlString(CharacterData.CharacterPlateColor(newLine.Character), out plateColor);
-                NamePlate.GetComponent<Image>().color = plateColor;
             }
             else
             {
                 //new character speaking, tween across and lift new plate up
-                NamePlate.rectTransform.DOAnchorPosX(100, 0.2f, true);
-                NameText.DOFade(0, 0.2f);
-                NamePlate.DOFade(0, 0.2f).OnComplete(() => {
-                    NamePlate.rectTransform.anchoredPosition = new Vector2(0, -NamePlate.rectTransform.sizeDelta.y);
-                    NamePlate.DOFade(1, 0.01f);
-                    NameText.DOFade(1, 0.01f);
-                    plateTween = NamePlate.rectTransform.DOAnchorPosY(0, 0.3f);
-                    plateTween.onComplete = () =>
-                    {
-                        if (!GameManager.instance.DialogueManager.MoveOn)
-                        {
-                            currentCharacter = 0;
-                        }
-                        timer = 0;
-                        if (!skip)
-                        {
-                            GameManager.instance.DialogueManager.Active = true;
-                        }
-                        skip = false;
-                    };
+                nameTween = NameText.DOFade(0, 0.2f).OnComplete(() => {
+                    NameText.DOFade(1, 0.2f);
+                    if (!GameManager.instance.DialogueManager.MoveOn) {
+                        currentCharacter = 0;
+                    }
+                    timer = 0;
+                    GameManager.instance.DialogueManager.Active = true;
                     NameText.text = newLine.Character;
-                    Canvas.ForceUpdateCanvases();
-                    LayoutRebuilder.ForceRebuildLayoutImmediate(NamePlate.rectTransform);
-                    Color plateColor;
-                    ColorUtility.TryParseHtmlString(CharacterData.CharacterPlateColor(newLine.Character), out plateColor);
-                    NamePlate.GetComponent<Image>().color = plateColor;
                 });
             }
         }
         else if (newLine.Character == "")
         {
             //narrator, move nameplate underneath text box
-            plateTween = NamePlate.rectTransform.DOAnchorPosY(-NamePlate.rectTransform.sizeDelta.y, 0.3f, true);
-            plateTween.onComplete = () =>
-            {
+            nameTween = NameText.DOFade(0, 0.2f).OnComplete(() => {
                 if (!GameManager.instance.DialogueManager.MoveOn)
                 {
                     currentCharacter = 0;
@@ -171,7 +133,7 @@ public class DialogueBox : MonoBehaviour
                 timer = 0;
                 GameManager.instance.DialogueManager.Active = true;
                 NameText.text = "";
-            };
+            });
         }
         else
         {
@@ -188,8 +150,7 @@ public class DialogueBox : MonoBehaviour
     {
         BoxText.text = currentLine.Text;
         currentCharacter = currentLine.Text.Length;
-        skip = true;
-        plateTween?.Complete();
+        nameTween?.Complete();
     }
 
     public void SetTextBoxImage(bool isExclaimBox)
