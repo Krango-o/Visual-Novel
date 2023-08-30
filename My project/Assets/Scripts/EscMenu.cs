@@ -21,7 +21,8 @@ public class EscMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager.instance.pauseGameEvent.AddListener(PauseGame);
+        GameManager.instance.unpauseGameEvent.AddListener(ResumeGame);
     }
 
     // Update is called once per frame
@@ -29,40 +30,44 @@ public class EscMenu : MonoBehaviour
     {
         pauseTimer -= Time.deltaTime;
         if (pauseTimer > 0) { return; }
-        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.instance.CurrentGameState != GameState.WORLDDIALOGUE)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseTimer = pauseCooldown;
             if(isPaused)
             {
-                ResumeGame();
+                GameManager.instance.unpauseGameEvent.Invoke();
             }
-            else
+            else if(GameManager.instance.CurrentGameState != GameState.WORLDDIALOGUE)
             {
-                PauseGame();
+                GameManager.instance.pauseGameEvent.Invoke();
             }
         }
     }
 
     public void PauseGame()
     {
-        anim.SetBool("Show", true);
-        playerAnim.SetBool("isPaused" , true);
-        GameManager.instance.SetState(GameState.PAUSEMENU);
         isPaused = true;
-        EscCamera.m_Priority = 2;
-        EscCamera.gameObject.transform.position = FollowCamera.gameObject.transform.position + (FollowCamera.gameObject.transform.right * 4.5f);
-        EscCamera.gameObject.transform.rotation = FollowCamera.gameObject.transform.rotation;
-        GameManager.instance.pauseGameEvent.Invoke();
+        anim.SetBool("Show", true);
+        if (GameManager.instance.CurrentGameState == GameState.OVERWORLD) 
+        {
+            playerAnim.SetBool("isPaused" , true);
+            EscCamera.m_Priority = 2;
+            EscCamera.gameObject.transform.position = FollowCamera.gameObject.transform.position + (FollowCamera.gameObject.transform.right * 4.5f);
+            EscCamera.gameObject.transform.rotation = FollowCamera.gameObject.transform.rotation;
+        }
+        GameManager.instance.SetState(GameState.PAUSEMENU);
     }
 
     public void ResumeGame()
     {
-        anim.SetBool("Show", false);
-        playerAnim.SetBool("isPaused", false);
-        GameManager.instance.SetState(GameManager.instance.PrevGameState);
         isPaused = false;
-        EscCamera.m_Priority = 0;
-        GameManager.instance.unpauseGameEvent.Invoke();
+        anim.SetBool("Show", false);
+        if (GameManager.instance.PrevGameState == GameState.OVERWORLD) 
+        {
+            playerAnim.SetBool("isPaused", false);
+            EscCamera.m_Priority = 0;
+        }
+        GameManager.instance.SetState(GameManager.instance.PrevGameState);
     }
 
     public void GoToMainMenu()

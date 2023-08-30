@@ -45,4 +45,9 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
     {
 
     }
+
+    public void OnSettingsButtonClicked() 
+    {
+        GameManager.instance.pauseGameEvent.Invoke();
+    }
 }
