@@ -41,6 +41,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     protected CanvasGroup NovelCanvasGroup;
     [SerializeField]
     protected ChoiceList ChoicesList;
+    [SerializeField]
+    protected CanvasGroup ButtonsCanvasGroup;
 
     protected int currentLine = -1;
     private float timeScale = 1.0f;
@@ -384,6 +386,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                 FadeIn().onComplete = () =>
                 {
                     DialogueBox.FadeBoxIn().onComplete = () => { ContinueDialogue(); };
+                    ButtonsCanvasGroup.DOFade(1, 0.3f);
                     NovelCanvasGroup.interactable = true;
                 };
             }
@@ -716,6 +719,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     void SceneEnd()
     {
         active = false;
+        ButtonsCanvasGroup.DOFade(0, 0.3f);
         DialogueBox.ResetBox();
         DialogueBox.FadeBoxOut().onComplete = () => {
             MusicTrack.DOFade(0.0f, 1.0f);
