@@ -5,10 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+public enum Reaction { SHOCKED }
+
 public class AnimatedSprite : MonoBehaviour
 {
     [SerializeField]
     Animator animator;
+    [SerializeField]
+    Reactions reactionContainer;
     float blinkTimer = 3.0f;
 
     // Start is called before the first frame update
@@ -22,21 +26,6 @@ public class AnimatedSprite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // DEBUG TO TEST ANIMATIONS
-        //if (Input.GetKeyDown(KeyCode.F))
-        //{
-        //    animator.SetBool("Talking", false);
-        //    animator.SetTrigger("Frown");
-        //}
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    animator.SetBool("Talking", true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    animator.SetBool("Talking", false);
-        //    blinkTimer = 3.0f;
-        //}
         if(animator.GetBool("Talking") == false)
         {
             blinkTimer -= Time.deltaTime;
@@ -72,6 +61,10 @@ public class AnimatedSprite : MonoBehaviour
     //        Debug.LogWarning("Issue with Loading Animator: " + handleToCheck.Status);
     //    }
     //}
+
+    public void PlayReaction(string reactionString) {
+        reactionContainer.PlayReaction(reactionString);
+    }
 
     public void ToggleTalking(bool isTalking)
     {

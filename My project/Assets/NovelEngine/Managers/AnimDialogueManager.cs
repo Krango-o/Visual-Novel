@@ -80,6 +80,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     const string CHOICE2 = "Choice 2";
     const string CHOICE3 = "Choice 3";
     const string REQUIREMENT_KEY = "Requirement Key";
+    const string REACTION_EFFECT = "Reaction Effect";
 
     const string NORMAL_TEXTBOX_NAME = "Background";
     const string EXCLAIM_TEXTBOX_NAME = "Background";
@@ -180,6 +181,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     line.Choice2 = fieldsDictionary.ContainsKey(CHOICE2) ? fields[fieldsDictionary[CHOICE2]].Trim('"').Split(';') : null;
                     line.Choice3 = fieldsDictionary.ContainsKey(CHOICE3) ? fields[fieldsDictionary[CHOICE3]].Trim('"').Split(';') : null;
                     line.RequirementKey = fieldsDictionary.ContainsKey(REQUIREMENT_KEY) ? fields[fieldsDictionary[REQUIREMENT_KEY]].Trim('"') : null;
+                    line.ReactionEffect = fieldsDictionary.ContainsKey(REACTION_EFFECT) && fields[fieldsDictionary[REACTION_EFFECT]] != "" ? fields[fieldsDictionary[REACTION_EFFECT]].Trim('"').Split(',') : null;
                     lines.Add(line);
                 }
             }
@@ -607,8 +609,20 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             }
             Canvas.ForceUpdateCanvases();
         };
+        Tween reactionTween = Dimmer.DOFade(Dimmer.color.a, 0.1f);
+        reactionTween.onComplete = () => {
+            if(current.ReactionEffect != null && current.ReactionEffect.Length > 0) {
+                foreach(string effect in current.ReactionEffect) {
+                    string trimmedEffect = effect.Trim();
+                    string character = trimmedEffect.Split(' ')[0];
+                    string reaction = trimmedEffect.Split(' ')[1];
+                    characterDictionary[character].PlayReaction(reaction);
+                }
+            }
+        };
         active = false;
         tweenSequence.Append(nameTween);
+        tweenSequence.Append(reactionTween);
         DialogueBox.ResetText();
     }
 

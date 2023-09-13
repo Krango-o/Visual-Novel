@@ -19,4 +19,5 @@ public class DialogueLine : MonoBehaviour
     public string[] Choice2;
     public string[] Choice3;
     public string RequirementKey;
+    public string[] ReactionEffect;
 }
