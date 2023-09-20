@@ -41,19 +41,23 @@ public class SpeechBubble : MonoBehaviour
 
     void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
     {
-        if (characterTransform != null)
-        {
+        Vector2 playerViewportPoint = Vector2.zero;
+        if (playerTransform != null) {
+            Vector3 targetPos = new Vector3(playerTransform.position.x, playerTransform.position.y + camOffsetY - 1.0f, playerTransform.position.z);
+            playerViewportPoint = Camera.main.WorldToViewportPoint(targetPos);
+
+            choices.position = new Vector3(playerViewportPoint.x * canvasRect.sizeDelta.x - 10, playerViewportPoint.y * canvasRect.sizeDelta.y + 20, 0) * canvasRect.localScale.x;
+        }
+        if (characterTransform != null) {
             Vector3 targetPos = new Vector3(characterTransform.position.x, characterTransform.position.y + camOffsetY, characterTransform.position.z);
             Vector2 viewportPoint = Camera.main.WorldToViewportPoint(targetPos);
-
-            speechBubbleBg.rectTransform.position = new Vector3(viewportPoint.x * canvasRect.sizeDelta.x, viewportPoint.y * canvasRect.sizeDelta.y, 0) * canvasRect.localScale.x;
-        }
-        if (playerTransform != null)
-        {
-            Vector3 targetPos = new Vector3(playerTransform.position.x, playerTransform.position.y + camOffsetY - 1.0f, playerTransform.position.z);
-            Vector2 viewportPoint = Camera.main.WorldToViewportPoint(targetPos);
-
-            choices.position = new Vector3(viewportPoint.x * canvasRect.sizeDelta.x, viewportPoint.y * canvasRect.sizeDelta.y, 0) * canvasRect.localScale.x;
+            float direction = 1f;
+            if(playerTransform != null) {
+                direction = (viewportPoint - playerViewportPoint).x > 0 ? 1f : -1f;
+                speechBubbleBg.rectTransform.localScale = new Vector3(direction, 1f);
+                dialogueText.rectTransform.localScale = new Vector3(direction, 1f);
+            }
+            speechBubbleBg.rectTransform.position = new Vector3(viewportPoint.x * canvasRect.sizeDelta.x + (60 * direction), viewportPoint.y * canvasRect.sizeDelta.y - 140, 0) * canvasRect.localScale.x;
         }
     }
 
@@ -62,14 +66,14 @@ public class SpeechBubble : MonoBehaviour
         if (Input.GetButtonDown("Interact") && showChoices && !GameManager.instance.interactDisabled)
         {
             confirmBubble.rectTransform.localScale = new Vector3(0.01f, 0.01f);
-            confirmBubble.rectTransform.DOScale(new Vector3(1.0f, 1.0f), 0.4f);
+            confirmBubble.rectTransform.DOScale(new Vector3(-1.0f, 1.0f), 0.4f);
             confirmBubble.GetComponent<CanvasGroup>().DOFade(1.0f, 0.4f);
-            confirmBubble.GetComponent<Button>().Select();
             cancelBubble.rectTransform.localScale = new Vector3(0.01f, 0.01f);
             cancelBubble.rectTransform.DOScale(new Vector3(1.0f, 1.0f), 0.4f).OnComplete( () =>
             {
                 confirmBubble.GetComponent<Button>().interactable = true;
                 cancelBubble.GetComponent<Button>().interactable = true;
+                confirmBubble.GetComponent<Button>().Select();
             });
             cancelBubble.GetComponent<CanvasGroup>().DOFade(1.0f, 0.4f);
             showChoices = false;
@@ -78,7 +82,8 @@ public class SpeechBubble : MonoBehaviour
 
     public void ShowSpeechBubble(string dialogue, Transform characterTransform, string confirmString = "", string cancelString = "")
     {
-        speechBubbleBg.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
+        speechBubbleBg.GetComponent<CanvasGroup>().alpha = 0;
+        speechBubbleBg.GetComponent<CanvasGroup>().DOFade(1, 0.2f).SetDelay(0.4f);
         dialogueText.SetText(dialogue);
         if(confirmString != "" && cancelString != "")
         {
@@ -90,8 +95,8 @@ public class SpeechBubble : MonoBehaviour
             cancelBubble.GetComponent<Button>().interactable = false;
             GameManager.instance.DelayInteract();
         }
-        speechBubbleBg.rectTransform.localScale = new Vector3(0.01f, 0.01f);
-        speechBubbleBg.rectTransform.DOScale(new Vector3(1.0f, 1.0f), 0.4f);
+        //speechBubbleBg.rectTransform.localScale = new Vector3(0.01f, 0.01f);
+        //speechBubbleBg.rectTransform.DOScale(new Vector3(1.0f, 1.0f), 0.4f);
         this.characterTransform = characterTransform;
         GameManager.instance.NPCCam.Follow = characterTransform;
         GameManager.instance.NPCCam.LookAt = characterTransform;
