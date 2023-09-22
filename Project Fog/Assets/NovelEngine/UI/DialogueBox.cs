@@ -9,11 +9,9 @@ public class DialogueBox : MonoBehaviour
     [SerializeField]
     protected Text BoxText;
     [SerializeField]
-    protected Text NameText;
-    [SerializeField]
     protected Image Box;
     [SerializeField]
-    protected Image NamePlate;
+    protected NamePlate[] NamePlates;
     [SerializeField]
     protected float textSpeed = 0.025f;
 
@@ -95,10 +93,10 @@ public class DialogueBox : MonoBehaviour
 
     public void NextLine(DialogueLine newLine)
     {
-        currentLine = newLine;
-        if ((NameText.text != newLine.Character) && newLine.Character != "")
+        string currentName = currentLine != null ? currentLine.Character : "";
+        if ((currentName != newLine.Character) && newLine.Character != "")
         {
-            if (NameText.text == "")
+            if (currentName == "")
             {
                 //character from narrator
                 if (!GameManager.instance.DialogueManager.MoveOn) {
@@ -144,6 +142,7 @@ public class DialogueBox : MonoBehaviour
             timer = 0;
             GameManager.instance.DialogueManager.Active = true;
         }
+        currentLine = newLine;
     }
 
     public void SkipAnimation()

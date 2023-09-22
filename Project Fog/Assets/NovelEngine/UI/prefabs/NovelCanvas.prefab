@@ -4083,18 +4083,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6935410068363953394}
     m_Modifications:
-    - target: {fileID: 6875503131749009032, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875503132350365345, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875503132666810064, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6875503132666810066, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
       propertyPath: m_Name
       value: DialogueBox
@@ -4182,14 +4170,6 @@ PrefabInstance:
     - target: {fileID: 6875503132666810067, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875503133025686639, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 119
-      objectReference: {fileID: 0}
-    - target: {fileID: 6875503133025686639, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -13.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 584bebd9431a20d4d8d96ee1ad9131f7, type: 3}
