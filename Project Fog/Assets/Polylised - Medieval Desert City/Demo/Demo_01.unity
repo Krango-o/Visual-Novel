@@ -78348,6 +78348,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NovelCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6935410068480542048, guid: a3800503144d2c840be02518ef1c85b9, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6935410069543014600, guid: a3800503144d2c840be02518ef1c85b9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

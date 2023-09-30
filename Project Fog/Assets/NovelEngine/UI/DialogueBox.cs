@@ -7,18 +7,17 @@ using DG.Tweening;
 public class DialogueBox : MonoBehaviour
 {
     [SerializeField]
-    protected Text BoxText;
+    protected Text boxText;
     [SerializeField]
-    protected Text NameText;
+    protected Image boxImage;
     [SerializeField]
-    protected Image Box;
-    [SerializeField]
-    protected Image NamePlate;
+    protected NamePlate[] namePlates;
     [SerializeField]
     protected float textSpeed = 0.025f;
 
     public float timer = 0;
     protected int currentCharacter = 0;
+    protected int currentPlate = 0;
     protected DialogueLine currentLine;
     protected bool isExclaimBox;
     private Vector3 originalBoxPosition;
@@ -45,7 +44,7 @@ public class DialogueBox : MonoBehaviour
             timer += Time.deltaTime * timeScale;
             if (timer >= textSpeed)
             {
-                BoxText.text = currentLine.Text.Substring(0, currentCharacter + 1);
+                boxText.text = currentLine.Text.Substring(0, currentCharacter + 1);
                 timer = 0;
                 currentCharacter++;
                 if (currentCharacter >= currentLine.Text.Length)
@@ -60,14 +59,15 @@ public class DialogueBox : MonoBehaviour
 
     public void ResetBox()
     {
-        BoxText.text = "";
+        boxText.text = "";
         currentCharacter = 0;
         timer = 0;
+        currentPlate = 0;
     }
 
     public void ResetText()
     {
-        BoxText.text = "";
+        boxText.text = "";
         currentCharacter = 0;
         timer = 0;
     }
@@ -79,12 +79,12 @@ public class DialogueBox : MonoBehaviour
 
     public void SetCompleteLine(DialogueLine newLine)
     {
-        BoxText.text = newLine.Text;
+        boxText.text = newLine.Text;
         currentCharacter = newLine.Text.Length;
         currentLine = newLine;
         if (currentLine.Character != "")
         {
-            NameText.text = currentLine.Character;
+            namePlates[currentPlate].ShowPlate(currentLine.Character, true);
         }
     }
 
@@ -95,45 +95,46 @@ public class DialogueBox : MonoBehaviour
 
     public void NextLine(DialogueLine newLine)
     {
-        currentLine = newLine;
-        if ((NameText.text != newLine.Character) && newLine.Character != "")
+        string currentName = currentLine is not null ? currentLine.Character : "";
+        if ((currentName != newLine.Character) && newLine.Character != "")
         {
-            if (NameText.text == "")
+            if (currentName == "")
             {
                 //character from narrator
-                if (!GameManager.instance.DialogueManager.MoveOn) {
-                    currentCharacter = 0;
-                }
-                timer = 0;
-                GameManager.instance.DialogueManager.Active = true;
-                NameText.text = newLine.Character;
-            }
-            else
-            {
-                //new character speaking, tween across and lift new plate up
-                nameTween = NameText.DOFade(0, 0.2f).OnComplete(() => {
-                    NameText.DOFade(1, 0.2f);
+                nameTween = namePlates[currentPlate].ShowPlate(newLine.Character).OnComplete(() => {
                     if (!GameManager.instance.DialogueManager.MoveOn) {
                         currentCharacter = 0;
                     }
                     timer = 0;
                     GameManager.instance.DialogueManager.Active = true;
-                    NameText.text = newLine.Character;
                 });
+                IteratePlateCount();
+            }
+            else
+            {
+                nameTween = namePlates[currentPlate].ShowPlate(newLine.Character).OnComplete(() => {
+                    if (!GameManager.instance.DialogueManager.MoveOn) {
+                        currentCharacter = 0;
+                    }
+                    timer = 0;
+                    GameManager.instance.DialogueManager.Active = true;
+                });
+                IteratePlateCount();
             }
         }
         else if (newLine.Character == "")
         {
             //narrator, move nameplate underneath text box
-            nameTween = NameText.DOFade(0, 0.2f).OnComplete(() => {
-                if (!GameManager.instance.DialogueManager.MoveOn)
-                {
+            nameTween = namePlates[0].HidePlate().OnComplete(() => {
+                if (!GameManager.instance.DialogueManager.MoveOn) {
                     currentCharacter = 0;
                 }
                 timer = 0;
                 GameManager.instance.DialogueManager.Active = true;
-                NameText.text = "";
             });
+            for (int i = 1; i < namePlates.Length; i++) {
+                namePlates[i].HidePlate();
+            }
         }
         else
         {
@@ -144,11 +145,12 @@ public class DialogueBox : MonoBehaviour
             timer = 0;
             GameManager.instance.DialogueManager.Active = true;
         }
+        currentLine = newLine;
     }
 
     public void SkipAnimation()
     {
-        BoxText.text = currentLine.Text;
+        boxText.text = currentLine.Text;
         currentCharacter = currentLine.Text.Length;
         nameTween?.Complete();
     }
@@ -182,5 +184,17 @@ public class DialogueBox : MonoBehaviour
         Vector3 fadePos = originalBoxPosition - new Vector3(0, 50, 0);
         this.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
         return boxRect.DOAnchorPosY(fadePos.y, 0.3f);
+    }
+
+    private void IteratePlateCount() {
+        currentPlate++;
+        if(currentPlate >= namePlates.Length) {
+            currentPlate = 0;
+        }
+        int plateToHide = currentPlate;
+        if (plateToHide >= namePlates.Length) {
+            plateToHide = 0;
+        }
+        namePlates[plateToHide].HidePlate();
     }
 }
