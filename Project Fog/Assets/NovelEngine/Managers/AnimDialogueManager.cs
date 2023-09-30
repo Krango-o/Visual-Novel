@@ -46,6 +46,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     protected int currentLine = -1;
     private float timeScale = 1.0f;
+    private float delayTimer = 0.0f;
+    public float delayTimerMax = 0.2f;
     public bool Active { get { return active; } set { active = value; } }
     private bool active = false;
     public bool MoveOn { get { return moveOn; } set { moveOn = value; } }
@@ -111,15 +113,18 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && !paused)
-        {
+        //Input
+        if (Input.GetButtonDown("Jump") && !paused) {
             HandleInput();
         }
-        if (active)
-        {
+        if (delayTimer > 0) {
+            delayTimer -= Time.deltaTime;
+        }
+
+        //Text Animation
+        if (active) {
             bool shouldEndLine = DialogueBox.TextAnimation(timeScale);
-            if (shouldEndLine)
-            {
+            if (shouldEndLine) {
                 EndLine();
             }
         }
@@ -511,7 +516,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
         currentLine++;
         DialogueLine current = lines[currentLine];
-        DialogueBox.SetLine(lines[currentLine]);
+        //DialogueBox.SetLine(lines[currentLine]);
         // Doesn't have the correct requirement key saved
         if (current.RequirementKey != "" && !choices.Contains(current.RequirementKey))
         {
@@ -672,7 +677,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     void HandleInput()
     {
-        if (currentLine > -1)
+        if (currentLine > -1 && delayTimer <= 0)
         {
             if (moveOn)
             {
@@ -685,6 +690,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     }
                     ContinueDialogue();
                     moveOn = false;
+                    delayTimer = delayTimerMax;
                 }
                 else
                 {
@@ -693,10 +699,11 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             }
             else if(!choosing)
             {
-                EndLine();
                 //Skip animation.
                 tweenSequence?.Complete();
+                moveOn = true;
                 DialogueBox.SkipAnimation();
+                EndLine();
             }
         }
     }

@@ -11,6 +11,7 @@ public class NamePlate : MonoBehaviour
     private RectTransform rectTransform;
     private float endY = -13f;
     private float startY = -120f;
+    private Tween plateTween = null;
 
     private void Start() {
         plateGroup = gameObject.GetComponent<CanvasGroup>();
@@ -18,18 +19,29 @@ public class NamePlate : MonoBehaviour
         NameText = gameObject.GetComponentInChildren<Text>();
     }
 
-    public void ShowPlate(string name, bool skipAnimation) {
+    public Tween ShowPlate(string name, bool skipAnimation = false) {
         plateGroup.alpha = 1;
+        this.transform.SetAsLastSibling();
+        if(plateTween != null) {
+            plateTween.Kill();
+            plateTween = null;
+        }
         if (skipAnimation) {
             rectTransform.localPosition = new Vector2(rectTransform.localPosition.x, endY);
         } else {
             rectTransform.localPosition = new Vector2(rectTransform.localPosition.x, startY);
-            rectTransform.DOAnchorPosY(endY, 0.4f);
+            plateTween = rectTransform.DOAnchorPosY(endY, 0.4f).SetEase(Ease.OutBack, 1.0f);
         }
         NameText.text = name;
+        return plateTween;
     }
 
-    public void HidePlate() {
-        plateGroup.DOFade(0, 0.2f);
+    public Tween HidePlate() {
+        if (plateTween != null) {
+            plateTween.Kill();
+            plateTween = null;
+        }
+        plateTween = plateGroup.DOFade(0, 0.2f);
+        return plateTween;
     }
 }
