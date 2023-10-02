@@ -1,0 +1,12 @@
+Dialogue,Character,Fade In (List Characters),Fade Out (List Characters),Background,Music,Sound,Exclaim Text Box,Screen Fade In,Screen Fade Out,Special Actions,Choice 1,Choice 2,Choice 3,Requirement Key,Reaction Effect
+Hey D’artem how’s your school break treating yah?,Koi,Koi_ArmForward,,,,,,,,,,,,,
+It’s been splendid so far.,D'artem,Dartem_Idle,,,,,,,,,,,,,
+I’ve never seen you with such an appetite.,Koi,,,,,,,,,,,,,,
+"Mostly because mom won’t let me eat like this, but today is my cheat day hehe.
+",D'artem,,,,,,,,,,,,,,
+I’m sure it wouldn’t hurt to treat yourself now and then. I oughta get me some food while there is still some left hehe.,Koi,,,,,,,,,,,,,,
+"Great minds think alike hehe.
+",D'artem,,,,,,,,,,,,,,
+"Anyways I’ve noticed you’ve painted your little paper flower.
+",Koi,,,,,,,,,,,,,,
+Yeah I wanted it to look pretty at least before giving it to my Mom.,D'artem,,,,,,,,,,,,,,

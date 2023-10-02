@@ -85,6 +85,10 @@ MonoBehaviour:
     m_Address: Assets/Images/Background/Xanti's Office-Evening.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 61f80c24b049f9d47a9b96a822e9cefb
+    m_Address: Assets/Images/VNSprites/Dartem/Dartem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:
