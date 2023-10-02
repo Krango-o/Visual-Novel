@@ -89,6 +89,10 @@ MonoBehaviour:
     m_Address: Assets/Images/VNSprites/Dartem/Dartem.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 63469d589eae6a6478fb5bc124a89b78
+    m_Address: Assets/Images/VNSprites/Iris/Iris.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:

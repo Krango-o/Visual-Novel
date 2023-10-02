@@ -1,12 +1,21 @@
 Dialogue,Character,Fade In (List Characters),Fade Out (List Characters),Background,Music,Sound,Exclaim Text Box,Screen Fade In,Screen Fade Out,Special Actions,Choice 1,Choice 2,Choice 3,Requirement Key,Reaction Effect
-Hey D’artem how’s your school break treating yah?,Koi,Koi_ArmForward,,,,,,,,,,,,,
-It’s been splendid so far.,D'artem,Dartem_Idle,,,,,,,,,,,,,
+Hey D’artem how’s your school break treating yah?,Koi,Koi_ArmForward,,,,,,,,Koi Move 2,,,,,
+It’s been splendid so far.,Dartem,Dartem_Idle,,,,,,,,Dartem Move 4,,,,,
 I’ve never seen you with such an appetite.,Koi,,,,,,,,,,,,,,
 "Mostly because mom won’t let me eat like this, but today is my cheat day hehe.
-",D'artem,,,,,,,,,,,,,,
+",Dartem,,,,,,,,,,,,,,
 I’m sure it wouldn’t hurt to treat yourself now and then. I oughta get me some food while there is still some left hehe.,Koi,,,,,,,,,,,,,,
 "Great minds think alike hehe.
-",D'artem,,,,,,,,,,,,,,
+",Dartem,,,,,,,,,,,,,,
 "Anyways I’ve noticed you’ve painted your little paper flower.
 ",Koi,,,,,,,,,,,,,,
-Yeah I wanted it to look pretty at least before giving it to my Mom.,D'artem,,,,,,,,,,,,,,
+Yeah I wanted it to look pretty at least before giving it to my Mom.,Dartem,,,,,,,,,,,,,,
+She’ll definitely love it.,Koi,,,,,,,,,,,,,,
+"Heh yeah, I was planning to visit her in a couple of days and see how she's doing.",Dartem,,,,,,,,,,,,,,
+Yeah…heh you’re a thoughtful son.,Koi,,,,,,,,,,,,,,
+" Trying to be. By the way, I was thinking, would you mind if I made a painting of us here in the plaza based on today's festival?
+",Dartem,,,,,,,,,,,,,,
+Oh? I don’t see why not.,Koi,,,,,,,,,,,,,,
+"Everyone having fun together and the vibes of the festivities, I’m feeling a bit inspired.",Dartem,,,,,,,,,,,,,,
+I get that too when I see all the flora in this festival. It always gets me curious about people's methods of raising their plants.,Koi,,,,,,,,,,,,,,
+Right! Well I wanna try to get started after this paper flower is done. You know to keep this memory fresh.,Dartem,,,,,,,,,,,,,,

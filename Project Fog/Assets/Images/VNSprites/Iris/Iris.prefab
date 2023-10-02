@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8464644468922415103}
   - component: {fileID: 8464644468922415102}
   m_Layer: 5
-  m_Name: Gravel
+  m_Name: Iris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 15095033683293819}
+  - {fileID: 2955376670629002674}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7e6bd9a41a7537548956e3159a93c39a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89f268073f7e9c94086adf7efd888d34, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -89,7 +89,7 @@ Animator:
   m_GameObject: {fileID: 8464644468922415088}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b9cb64406e11b184b9e838e52882bd85, type: 2}
+  m_Controller: {fileID: 9100000, guid: 96fa1a927ca04004882bb5ba97731e08, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8464644468922415103}
-  reactionContainer: {fileID: 5636847958827413365}
---- !u!1001 &1207317229679021984
+  reactionContainer: {fileID: 7425346085491238076}
+--- !u!1001 &4176942598402589801
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -204,25 +204,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4238897194287051531, guid: 30fa7c15e354969459fa68438559e68b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 261.8
-      objectReference: {fileID: 0}
     - target: {fileID: 5324601932177196559, guid: 30fa7c15e354969459fa68438559e68b, type: 3}
       propertyPath: m_Name
       value: Reactions
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30fa7c15e354969459fa68438559e68b, type: 3}
---- !u!224 &15095033683293819 stripped
+--- !u!224 &2955376670629002674 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1221847989214689755, guid: 30fa7c15e354969459fa68438559e68b, type: 3}
-  m_PrefabInstance: {fileID: 1207317229679021984}
+  m_PrefabInstance: {fileID: 4176942598402589801}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5636847958827413365 stripped
+--- !u!114 &7425346085491238076 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6844164963623313621, guid: 30fa7c15e354969459fa68438559e68b, type: 3}
-  m_PrefabInstance: {fileID: 1207317229679021984}
+  m_PrefabInstance: {fileID: 4176942598402589801}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
