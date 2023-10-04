@@ -121,6 +121,10 @@ MonoBehaviour:
     m_Address: Assets/Images/VNSprites/Tyson/Tyson.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 1dc0e6fa542639746a79663d8c824439
+    m_Address: Assets/Images/VNSprites/Zangua/Zangua.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:

@@ -1,0 +1,21 @@
+Dialogue,Character,Fade In (List Characters),Fade Out (List Characters),Background,Music,Sound,Exclaim Text Box,Screen Fade In,Screen Fade Out,Special Actions,Choice 1,Choice 2,Choice 3,Requirement Key,Reaction Effect
+I see you're still working on your paper flower.,Koi,Koi_ArmForward,,,,,,,,Koi Move 2,,,,,
+"Mmhm~ I have so much to say, but I can’t decide where to begin.",Sylv,Sylv_Idle,,,,,,,,Sylv Move 4,,,,,
+I’m sure you can find a middle grown. Or should I bring you more paper?,Koi,,,,,,,,,,,,,,
+Heh. Oh you~ By the way Professor have you noticed how this place has changed?,Sylv,,,,,,,,,,,,,,
+Hm? What do you mean?,Koi,,,,,,,,,,,,,,
+" I mean for the better. The last couple of weeks leading up to the festival, the island has become cleaner. I’ve noticed less litter whenever I’m out for a run.",Sylv,,,,,,,,,,,,,,
+"Well you’re not wrong, it makes the festival feel more put together.",Koi,,,,,,,,,,,,,,
+"Yeah…last year was such a mess. There was so much garbage. I’m surprised so many people came back this year.",Sylv,,,,,,,,,,,,,,
+Yeah…but it wasn't a total mess. Your music made it worth it.,Koi,,,,,,,,,,,,,,
+Wait really?,Sylv,,,,,,,,,,,,,,
+Are you kidding? Your voice and the way you played your guitar was really something. The contest couldn't hold a candle to your performance.,Koi,,,,,,,,,,,,,,
+"I didn’t think it was that good, but I’m happy to hear that especially from you.",Sylv,,,,,,,,,,,,,,
+"Of course!",Koi,,,,,,,,,,,,,,
+"I was a bit bummed out that I couldn't perform again this year, but I guess they really wanted to focus more on that flower contest.",Sylv,,,,,,,,,,,,,,
+Well I don’t mind listening to you sing some time in the future.,Koi,,,,,,,,,,,,,,
+Oh my! I’m so hype to play for you I just want to scream right now!!! AAAAAAAAAA!!!,Sylv,,,,,,,,,,,,,,
+Heh well save your voice for the singing.,Koi,,,,,,,,,,,,,,
+Oh jeez…,Sylv,,,,,,,,,,,,,,
+Sylv? Are you alright?,Koi,,,,,,,,,,,,,,
+"I just need a few to collect myself, don't worry about me. I should  just focus on my flower.",Sylv,,,,,,,,,,,,,,
