@@ -93,6 +93,34 @@ MonoBehaviour:
     m_Address: Assets/Images/VNSprites/Iris/Iris.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: d2faffcb32557e044ac66e2097604f15
+    m_Address: Assets/Images/VNSprites/Sylvester/Sylv.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 00b86e881763f6748bea443675ecc316
+    m_Address: Assets/Images/VNSprites/Abby/Abby.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 166e830082528fa48b33ec8ab831783d
+    m_Address: Assets/Images/VNSprites/Alex/Alex.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: eeabb0ec2bae4c64ebfbde8f34e394ab
+    m_Address: Assets/Images/VNSprites/George/AnimatedCharacter 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 769ac32d39ac19644b6981e7a4812510
+    m_Address: Assets/Images/VNSprites/Jiro/Jiro.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 947289de668526d46af226987d14fe5e
+    m_Address: Assets/Images/VNSprites/Matalie/Matalie.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7f5db9908c8e4344493ef6a7b720e5cb
+    m_Address: Assets/Images/VNSprites/Tyson/Tyson.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:
