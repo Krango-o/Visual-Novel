@@ -8,7 +8,7 @@ public class NPC : MonoBehaviour
     [SerializeField]
     private string DialogueId;
     [SerializeField]
-    private string startVNScene;
+    private TextAsset vnSceneObject;
     [SerializeField]
     private string confirmChoiceString;
     [SerializeField]
@@ -43,7 +43,7 @@ public class NPC : MonoBehaviour
         if (Input.GetButtonDown("Interact") && !GameManager.instance.interactDisabled)
         {
             // If the speech bubble is already open, close it. Delay interact
-            if (speechOpen && startVNScene == "")
+            if (speechOpen && vnSceneObject == null)
             {
                 onCloseBubble();
             }
@@ -100,14 +100,14 @@ public class NPC : MonoBehaviour
 
     public void OnConfirmBubble()
     {
-        if (startVNScene != "")
+        if (vnSceneObject != null)
         {
             speechOpen = false;
             speechBubble.HideSpeechBubble();
             GameManager.instance.DelayInteract();
             GameManager.instance.confirmChoiceEvent.RemoveListener(OnConfirmBubble);
             GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
-            GameManager.instance.DialogueManager.LoadDialogue(startVNScene);
+            GameManager.instance.DialogueManager.LoadDialogue(vnSceneObject);
             GameManager.instance.SetState(GameState.NOVEL);
         }
         else
@@ -118,5 +118,9 @@ public class NPC : MonoBehaviour
     public void OnCancelBubble()
     {
         onCloseBubble();
+    }
+
+    public void ChangeVNSceneId(TextAsset newVNTextAsset) {
+        vnSceneObject = newVNTextAsset;
     }
 }

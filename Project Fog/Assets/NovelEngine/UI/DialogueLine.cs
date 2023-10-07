@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueLine : MonoBehaviour
+public class DialogueLine
 {
     public string Text;
     public string Character;

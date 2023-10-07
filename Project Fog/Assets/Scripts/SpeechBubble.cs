@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class SpeechBubble : MonoBehaviour
 {
@@ -30,7 +31,8 @@ public class SpeechBubble : MonoBehaviour
     private Transform characterTransform;
     private Transform playerTransform;
     private RectTransform canvasRect;
-    private bool showChoices = false;
+    private bool queueShowChoices = false;
+    private bool choicesVisible = false;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +65,7 @@ public class SpeechBubble : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Interact") && showChoices && !GameManager.instance.interactDisabled)
+        if (Input.GetButtonDown("Interact") && queueShowChoices && !GameManager.instance.interactDisabled)
         {
             confirmBubble.rectTransform.localScale = new Vector3(0.01f, 0.01f);
             confirmBubble.rectTransform.DOScale(new Vector3(-1.0f, 1.0f), 0.4f);
@@ -73,10 +75,18 @@ public class SpeechBubble : MonoBehaviour
             {
                 confirmBubble.GetComponent<Button>().interactable = true;
                 cancelBubble.GetComponent<Button>().interactable = true;
+                choicesVisible = true;
                 confirmBubble.GetComponent<Button>().Select();
             });
             cancelBubble.GetComponent<CanvasGroup>().DOFade(1.0f, 0.4f);
-            showChoices = false;
+            queueShowChoices = false;
+        }
+        if (choicesVisible && EventSystem.current.currentSelectedGameObject == null && Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f) {
+            if(Input.GetAxis("Horizontal") > 0) {
+                EventSystem.current.SetSelectedGameObject(cancelBubble.gameObject);
+            } else {
+                EventSystem.current.SetSelectedGameObject(confirmBubble.gameObject);
+            }
         }
     }
 
@@ -89,14 +99,12 @@ public class SpeechBubble : MonoBehaviour
         {
             confirmText.SetText(confirmString);
             cancelText.SetText(cancelString);
-            showChoices = true;
+            queueShowChoices = true;
             confirmBubble.GetComponent<Button>().Select();
             confirmBubble.GetComponent<Button>().interactable = false;
             cancelBubble.GetComponent<Button>().interactable = false;
             GameManager.instance.DelayInteract();
         }
-        //speechBubbleBg.rectTransform.localScale = new Vector3(0.01f, 0.01f);
-        //speechBubbleBg.rectTransform.DOScale(new Vector3(1.0f, 1.0f), 0.4f);
         this.characterTransform = characterTransform;
         GameManager.instance.NPCCam.Follow = characterTransform;
         GameManager.instance.NPCCam.LookAt = characterTransform;
@@ -120,6 +128,7 @@ public class SpeechBubble : MonoBehaviour
             playerTransform = null;
         }); ;
         cancelBubble.rectTransform.DOScale(0.0f, 0.4f);
+        choicesVisible = false;
     }
 
     public void ConfirmBubble()

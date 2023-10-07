@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent unpauseGameEvent = new UnityEvent();
     public UnityEvent confirmChoiceEvent = new UnityEvent();
     public UnityEvent cancelChoiceEvent = new UnityEvent();
+    public UnityEvent<string> vnSceneEnded = new UnityEvent<string>();
     private GameState currentGameState;
     public GameState CurrentGameState { get { return currentGameState; } }
     private GameState prevGameState;
