@@ -14354,7 +14354,7 @@ PrefabInstance:
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: vnSceneObject
       value: 
-      objectReference: {fileID: 4900000, guid: da89383e5fe558742b9c6358abe0c416, type: 3}
+      objectReference: {fileID: 4900000, guid: 73a270d0342680748be5be7ebe6d7e45, type: 3}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: cancelChoiceString
       value: No
@@ -56187,8 +56187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283fd09f5406aee418e4be59cd0b393e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VNSceneIdToListenTo: {fileID: 4900000, guid: 6cdc9190115aec541ba99d95eb8cd882, type: 3}
-  VNSceneIdToChangeTo: {fileID: 4900000, guid: 24dcd4467a7408243b0189ec7fc020eb, type: 3}
+  VNSceneIdToListenTo: {fileID: 4900000, guid: 8a942deb912aa314cb2f7a270b55af0b, type: 3}
+  VNSceneIdToChangeTo: {fileID: 4900000, guid: 9cfbca81dc8369f468aaf06bfa98d226, type: 3}
 --- !u!1001 &1479575009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81496,7 +81496,7 @@ PrefabInstance:
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: vnSceneObject
       value: 
-      objectReference: {fileID: 4900000, guid: 6cdc9190115aec541ba99d95eb8cd882, type: 3}
+      objectReference: {fileID: 4900000, guid: 8a942deb912aa314cb2f7a270b55af0b, type: 3}
     - target: {fileID: 7849152685150342329, guid: aae169c2c933ca64093532b540f4b1a2, type: 3}
       propertyPath: cancelChoiceString
       value: no

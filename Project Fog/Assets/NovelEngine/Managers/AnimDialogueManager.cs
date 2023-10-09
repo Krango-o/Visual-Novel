@@ -196,66 +196,111 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             //        lines.Add(line);
             //    }
             //}
+
             //TextAsset vnCSV = Resources.Load<TextAsset>("Dialogue/" + DialogueFileName);
+            //DialogueTextAsset = dialogueTextAsset;
+            //string[,] csvArray = CSVReader.SplitCsvGrid(dialogueTextAsset.text);
+            //for (int i = 0; i < csvArray.GetLength(0); i++) {
+            //    for (int j = 0; j < csvArray.GetLength(1); j++) {
+            //        if(csvArray[i, j] == null) {
+            //            csvArray[i, j] = "";
+            //        }
+            //    }
+            //}
+
+            //lines = new List<DialogueLine>();
+            ////string[] titles = parser.ReadFields();
+            //Dictionary<string, int> fieldsDictionary = new Dictionary<string, int>();
+            //for (int i = 0; i < csvArray.GetLength(0); i++) {
+            //    if (csvArray[i,0] != null && csvArray[i, 0] != "") {
+            //        fieldsDictionary[csvArray[i, 0]] = i;
+            //    }
+            //}
+            //for (int i = 1; i < csvArray.GetLength(1); i++) { 
+            //    if (csvArray[fieldsDictionary[DIALOGUE], i] == "") {
+            //        continue;
+            //    }
+            //    DialogueLine line = new DialogueLine();
+            //    line.Text = fieldsDictionary.ContainsKey(DIALOGUE) ? csvArray[fieldsDictionary[DIALOGUE], i] : "";
+            //    line.Character = fieldsDictionary.ContainsKey(CHARACTER) ? csvArray[fieldsDictionary[CHARACTER], i] : "";
+            //    line.FadeInList = fieldsDictionary.ContainsKey(FADE_IN_LIST) && csvArray[fieldsDictionary[FADE_IN_LIST], i] != "" ? csvArray[fieldsDictionary[FADE_IN_LIST], i].Trim('"').Split(',') : null;
+            //    if (line.FadeInList != null) {
+            //        List<string> sList = line.FadeInList.ToList();
+            //        line.FadeInList.ToList().ForEach(s => {
+            //            prefabDictionary[s.Split(' ')[0].Split('_')[0]] = null;
+            //        });
+            //    }
+            //    line.FadeOutList = fieldsDictionary.ContainsKey(FADE_OUT_LIST) && csvArray[fieldsDictionary[FADE_OUT_LIST], i] != "" ? csvArray[fieldsDictionary[FADE_OUT_LIST], i].Trim('"').Split(',') : null;
+            //    line.Background = fieldsDictionary.ContainsKey(BACKGROUND) ? csvArray[fieldsDictionary[BACKGROUND], i] : "";
+            //    if (line.Background != "") { backgroundDictionary[line.Background] = null; }
+            //    line.Music = fieldsDictionary.ContainsKey(MUSIC) ? csvArray[fieldsDictionary[MUSIC], i] : "";
+            //    if (line.Music != "" && line.Music != "none") { musicDictionary[line.Music] = null; }
+            //    line.Sound = fieldsDictionary.ContainsKey(SOUND) ? csvArray[fieldsDictionary[SOUND], i] : "";
+            //    if (line.Sound != "") { soundDictionary[line.Sound] = null; }
+            //    line.ExclaimTextBox = fieldsDictionary.ContainsKey(EXCLAIM_TEXT_BOX) && csvArray[fieldsDictionary[EXCLAIM_TEXT_BOX], i] != "" ? bool.Parse(csvArray[fieldsDictionary[EXCLAIM_TEXT_BOX], i]) : false;
+            //    line.ScreenFadeIn = fieldsDictionary.ContainsKey(SCREEN_FADE_IN) && csvArray[fieldsDictionary[SCREEN_FADE_IN], i] != "" ? bool.Parse(csvArray[fieldsDictionary[SCREEN_FADE_IN], i]) : false;
+            //    line.ScreenFadeOut = fieldsDictionary.ContainsKey(SCREEN_FADE_OUT) && csvArray[fieldsDictionary[SCREEN_FADE_OUT], i] != "" ? bool.Parse(csvArray[fieldsDictionary[SCREEN_FADE_OUT], i]) : false;
+            //    line.SpecialActions = fieldsDictionary.ContainsKey(SPECIAL_ACTIONS) ? csvArray[fieldsDictionary[SPECIAL_ACTIONS], i].Trim('"').Split(';') : null;
+            //    line.Choice1 = fieldsDictionary.ContainsKey(CHOICE1) ? csvArray[fieldsDictionary[CHOICE1], i].Trim('"').Split(';') : null;
+            //    line.Choice2 = fieldsDictionary.ContainsKey(CHOICE2) ? csvArray[fieldsDictionary[CHOICE2], i].Trim('"').Split(';') : null;
+            //    line.Choice3 = fieldsDictionary.ContainsKey(CHOICE3) ? csvArray[fieldsDictionary[CHOICE3], i].Trim('"').Split(';') : null;
+            //    line.RequirementKey = fieldsDictionary.ContainsKey(REQUIREMENT_KEY) ? csvArray[fieldsDictionary[REQUIREMENT_KEY], i].Trim('"') : null;
+            //    line.ReactionEffect = fieldsDictionary.ContainsKey(REACTION_EFFECT) && csvArray[fieldsDictionary[REACTION_EFFECT], i] != "" ? csvArray[fieldsDictionary[REACTION_EFFECT], i].Trim('"').Split(',') : null;
+            //    lines.Add(line);
+            //}
+            //dataLoaded = 0;
+            //Addressables.InitializeAsync().Completed += (result) =>
+            //{
+            //    LoadBackgrounds();
+            //    LoadSpritePrefabs();
+            //    LoadMusic();
+            //    LoadSound();
+            //    if (prefabDictionary.Keys.Count == 0 && backgroundDictionary.Keys.Count == 0 && musicDictionary.Keys.Count == 0 && soundDictionary.Keys.Count == 0)
+            //    {
+            //        CheckDoneLoading();
+            //    }
+            //};
             DialogueTextAsset = dialogueTextAsset;
-            string[,] csvArray = CSVReader.SplitCsvGrid(dialogueTextAsset.text);
-            for (int i = 0; i < csvArray.GetLength(0); i++) {
-                for (int j = 0; j < csvArray.GetLength(1); j++) {
-                    if(csvArray[i, j] == null) {
-                        csvArray[i, j] = "";
-                    }
-                }
-            }
+
+            DialogueArray dialogueJSON = JsonUtility.FromJson<DialogueArray>("{\"dialogueObjects\":" + dialogueTextAsset.text + "}");
 
             lines = new List<DialogueLine>();
-            //string[] titles = parser.ReadFields();
-            Dictionary<string, int> fieldsDictionary = new Dictionary<string, int>();
-            for (int i = 0; i < csvArray.GetLength(0); i++) {
-                if (csvArray[i,0] != null && csvArray[i, 0] != "") {
-                    fieldsDictionary[csvArray[i, 0]] = i;
-                }
-            }
-            for (int i = 1; i < csvArray.GetLength(1); i++) { 
-                if (csvArray[fieldsDictionary[DIALOGUE], i] == "") {
-                    continue;
-                }
+            for (int i = 0; i < dialogueJSON.dialogueObjects.Count; i++) {
                 DialogueLine line = new DialogueLine();
-                line.Text = fieldsDictionary.ContainsKey(DIALOGUE) ? csvArray[fieldsDictionary[DIALOGUE], i] : "";
-                line.Character = fieldsDictionary.ContainsKey(CHARACTER) ? csvArray[fieldsDictionary[CHARACTER], i] : "";
-                line.FadeInList = fieldsDictionary.ContainsKey(FADE_IN_LIST) && csvArray[fieldsDictionary[FADE_IN_LIST], i] != "" ? csvArray[fieldsDictionary[FADE_IN_LIST], i].Trim('"').Split(',') : null;
+                line.Text = dialogueJSON.dialogueObjects[i].dialogue != "" ? dialogueJSON.dialogueObjects[i].dialogue : "";
+                line.Character = dialogueJSON.dialogueObjects[i].character != "" ? dialogueJSON.dialogueObjects[i].character : "";
+                line.FadeInList = dialogueJSON.dialogueObjects[i].fadeInList != "" ? dialogueJSON.dialogueObjects[i].fadeInList.Trim('"').Split(',') : null;
                 if (line.FadeInList != null) {
                     List<string> sList = line.FadeInList.ToList();
                     line.FadeInList.ToList().ForEach(s => {
                         prefabDictionary[s.Split(' ')[0].Split('_')[0]] = null;
                     });
                 }
-                line.FadeOutList = fieldsDictionary.ContainsKey(FADE_OUT_LIST) && csvArray[fieldsDictionary[FADE_OUT_LIST], i] != "" ? csvArray[fieldsDictionary[FADE_OUT_LIST], i].Trim('"').Split(',') : null;
-                line.Background = fieldsDictionary.ContainsKey(BACKGROUND) ? csvArray[fieldsDictionary[BACKGROUND], i] : "";
+                line.FadeOutList = dialogueJSON.dialogueObjects[i].fadeOutList != "" ? dialogueJSON.dialogueObjects[i].fadeOutList.Trim('"').Split(',') : null;
+                line.Background = dialogueJSON.dialogueObjects[i].background != "" ? dialogueJSON.dialogueObjects[i].background : "";
                 if (line.Background != "") { backgroundDictionary[line.Background] = null; }
-                line.Music = fieldsDictionary.ContainsKey(MUSIC) ? csvArray[fieldsDictionary[MUSIC], i] : "";
+                line.Music = dialogueJSON.dialogueObjects[i].music != "" ? dialogueJSON.dialogueObjects[i].music : "";
                 if (line.Music != "" && line.Music != "none") { musicDictionary[line.Music] = null; }
-                line.Sound = fieldsDictionary.ContainsKey(SOUND) ? csvArray[fieldsDictionary[SOUND], i] : "";
+                line.Sound = dialogueJSON.dialogueObjects[i].sound != "" ? dialogueJSON.dialogueObjects[i].sound : "";
                 if (line.Sound != "") { soundDictionary[line.Sound] = null; }
-                line.ExclaimTextBox = fieldsDictionary.ContainsKey(EXCLAIM_TEXT_BOX) && csvArray[fieldsDictionary[EXCLAIM_TEXT_BOX], i] != "" ? bool.Parse(csvArray[fieldsDictionary[EXCLAIM_TEXT_BOX], i]) : false;
-                line.ScreenFadeIn = fieldsDictionary.ContainsKey(SCREEN_FADE_IN) && csvArray[fieldsDictionary[SCREEN_FADE_IN], i] != "" ? bool.Parse(csvArray[fieldsDictionary[SCREEN_FADE_IN], i]) : false;
-                line.ScreenFadeOut = fieldsDictionary.ContainsKey(SCREEN_FADE_OUT) && csvArray[fieldsDictionary[SCREEN_FADE_OUT], i] != "" ? bool.Parse(csvArray[fieldsDictionary[SCREEN_FADE_OUT], i]) : false;
-                line.SpecialActions = fieldsDictionary.ContainsKey(SPECIAL_ACTIONS) ? csvArray[fieldsDictionary[SPECIAL_ACTIONS], i].Trim('"').Split(';') : null;
-                line.Choice1 = fieldsDictionary.ContainsKey(CHOICE1) ? csvArray[fieldsDictionary[CHOICE1], i].Trim('"').Split(';') : null;
-                line.Choice2 = fieldsDictionary.ContainsKey(CHOICE2) ? csvArray[fieldsDictionary[CHOICE2], i].Trim('"').Split(';') : null;
-                line.Choice3 = fieldsDictionary.ContainsKey(CHOICE3) ? csvArray[fieldsDictionary[CHOICE3], i].Trim('"').Split(';') : null;
-                line.RequirementKey = fieldsDictionary.ContainsKey(REQUIREMENT_KEY) ? csvArray[fieldsDictionary[REQUIREMENT_KEY], i].Trim('"') : null;
-                line.ReactionEffect = fieldsDictionary.ContainsKey(REACTION_EFFECT) && csvArray[fieldsDictionary[REACTION_EFFECT], i] != "" ? csvArray[fieldsDictionary[REACTION_EFFECT], i].Trim('"').Split(',') : null;
+                line.ExclaimTextBox = dialogueJSON.dialogueObjects[i].exclaimTextBox != "" ? bool.Parse(dialogueJSON.dialogueObjects[i].exclaimTextBox) : false;
+                line.ScreenFadeIn = dialogueJSON.dialogueObjects[i].screenFadeIn != "" ? bool.Parse(dialogueJSON.dialogueObjects[i].screenFadeIn) : false;
+                line.ScreenFadeOut = dialogueJSON.dialogueObjects[i].screenFadeOut != "" ? bool.Parse(dialogueJSON.dialogueObjects[i].screenFadeOut) : false;
+                line.SpecialActions = dialogueJSON.dialogueObjects[i].specialActions != "" ? dialogueJSON.dialogueObjects[i].specialActions.Trim('"').Split(';') : null;
+                line.Choice1 = dialogueJSON.dialogueObjects[i].choice1 != "" ? dialogueJSON.dialogueObjects[i].choice1.Trim('"').Split(';') : new string[] { };
+                line.Choice2 = dialogueJSON.dialogueObjects[i].choice2 != "" ? dialogueJSON.dialogueObjects[i].choice2.Trim('"').Split(';') : new string[] { };
+                line.Choice3 = dialogueJSON.dialogueObjects[i].choice3 != "" ? dialogueJSON.dialogueObjects[i].choice3.Trim('"').Split(';') : new string[] { };
+                line.RequirementKey = dialogueJSON.dialogueObjects[i].requirementKey != "" ? dialogueJSON.dialogueObjects[i].requirementKey.Trim('"') : "";
+                line.ReactionEffect = dialogueJSON.dialogueObjects[i].reactionEffect != "" ? dialogueJSON.dialogueObjects[i].reactionEffect.Trim('"').Split(',') : null;
                 lines.Add(line);
             }
             dataLoaded = 0;
-            Addressables.InitializeAsync().Completed += (result) =>
-            {
+            Addressables.InitializeAsync().Completed += (result) => {
                 LoadBackgrounds();
                 LoadSpritePrefabs();
                 LoadMusic();
                 LoadSound();
-                if (prefabDictionary.Keys.Count == 0 && backgroundDictionary.Keys.Count == 0 && musicDictionary.Keys.Count == 0 && soundDictionary.Keys.Count == 0)
-                {
+                if (prefabDictionary.Keys.Count == 0 && backgroundDictionary.Keys.Count == 0 && musicDictionary.Keys.Count == 0 && soundDictionary.Keys.Count == 0) {
                     CheckDoneLoading();
                 }
             };

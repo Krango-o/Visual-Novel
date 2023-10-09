@@ -71,4 +71,12 @@ public class CSVReader : MonoBehaviour {
 		System.Text.RegularExpressions.RegexOptions.ExplicitCapture)
 				select m.Groups[1].Value).ToArray();
 	}
+
+	// splits a TSV row 
+	static public string[] SplitTsvLine(string line) {
+		return (from System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(line,
+		@"(((?<x>(?=[\t\r\n]+))|""(?<x>([^""]|"""")+)""|(?<x>[^\t\r\n]+))\t?)",
+		System.Text.RegularExpressions.RegexOptions.ExplicitCapture)
+				select m.Groups[1].Value).ToArray();
+	}
 }
