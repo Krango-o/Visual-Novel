@@ -108,7 +108,7 @@ public class SpeechBubble : MonoBehaviour
         this.characterTransform = characterTransform;
         GameManager.instance.NPCCam.Follow = characterTransform;
         GameManager.instance.NPCCam.LookAt = characterTransform;
-        GameManager.instance.NPCCam.Priority = 2;
+        GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.OVERRIDE;
         Cinemachine.CinemachineOrbitalTransposer npcOrbitalCam = GameManager.instance.NPCCam.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>();
         npcOrbitalCam.m_XAxis.Value = GameManager.instance.Player.GetCameraAxisPosition();
         playerTransform = GameManager.instance.Player.transform;
@@ -121,7 +121,7 @@ public class SpeechBubble : MonoBehaviour
         speechBubbleBg.rectTransform.DOScale(0.0f, 0.4f).OnComplete(() => {
             characterTransform = null;
         });
-        GameManager.instance.NPCCam.Priority = 0;
+        GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
         confirmBubble.GetComponent<CanvasGroup>().DOFade(0.0f, 0.2f);
         cancelBubble.GetComponent<CanvasGroup>().DOFade(0.0f, 0.2f);
         confirmBubble.rectTransform.DOScale(0.0f, 0.4f).OnComplete(() => {

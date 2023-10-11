@@ -51,7 +51,7 @@ public class EscMenu : MonoBehaviour
         if (GameManager.instance.CurrentGameState == GameState.OVERWORLD) 
         {
             playerAnim.SetBool("isPaused" , true);
-            EscCamera.m_Priority = 2;
+            EscCamera.m_Priority = (int)CAMERA_PRIORITY.PAUSE;
             EscCamera.gameObject.transform.position = FollowCamera.gameObject.transform.position + (FollowCamera.gameObject.transform.right * 4.5f);
             EscCamera.gameObject.transform.rotation = FollowCamera.gameObject.transform.rotation;
         }
@@ -65,7 +65,7 @@ public class EscMenu : MonoBehaviour
         if (GameManager.instance.PrevGameState == GameState.OVERWORLD) 
         {
             playerAnim.SetBool("isPaused", false);
-            EscCamera.m_Priority = 0;
+            EscCamera.m_Priority = (int)CAMERA_PRIORITY.INACTIVE;
         }
         GameManager.instance.SetState(GameManager.instance.PrevGameState);
     }
