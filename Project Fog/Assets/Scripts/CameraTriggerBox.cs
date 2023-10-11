@@ -17,10 +17,22 @@ public class CameraTriggerBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            GameManager.instance.CameraBrain.ActiveVirtualCamera.Priority = 0;
-            cam.Priority = 1;
+        if (other.gameObject.CompareTag("Player")) {
+            GameManager.instance.CameraTriggerManager.OnEnterCameraTrigger(this);
         }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.CompareTag("Player")) {
+            GameManager.instance.CameraTriggerManager.OnExitCameraTrigger(this);
+        }
+    }
+
+    public void ActivateCamera() {
+        cam.Priority = (int)CAMERA_PRIORITY.OVERRIDE;
+    }
+
+    public void DeactivateCamera() {
+        cam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
     }
 }
