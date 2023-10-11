@@ -6,7 +6,7 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     [SerializeField]
-    private string DialogueId;
+    private string dialogueId;
     [SerializeField]
     private TextAsset vnSceneObject;
     [SerializeField]
@@ -53,7 +53,7 @@ public class NPC : MonoBehaviour
                 if(!speechOpen)
                 {
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
-                    speechBubble.ShowSpeechBubble(DialogueId, gameObject.transform, confirmChoiceString, cancelChoiceString);
+                    speechBubble.ShowSpeechBubble(dialogueId, gameObject.transform, confirmChoiceString, cancelChoiceString);
                     speakIcon.transform.DOScale(0.00f, 0.2f).SetEase(Ease.OutQuad);
                     GameManager.instance.SetState(GameState.WORLDDIALOGUE);
                     speechOpen = true;
