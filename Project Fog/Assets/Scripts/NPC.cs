@@ -14,6 +14,8 @@ public class NPC : MonoBehaviour
     [SerializeField]
     private string cancelChoiceString;
     [SerializeField]
+    private Transform spriteHolder;
+    [SerializeField]
     private Transform sprite;
     [SerializeField]
     private GameObject speakIcon;
@@ -33,7 +35,7 @@ public class NPC : MonoBehaviour
     void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
     {
         //Make sprite constantly look at camera
-        sprite.forward = Camera.main.transform.forward;
+        spriteHolder.forward = Camera.main.transform.forward;
         speakIcon.transform.forward = Camera.main.transform.forward;
     }
 

@@ -3,35 +3,45 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
-{
-    public Rigidbody theRB;
-    public float moveSpeed, jumpForce;
+public class PlayerController : MonoBehaviour {
 
-    private Vector2 moveInput;
-
-    public LayerMask whatIsGround;
-    public Transform groundPoint;
-    private bool isGrounded;
-    private bool camPaused;
-    private int camPosition = 0;
-    [SerializeField]
-    private float camCooldown = 1.0f;
-    [SerializeField]
-    private float camSpeed = 1.0f;
-    private float camTimer = 0;
-    private Tween camTween;
-    private Tween unpauseTween;
-    private int[] camPositions = { 45, 135, 225, 315 };
-
-    public Animator anim;
     [SerializeField]
     private Camera followCam;
     [SerializeField]
     private Camera pauseCam;
     [SerializeField]
+    private Transform spriteHolder;
+    [SerializeField]
     private Transform sprite;
+    [SerializeField]
+    private float jumpStrength = 10;
+    [SerializeField]
+    private float gravityStrength = 30;
+    [SerializeField]
+    private float moveSpeed;
+    [SerializeField]
+    private float camCooldown = 1.0f;
+    [SerializeField]
+    private float camSpeed = 1.0f;
 
+    //Movement
+    private Animator anim;
+    private CharacterController controller;
+    private Vector3 hitNormal;
+    private Vector2 moveInput;
+    private Vector2 direction;
+
+    //Jumping
+    private float yVelocity = 0;
+    private float terminalVelocity = -20;
+
+    //Camera
+    private bool camPaused;
+    private int camPosition = 0;
+    private float camTimer = 0;
+    private Tween camTween;
+    private Tween unpauseTween;
+    private int[] camPositions = { 45, 135, 225, 315 };
     private Cinemachine.CinemachineOrbitalTransposer playerOrbitalCam;
 
 
@@ -41,6 +51,8 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.pauseGameEvent.AddListener(onPause);
         GameManager.instance.unpauseGameEvent.AddListener(onUnpause);
         Cinemachine.CinemachineCore.CameraUpdatedEvent.AddListener(CinemachineUpdate);
+        controller = GetComponent<CharacterController>();
+        anim = sprite.gameObject.GetComponent<Animator>();
     }
 
     void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
@@ -48,66 +60,97 @@ public class PlayerController : MonoBehaviour
         //Make sprite constantly look at camera
         if (!camPaused)
         {
-            sprite.forward = Camera.main.transform.forward;
+            spriteHolder.forward = Camera.main.transform.forward;
         }
     }
 
 
     void Update()
     {
-        if (GameManager.instance.CurrentGameState != GameState.OVERWORLD) {
-            theRB.velocity = Vector3.zero;
-            anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
-            anim.SetFloat("moveSpeedX", moveInput.x);
-            anim.SetFloat("moveSpeedY", moveInput.y);
-            return; 
+        bool jumped = false;
+        moveInput = Vector2.zero;
+        if (GameManager.instance.CurrentGameState == GameState.OVERWORLD) {
+            //if (Input.GetButtonDown("Interact")) {
+            //    GameObject interactableObject = GameManager.instance.GetClosestInteractable();
+            //    if (interactableObject != null) {
+            //        interactableObject.GetComponent<Interactable>().Interact();
+            //    }
+            //}
+            //if (Input.GetButtonDown("Jump")) {
+            //    jumped = true;
+            //}
+            moveInput.x = Input.GetAxisRaw("Horizontal");
+            moveInput.y = Input.GetAxisRaw("Vertical");
         }
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
 
         moveInput.Normalize();
 
-        //create velocity vector
-        Vector3 m_CamForward = Vector3.Scale(followCam.transform.forward, new Vector3(1, 0, 1)).normalized;
-        if (followCam.transform.rotation.y == 0)//checking weird quaternion forward issue
-        {
-            m_CamForward.x += .001f;
+        Vector3 move = Vector3.zero;
+
+        if (controller.isGrounded) {
+            yVelocity = -1f; //isGrounded is inconsistent unless setting the yVelocity to at least -1f every frame while on the ground.
         }
-        Vector3 m_Move = moveInput.y * m_CamForward + moveInput.x * followCam.transform.right;
+        else { //Gravity
+            yVelocity -= gravityStrength * Time.deltaTime;
+        }
+        yVelocity = Mathf.Clamp(yVelocity, terminalVelocity, jumpStrength);
+
+        //Slope
+        bool isOnSlope = controller.isGrounded && (Vector3.Angle(Vector3.up, hitNormal) >= controller.slopeLimit);
+
+        //Only allow player movement when not sliding on a slope
+        if (!isOnSlope) {
+            //create velocity vector
+            Vector3 camForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+            if (Camera.main.transform.rotation.y == 0)//checking weird quaternion forward issue
+            {
+                camForward.x += .001f;
+            }
+            move = (moveInput.y * camForward + moveInput.x * Camera.main.transform.right) * moveSpeed;
+
+            //Jump
+            if (controller.isGrounded) {
+                if (jumped) {
+                    yVelocity = jumpStrength;
+                }
+            }
+        } else {
+            move.x = 2f * hitNormal.x;
+            move.z = 2f * hitNormal.z;
+        }
+
+        move.y = yVelocity;
+
+        anim.SetBool("onGround", controller.isGrounded);
+        anim.SetFloat("moveSpeed", moveInput.magnitude);
+        float offsetX = direction.x;
+        float offsetZ = direction.y;
+        //Save the last direction for when we stop
+        if (Mathf.Abs(moveInput.x) > 0.01) {
+            direction.x = moveInput.x;
+            offsetX = 0;
+        }
+        if (Mathf.Abs(moveInput.y) > 0.01) {
+            direction.y = moveInput.y;
+            offsetZ = 0;
+        }
+        //Nudge character in last direction with magnitude if pressing cardinals
+        anim.SetFloat("moveSpeedX", moveInput.x + offsetX);
+        anim.SetFloat("moveSpeedY", moveInput.y + offsetZ);
+
+        if (moveInput.x > 0.1) {
+            anim.SetFloat("isFacingRight", 1);
+        }
+        if (moveInput.x < -0.1) {
+            anim.SetFloat("isFacingRight", -1);
+        }
 
         //set the velocity
-        Vector3 newVelocity = Vector3.ClampMagnitude(m_Move, 1) * moveSpeed;
-
-        theRB.velocity = newVelocity;
-
-
-        anim.SetFloat("moveSpeed", theRB.velocity.magnitude);
-        anim.SetFloat("moveSpeedX", moveInput.x );
-        anim.SetFloat("moveSpeedY", moveInput.y );
-
-        RaycastHit hit;
-        if(Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, whatIsGround))
-        {
-            isGrounded = true;
-        }else
-        {
-            isGrounded = false;
-        }
+        controller.Move(move * Time.deltaTime);
 
         if (!camPaused)
         {
             //RotateCamera();
-        }
-
-        anim.SetBool("onGround", isGrounded);
-
-        if(moveInput.x > 0.1)
-        {
-            anim.SetFloat("isFacingRight", 1 );
-        }
-        if(moveInput.x < -0.1)
-        {
-            anim.SetFloat("isFacingRight", -1 );
         }
     }
 
