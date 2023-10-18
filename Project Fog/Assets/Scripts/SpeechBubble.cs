@@ -65,7 +65,7 @@ public class SpeechBubble : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Interact") && queueShowChoices && !GameManager.instance.interactDisabled)
+        if (Input.GetButtonDown("Interact") && queueShowChoices && !GameManager.instance.InteractDisabled)
         {
             confirmBubble.rectTransform.localScale = new Vector3(0.01f, 0.01f);
             confirmBubble.rectTransform.DOScale(new Vector3(-1.0f, 1.0f), 0.4f);

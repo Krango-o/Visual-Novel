@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine.Events;
 
@@ -13,29 +14,26 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public bool interactDisabled { get; set; }
+    public bool InteractDisabled { get; set; }
+    public string SpawnPointToLoad { get; private set; }
 
     public UnityEvent pauseGameEvent = new UnityEvent();
     public UnityEvent unpauseGameEvent = new UnityEvent();
     public UnityEvent confirmChoiceEvent = new UnityEvent();
     public UnityEvent cancelChoiceEvent = new UnityEvent();
     public UnityEvent<string> vnSceneEnded = new UnityEvent<string>();
-    private GameState currentGameState;
-    public GameState CurrentGameState { get { return currentGameState; } }
-    private GameState prevGameState;
-    public GameState PrevGameState { get { return prevGameState; } }
-    private PlayerController player;
-    public PlayerController Player { get { return player; } set { player = value; } }
-    private Cinemachine.CinemachineVirtualCamera playerCam;
-    public Cinemachine.CinemachineVirtualCamera PlayerCam { get { return playerCam; } set { playerCam = value; } }
-    private Cinemachine.CinemachineVirtualCamera npcCam;
-    public Cinemachine.CinemachineVirtualCamera NPCCam { get { return npcCam; } set { npcCam = value; } }
-    private Cinemachine.CinemachineBrain cameraBrain;
-    public Cinemachine.CinemachineBrain CameraBrain { get { return cameraBrain; } set { cameraBrain = value; } }
-    public Vector3 ActiveCameraForward { get { return cameraBrain.ActiveVirtualCamera.VirtualCameraGameObject.transform.forward; } }
-    public AnimDialogueManager DialogueManager { get { return dialogueManager; } }
-    private AnimDialogueManager dialogueManager;
+
+    public GameState CurrentGameState { get; private set; }
+    public GameState PrevGameState { get; private set; }
+    public PlayerController Player { get; private set; }
+    public Cinemachine.CinemachineVirtualCamera PlayerCam { get; private set; }
+    public Cinemachine.CinemachineVirtualCamera NPCCam { get; private set; }
+    public Cinemachine.CinemachineBrain CameraBrain { get; private set; }
+    public Vector3 ActiveCameraForward { get { return CameraBrain.ActiveVirtualCamera.VirtualCameraGameObject.transform.forward; } }
+    public AnimDialogueManager DialogueManager { get; private set; }
     public CameraTriggerManager CameraTriggerManager { get; private set; }
+
+    private List<GameObject> interactablesList;
 
     private void Awake()
     {
@@ -43,41 +41,87 @@ public class GameManager : MonoBehaviour
         {
             //Starting up the game
             instance = this;
-            if (GameObject.Find("Player") != null)
-            {
-                player = GameObject.Find("Player").GetComponent<PlayerController>();
-            }
-            currentGameState = GameState.OVERWORLD;
-            playerCam = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
-            npcCam = GameObject.Find("NPCCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
-            cameraBrain = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineBrain>();
-            dialogueManager = GameObject.Find("NovelCanvas").GetComponent<AnimDialogueManager>();
-            CameraTriggerManager = gameObject.GetComponent<CameraTriggerManager>();
+            CurrentGameState = GameState.OVERWORLD;
+            Setup();
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else if (instance != null)
         {
             Destroy(gameObject);
+            return;
         }
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        interactDisabled = false;
+        InteractDisabled = false;
+    }
+
+    private void Update() {
+        if (interactablesList.Count > 1) {
+            interactablesList.Sort((a, b) => {
+                return Vector3.Distance(a.transform.position, Player.transform.position).CompareTo(Vector3.Distance(b.transform.position, Player.transform.position));
+            });
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Setup();
+    }
+
+    private void Setup() {
+        PlayerCam = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        NPCCam = GameObject.Find("NPCCam").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        CameraBrain = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineBrain>();
+        DialogueManager = GameObject.Find("NovelCanvas").GetComponent<AnimDialogueManager>();
+        CameraTriggerManager = gameObject.GetComponent<CameraTriggerManager>();
+        if (GameObject.Find("Player") != null) {
+            Player = GameObject.Find("Player").GetComponent<PlayerController>();
+        }
+        interactablesList = new List<GameObject>();
     }
 
     // Used for preventing players from spamming through interactions/dialogue
     public void DelayInteract()
     {
-        interactDisabled = true;
+        InteractDisabled = true;
         DOVirtual.DelayedCall(0.5f, () =>
         {
-            interactDisabled = false;
+            InteractDisabled = false;
         });
     }
 
     public void SetState(GameState newState) {
-        prevGameState = currentGameState;
-        currentGameState = newState;
+        PrevGameState = CurrentGameState;
+        CurrentGameState = newState;
+    }
+
+    public void LoadScene(SpawnPointSO spawnPointSO = null) {
+        SpawnPointToLoad = spawnPointSO.Id;
+        SceneManager.LoadScene(spawnPointSO.sceneToLoad.Name);
+    }
+
+    public void LoadScene(string sceneName) {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void AddInteractable(GameObject interactable) {
+        if (!interactablesList.Contains(interactable)) {
+            interactablesList.Add(interactable);
+        }
+    }
+
+    public void RemoveInteractable(GameObject interactable) {
+        if (interactablesList.Contains(interactable)) {
+            interactablesList.Remove(interactable);
+        }
+    }
+
+    public GameObject GetClosestInteractable() {
+        if (interactablesList.Count > 0) {
+            return interactablesList[0];
+        }
+        return null;
     }
 }

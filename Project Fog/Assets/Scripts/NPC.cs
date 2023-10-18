@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class NPC : MonoBehaviour
-{
+public class NPC : Interactable {
+    [Header("NPC")]
     [SerializeField]
-    private string dialogueId;
+    private string shortDialogue;
     [SerializeField]
     private TextAsset vnSceneObject;
     [SerializeField]
@@ -39,23 +39,18 @@ public class NPC : MonoBehaviour
         speakIcon.transform.forward = Camera.main.transform.forward;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetButtonDown("Interact") && !GameManager.instance.interactDisabled)
-        {
+    public override void Interact() {
+        base.Interact();
+        if (!isInteracting) {
             // If the speech bubble is already open, close it. Delay interact
-            if (speechOpen && vnSceneObject == null)
-            {
+            if (speechOpen && vnSceneObject == null) {
                 onCloseBubble();
             }
             // If the player can interact then we can show the speech bubble
-            if (GameManager.instance.CurrentGameState == GameState.OVERWORLD && canInteract)
-            {
-                if(!speechOpen)
-                {
+            if (GameManager.instance.CurrentGameState == GameState.OVERWORLD && canInteract) {
+                if (!speechOpen) {
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
-                    speechBubble.ShowSpeechBubble(dialogueId, gameObject.transform, confirmChoiceString, cancelChoiceString);
+                    speechBubble.ShowSpeechBubble(shortDialogue, gameObject.transform, confirmChoiceString, cancelChoiceString);
                     speakIcon.transform.DOScale(0.00f, 0.2f).SetEase(Ease.OutQuad);
                     GameManager.instance.SetState(GameState.WORLDDIALOGUE);
                     speechOpen = true;
@@ -67,23 +62,13 @@ public class NPC : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        PlayerController pc = other.gameObject.GetComponent<PlayerController>();
-        if(pc != null)
-        {
+    protected override void ToggleClosest(bool isClosest) {
+        if (isClosest) {
             canInteract = true;
             speakIcon.SetActive(true);
             speakIcon.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
             speakIcon.transform.DOScale(1.0f, 0.2f).SetEase(Ease.OutQuad);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        PlayerController pc = other.gameObject.GetComponent<PlayerController>();
-        if (pc != null)
-        {
+        } else {
             canInteract = false;
             speakIcon.SetActive(false);
         }

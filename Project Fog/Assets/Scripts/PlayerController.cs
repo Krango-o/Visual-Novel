@@ -70,12 +70,12 @@ public class PlayerController : MonoBehaviour {
         bool jumped = false;
         moveInput = Vector2.zero;
         if (GameManager.instance.CurrentGameState == GameState.OVERWORLD) {
-            //if (Input.GetButtonDown("Interact")) {
-            //    GameObject interactableObject = GameManager.instance.GetClosestInteractable();
-            //    if (interactableObject != null) {
-            //        interactableObject.GetComponent<Interactable>().Interact();
-            //    }
-            //}
+            if (Input.GetButtonDown("Interact")) {
+                GameObject interactableObject = GameManager.instance.GetClosestInteractable();
+                if (interactableObject != null) {
+                    interactableObject.GetComponent<Interactable>().Interact();
+                }
+            }
             //if (Input.GetButtonDown("Jump")) {
             //    jumped = true;
             //}
