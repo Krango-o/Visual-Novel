@@ -853,7 +853,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
                     Reset();
                     NovelCanvasGroup.interactable = false;
                     NovelCanvasGroup.blocksRaycasts = false;
-                    GameManager.instance.vnSceneEnded.Invoke(DialogueTextAsset.name);
+                    NovelManager.instance.EndScene(DialogueTextAsset);
                 };
             };
         };

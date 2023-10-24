@@ -68,7 +68,9 @@ public abstract class Interactable : MonoBehaviour {
 
     protected virtual void ToggleClosest(bool isClosest) {
         this.isClosest = isClosest;
-        closeIndicator.SetActive(isClosest);
+        if(closeIndicator != null) {
+            closeIndicator.SetActive(isClosest);
+        }
     }
 
     protected virtual void OnTriggerEnter(Collider other) {

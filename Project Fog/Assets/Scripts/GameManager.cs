@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Vector3 ActiveCameraForward { get { return CameraBrain.ActiveVirtualCamera.VirtualCameraGameObject.transform.forward; } }
     public AnimDialogueManager DialogueManager { get; private set; }
     public CameraTriggerManager CameraTriggerManager { get; private set; }
+    public DataPersistenceManager DataPersistenceManager { get; private set; }
 
     private List<GameObject> interactablesList;
 
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
         CameraBrain = GameObject.Find("FollowCam").GetComponent<Cinemachine.CinemachineBrain>();
         DialogueManager = GameObject.Find("NovelCanvas").GetComponent<AnimDialogueManager>();
         CameraTriggerManager = gameObject.GetComponent<CameraTriggerManager>();
+        DataPersistenceManager = gameObject.GetComponent<DataPersistenceManager>();
         if (GameObject.Find("Player") != null) {
             Player = GameObject.Find("Player").GetComponent<PlayerController>();
         }
