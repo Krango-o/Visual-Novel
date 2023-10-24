@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEditor;
 
 public class DataPersistenceManager : MonoBehaviour
 {
     [SerializeField]
     protected string fileName = "game.data";
+    [SerializeField]
+    protected bool useEncryption = true;
     FileDataHandler fileDataHandler;
     GameData gameData = null;
     List<IDataPersistence> dataPersistenceObjects;
@@ -17,7 +20,7 @@ public class DataPersistenceManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
 
-        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
     }
 
     // Start is called before the first frame update
@@ -61,9 +64,27 @@ public class DataPersistenceManager : MonoBehaviour
         fileDataHandler.Save(gameData);
     }
 
+    public void DeleteGameFromEditor() {
+        fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        fileDataHandler.Delete();
+    }
+
     List<IDataPersistence> GetAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
         return new List<IDataPersistence>(dataPersistences);
+    }
+}
+
+[CustomEditor(typeof(DataPersistenceManager))]
+public class DataPersistenceEditor : Editor {
+    public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
+        if (GUILayout.Button("Delete Save Data")) {
+            if (EditorUtility.DisplayDialog("Delete the save data?", "Are you sure you want to delete the game save data?", "Yes")) {
+                DataPersistenceManager myScript = (DataPersistenceManager)target;
+                myScript.DeleteGameFromEditor();
+            }
+        }
     }
 }

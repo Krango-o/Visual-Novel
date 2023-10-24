@@ -919,6 +919,10 @@ PrefabInstance:
       propertyPath: fileName
       value: game.data
       objectReference: {fileID: 0}
+    - target: {fileID: 4288647529183159545, guid: 41e3962f8db10d0479242ccf34329b69, type: 3}
+      propertyPath: useEncryption
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4512287977705642540, guid: 41e3962f8db10d0479242ccf34329b69, type: 3}
       propertyPath: m_RootOrder
       value: 8

@@ -51,7 +51,7 @@ public class NPC : Interactable, IDataPersistence {
                 if (!speechOpen) {
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
                     speechBubble.ShowSpeechBubble(shortDialogue, gameObject.transform, confirmChoiceString, cancelChoiceString);
-                    speakIcon.transform.DOScale(0.00f, 0.2f).SetEase(Ease.OutQuad);
+                    speakIcon.transform.DOScale(0.01f, 0.2f).SetEase(Ease.OutQuad);
                     GameManager.instance.SetState(GameState.WORLDDIALOGUE);
                     speechOpen = true;
                     GameManager.instance.DelayInteract();
@@ -63,10 +63,11 @@ public class NPC : Interactable, IDataPersistence {
     }
 
     protected override void ToggleClosest(bool isClosest) {
+        base.ToggleClosest(isClosest);
         if (isClosest) {
             canInteract = true;
             speakIcon.SetActive(true);
-            speakIcon.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+            speakIcon.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             speakIcon.transform.DOScale(1.0f, 0.2f).SetEase(Ease.OutQuad);
         } else {
             canInteract = false;
