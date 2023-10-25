@@ -63,6 +63,9 @@ public class DialogueBox : MonoBehaviour
         currentCharacter = 0;
         timer = 0;
         currentPlate = 0;
+        for (int i = 0; i < namePlates.Length; i++) {
+            namePlates[i].HidePlate();
+        }
     }
 
     public void ResetText()
