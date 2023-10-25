@@ -37,7 +37,7 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
     public void OnHistoryButtonClicked(Button button)
     {
         previousButton = button;
-        HistoryMenu.gameObject.SetActive(true);
+        HistoryMenu.ShowMenu();
         eventSystem.SetSelectedGameObject(null);
         NovelManager.instance.EventManager.Pause();
     }

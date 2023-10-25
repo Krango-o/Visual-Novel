@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class HistoryMenu : Graphic
-{
+public class HistoryMenu : MonoBehaviour {
+    [SerializeField]
+    private RectTransform HistoryContainer;
     [SerializeField]
     private GameObject HistoryGroupPrefab;
     [SerializeField]
@@ -19,13 +20,22 @@ public class HistoryMenu : Graphic
 
     private int previousLine = -1;
     private float originalY = 0;
+    private CanvasGroup canvasGroup;
 
-    private void OnEnable()
-    {
+    private void Start() {
+        NovelManager.instance.EventManager.onResetVN.RemoveListener(ResetHistory);
+        NovelManager.instance.EventManager.onResetVN.AddListener(ResetHistory);
+        canvasGroup = this.GetComponent<CanvasGroup>();
+    }
+
+    public void ShowMenu() {
+        canvasGroup.DOFade(1.0f, 0.2f);
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
         ScrollRect.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
         BlockerPanel.DOFade(0.5f, 0.2f);
-        this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, originalY + 50);
-        this.rectTransform.DOAnchorPosY(originalY, 0.2f);
+        HistoryContainer.anchoredPosition = new Vector2(HistoryContainer.anchoredPosition.x, originalY + 50);
+        HistoryContainer.DOAnchorPosY(originalY, 0.2f);
 
         List<DialogueLine> lines = DialogueManager.GetLines();
         int currentLine = DialogueManager.GetCurrentLine();
@@ -44,12 +54,28 @@ public class HistoryMenu : Graphic
             previousLine = currentLine;
         }
         Canvas.ForceUpdateCanvases();
-
+        ScrollParent.SetActive(false);
         StartCoroutine(ForceScrollDown());
     }
+
+    public void HideMenu() {
+        canvasGroup.DOFade(0.0f, 0.2f);
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        ScrollRect.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        BlockerPanel.DOFade(0.0f, 0.2f);
+        float endYPos = originalY - 50;
+        HistoryContainer.DOAnchorPosY(endYPos, 0.2f).OnComplete(() => {
+            HistoryContainer.anchoredPosition = new Vector2(HistoryContainer.anchoredPosition.x, originalY);
+            NovelManager.instance.EventManager.Unpause();
+        });
+    }
+
     IEnumerator ForceScrollDown() {
         yield return new WaitForEndOfFrame();
+        ScrollParent.SetActive(true);
         Canvas.ForceUpdateCanvases();
+        yield return new WaitForEndOfFrame();
         ScrollRect.gameObject.SetActive(true);
         ScrollRect.verticalNormalizedPosition = 0f;
         ScrollRect.verticalScrollbar.value = 0;
@@ -58,20 +84,18 @@ public class HistoryMenu : Graphic
 
     private void Update() {
         if (Input.GetButtonDown("Cancel")) {
-            BackButton();
+            HideMenu();
         }
     }
 
     public void BackButton()
     {
-        ScrollRect.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
-        BlockerPanel.DOFade(0.0f, 0.2f);
-        float endYPos = originalY - 50;
-        this.rectTransform.DOAnchorPosY(endYPos, 0.2f).OnComplete(() =>
-        {
-            this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, originalY);
-            this.gameObject.SetActive(false);
-            NovelManager.instance.EventManager.Unpause();
-        });
+        HideMenu();
+    }
+
+    private void ResetHistory() {
+        foreach (Transform child in ScrollParent.transform) {
+            Destroy(child.gameObject);
+        }
     }
 }

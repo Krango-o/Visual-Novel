@@ -23,4 +23,10 @@ public class EventManager : MonoBehaviour
             onUnpause.Invoke();
         }
     }
+    public UnityEvent onResetVN = new UnityEvent();
+    public void ResetVN() {
+        if (onResetVN != null) {
+            onResetVN.Invoke();
+        }
+    }
 }
