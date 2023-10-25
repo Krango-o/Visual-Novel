@@ -18,15 +18,14 @@ public class HistoryMenu : Graphic
     private Image BlockerPanel;
 
     private int previousLine = -1;
-    private float originalY;
+    private float originalY = 0;
 
     private void OnEnable()
     {
         ScrollRect.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
         BlockerPanel.DOFade(0.5f, 0.2f);
-        float endYPos = this.rectTransform.anchoredPosition.y;//y pos should be 90.0f in case things get messy
-        this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, endYPos + 50);
-        this.rectTransform.DOAnchorPosY(endYPos, 0.2f);
+        this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, originalY + 50);
+        this.rectTransform.DOAnchorPosY(originalY, 0.2f);
 
         List<DialogueLine> lines = DialogueManager.GetLines();
         int currentLine = DialogueManager.GetCurrentLine();
@@ -57,11 +56,6 @@ public class HistoryMenu : Graphic
         Canvas.ForceUpdateCanvases();
     }
 
-    void Start()
-    {
-        originalY = this.rectTransform.anchoredPosition.y - 50;
-    }
-
     private void Update() {
         if (Input.GetButtonDown("Cancel")) {
             BackButton();
@@ -72,7 +66,7 @@ public class HistoryMenu : Graphic
     {
         ScrollRect.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
         BlockerPanel.DOFade(0.0f, 0.2f);
-        float endYPos = this.rectTransform.anchoredPosition.y-50;
+        float endYPos = originalY - 50;
         this.rectTransform.DOAnchorPosY(endYPos, 0.2f).OnComplete(() =>
         {
             this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, originalY);
