@@ -871,6 +871,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
         characterDictionary = new Dictionary<string, AnimatedSprite>();
         currentSave = null;
+        NovelManager.instance.EventManager.ResetVN();
     }
 
     Tween FadeIn()
