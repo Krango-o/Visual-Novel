@@ -105,8 +105,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             // TODO: new save system
             //DialogueFileName = PlayerPrefs.GetString(DataConstants.PLAYERPREFS_CURRENTSCENE);
         }
-        NovelManager.instance.EventManager.Pause.AddListener(() => { paused = true; tweenSequence?.Pause(); timeScale = 0.0f; });
-        NovelManager.instance.EventManager.Unpause.AddListener(() => { paused = false; tweenSequence?.TogglePause(); timeScale = 1.0f; });
+        NovelManager.instance.EventManager.onPause.AddListener(() => { paused = true; tweenSequence?.Pause(); timeScale = 0.0f; });
+        NovelManager.instance.EventManager.onUnpause.AddListener(() => { paused = false; tweenSequence?.TogglePause(); timeScale = 1.0f; });
         // DEBUG 
         // LoadDialogue();
     }
@@ -115,7 +115,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     void Update()
     {
         //Input
-        if (Input.GetButtonDown("Jump") && !paused) {
+        if (Input.GetButtonDown("Jump") && !paused && GameManager.instance.CurrentGameState != GameState.PAUSEMENU) {
             HandleInput();
         }
         if (delayTimer > 0) {
@@ -133,7 +133,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData e)
     {
-        if (e.pointerCurrentRaycast.gameObject == HitBox && !paused)
+        if (e.pointerCurrentRaycast.gameObject == HitBox && !paused && GameManager.instance.CurrentGameState != GameState.PAUSEMENU)
         {
             HandleInput();
         }

@@ -62,6 +62,12 @@ public class HistoryMenu : Graphic
         originalY = this.rectTransform.anchoredPosition.y - 50;
     }
 
+    private void Update() {
+        if (Input.GetButtonDown("Cancel")) {
+            BackButton();
+        }
+    }
+
     public void BackButton()
     {
         ScrollRect.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
@@ -71,6 +77,7 @@ public class HistoryMenu : Graphic
         {
             this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, originalY);
             this.gameObject.SetActive(false);
+            NovelManager.instance.EventManager.Unpause();
         });
     }
 }

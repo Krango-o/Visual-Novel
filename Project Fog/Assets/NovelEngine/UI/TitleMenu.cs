@@ -38,7 +38,7 @@ public class TitleMenu : MonoBehaviour
 
     public void TransitionTitleScreen()
     {
-        NovelManager.instance.EventManager.TransitionMidMovement.AddListener(ShowMainMenuAnim);
+        NovelManager.instance.EventManager.onTransitionMidMovement.AddListener(ShowMainMenuAnim);
         TransitionObject.StartTransition();
     }
 
@@ -54,7 +54,7 @@ public class TitleMenu : MonoBehaviour
 
     public void ShowMainMenuAnim()
     {
-        NovelManager.instance.EventManager.TransitionMidMovement.RemoveListener(ShowMainMenuAnim);
+        NovelManager.instance.EventManager.onTransitionMidMovement.RemoveListener(ShowMainMenuAnim);
         TitleObject.SetActive(false);
         SelectSceneObject.SetActive(false);
         SaveMenuObject.SetActive(false);

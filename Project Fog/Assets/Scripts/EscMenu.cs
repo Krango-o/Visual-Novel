@@ -30,7 +30,7 @@ public class EscMenu : MonoBehaviour
     {
         pauseTimer -= Time.deltaTime;
         if (pauseTimer > 0) { return; }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Cancel"))
         {
             pauseTimer = pauseCooldown;
             if(isPaused)

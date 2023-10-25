@@ -39,6 +39,7 @@ public class PauseMenu : MonoBehaviour, IPointerEnterHandler
         previousButton = button;
         HistoryMenu.gameObject.SetActive(true);
         eventSystem.SetSelectedGameObject(null);
+        NovelManager.instance.EventManager.Pause();
     }
 
     public void OnFastForwardButtonClicked()
