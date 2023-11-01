@@ -3,7 +3,17 @@ guid: 1ce1f28a7a5b9f845a2899021a3712ca
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Standbooth
+    second: {fileID: 2100000, guid: 449e127798fa0fa4386fdc03deb6db4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Standbooth_striped
+    second: {fileID: 2100000, guid: cfb0d8be61c0ea94aa5b46fb0ef8ba6b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
