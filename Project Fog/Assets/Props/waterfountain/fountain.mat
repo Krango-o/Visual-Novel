@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mail_bin
+  m_Name: fountain
   m_Shader: {fileID: 4800000, guid: 60e29b7951f20da47b11861d166b7036, type: 3}
   m_ValidKeywords:
   - _OVERLAYMODE1_NONE
   - _OVERLAYMODE_NONE
   - _USEHATCHINGCONSTANTSCALE_ON
-  - _USELIGHTRAMP_STEP
+  - _USELIGHTRAMP_POSTERIZE
   - _USESPECULAR_ON
   m_InvalidKeywords:
   - _USEOUTLINE_ON
@@ -67,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 58c8a0947f82b8d47a6b8fa027d03d20, type: 3}
+        m_Texture: {fileID: 2800000, guid: ad0502e07eb20f447b6e701888a6327a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -166,7 +166,7 @@ Material:
     - _StepHalftoneTexture: 0
     - _StepOffset: 0
     - _Strength: 0
-    - _Thicnkess: 0
+    - _Thicnkess: 0.04
     - _UVAnimationSpeed: 2
     - _UVAnimationSpeedSpec: 2
     - _UVAnimationSpeedWarp: 2
@@ -187,7 +187,7 @@ Material:
     - _UseEmission: 0
     - _UseEnvironmentRefletion: 0
     - _UseHatchingConstantScale: 1
-    - _UseLightRamp: 0
+    - _UseLightRamp: 2
     - _UseOutline: 1
     - _UsePureSketch: 0
     - _UseRimLight: 0
