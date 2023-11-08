@@ -115,7 +115,7 @@ Material:
     - _DiffuseWarpBrightnessOffset: 1.12
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0.852
     - _GlossyReflections: 1
     - _HalftoneEdgeOffset: 0.1
     - _HalftoneSmoothness: 0.3
@@ -153,20 +153,20 @@ Material:
     - _SideShineAmount: 0.2717647
     - _SideShineHardness: 0
     - _SideShineIntensity: 1
-    - _SmoothnessMultiplier: 1
+    - _SmoothnessMultiplier: 1.24
     - _SmoothnessTextureChannel: 0
     - _SpecularFaloff: 0
     - _SpecularHighlights: 1
     - _SpecularMaskRotation: 0
     - _SpecularMaskScale: 1
     - _SpecularMaskStrength: 0.1856417
-    - _SpecularPosterizeSteps: 15
+    - _SpecularPosterizeSteps: 2.1
     - _SpecularShadowMask: 0
     - _SrcBlend: 1
     - _StepHalftoneTexture: 0
     - _StepOffset: 0
     - _Strength: 0
-    - _Thicnkess: 0.04
+    - _Thicnkess: 0.0243
     - _UVAnimationSpeed: 2
     - _UVAnimationSpeedSpec: 2
     - _UVAnimationSpeedWarp: 2
@@ -206,9 +206,9 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HalftoneColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.032022618, g: 0.047169805, b: 0.02914738, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimShadowColor: {r: 0, g: 0.055514283, b: 0.9622641, a: 0}
-    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
-    - _SpecColor: {r: 1, g: 1, b: 1, a: 0}
+    - _ShadowColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
+    - _SpecColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0}
   m_BuildTextureStacks: []

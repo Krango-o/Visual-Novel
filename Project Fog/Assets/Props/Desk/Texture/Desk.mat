@@ -15,8 +15,7 @@ Material:
   - _USEHATCHINGCONSTANTSCALE_ON
   - _USELIGHTRAMP_STEP
   - _USESPECULAR_ON
-  m_InvalidKeywords:
-  - _USEOUTLINE_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -115,7 +114,7 @@ Material:
     - _DiffuseWarpBrightnessOffset: 1.12
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.491
     - _GlossyReflections: 1
     - _HalftoneEdgeOffset: 0.1
     - _HalftoneSmoothness: 0.3
@@ -160,13 +159,13 @@ Material:
     - _SpecularMaskRotation: 0
     - _SpecularMaskScale: 1
     - _SpecularMaskStrength: 0.1856417
-    - _SpecularPosterizeSteps: 15
+    - _SpecularPosterizeSteps: 2.8
     - _SpecularShadowMask: 0
     - _SrcBlend: 1
     - _StepHalftoneTexture: 0
     - _StepOffset: -0.487
     - _Strength: 0
-    - _Thicnkess: 0
+    - _Thicnkess: 0.008
     - _UVAnimationSpeed: 2
     - _UVAnimationSpeedSpec: 2
     - _UVAnimationSpeedWarp: 2
@@ -188,7 +187,7 @@ Material:
     - _UseEnvironmentRefletion: 0
     - _UseHatchingConstantScale: 1
     - _UseLightRamp: 0
-    - _UseOutline: 1
+    - _UseOutline: 0
     - _UsePureSketch: 0
     - _UseRimLight: 0
     - _UseScreenUvs: 0
@@ -206,7 +205,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HalftoneColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.009803922, g: 0.003921569, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimShadowColor: {r: 0, g: 0.055514283, b: 0.9622641, a: 0}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}

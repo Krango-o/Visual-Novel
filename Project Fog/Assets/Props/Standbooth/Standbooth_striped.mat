@@ -153,14 +153,14 @@ Material:
     - _SideShineAmount: 0.2717647
     - _SideShineHardness: 0
     - _SideShineIntensity: 1
-    - _SmoothnessMultiplier: 1
+    - _SmoothnessMultiplier: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularFaloff: 0
     - _SpecularHighlights: 1
     - _SpecularMaskRotation: 0
     - _SpecularMaskScale: 1
     - _SpecularMaskStrength: 0.1856417
-    - _SpecularPosterizeSteps: 3
+    - _SpecularPosterizeSteps: 2
     - _SpecularShadowMask: 0
     - _SrcBlend: 1
     - _StepHalftoneTexture: 0
@@ -209,6 +209,6 @@ Material:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimShadowColor: {r: 0, g: 0.055514283, b: 0.9622641, a: 0}
-    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
-    - _SpecColor: {r: 1, g: 1, b: 1, a: 0}
+    - _ShadowColor: {r: 0.0069419593, g: 0.35025924, b: 0.49056602, a: 0}
+    - _SpecColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
