@@ -221,4 +221,8 @@ public class PlayerController : MonoBehaviour {
     {
         return camPositions[camPosition];
     }
+
+    public Animator GetAnimator() {
+        return anim;
+    }
 }
