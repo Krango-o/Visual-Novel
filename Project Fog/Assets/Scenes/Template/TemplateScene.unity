@@ -1739,6 +1739,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 93996884513492445, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996884513492445, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996884513492445, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 93996884687406306, guid: 36de623e30108e04e8122cff48490097, type: 3}
       propertyPath: EscCamera
       value: 
@@ -1751,6 +1763,54 @@ PrefabInstance:
       propertyPath: FollowCamera
       value: 
       objectReference: {fileID: 1013647155}
+    - target: {fileID: 93996884718004557, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996884718004557, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996884718004557, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996886088887170, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996886088887170, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 93996886088887170, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1138209154715392854, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1138209154715392854, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1138209154715392854, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633253630690615063, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633253630690615063, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633253630690615063, guid: 36de623e30108e04e8122cff48490097, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8218565832480972303, guid: 36de623e30108e04e8122cff48490097, type: 3}
       propertyPath: m_Name
       value: EscMenu
