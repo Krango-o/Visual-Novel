@@ -44,9 +44,9 @@ public class DataPersistenceManager : MonoBehaviour
         this.gameData = new GameData();
     }
 
-    public void LoadGame()
+    public void LoadGame(int index = -1)
     {
-        this.gameData = fileDataHandler.Load();
+        this.gameData = fileDataHandler.Load(index);
 
         //Get all data persistance things in the scene
         foreach (IDataPersistence item in dataPersistenceObjects)
@@ -55,13 +55,13 @@ public class DataPersistenceManager : MonoBehaviour
         }
     }
 
-    public void SaveGame()
+    public void SaveGame(int index = -1)
     {
         foreach (IDataPersistence item in dataPersistenceObjects)
         {
             item.SaveData(ref gameData);
         }
-        fileDataHandler.Save(gameData);
+        fileDataHandler.Save(gameData, index);
     }
 
     public void DeleteGameFromEditor() {

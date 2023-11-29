@@ -12,12 +12,10 @@ public class ChoiceButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData) {
         EventSystem.current.SetSelectedGameObject(this.gameObject);
-        Debug.Log("OnPointerEnter");
     }
 
     public void OnPointerExit(PointerEventData eventData) {
         EventSystem.current.SetSelectedGameObject(null);
-        Debug.Log("OnPointerExit");
     }
 
     public void OnSelect(BaseEventData eventData) {

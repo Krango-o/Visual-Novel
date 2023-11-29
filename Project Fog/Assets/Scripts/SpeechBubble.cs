@@ -69,7 +69,11 @@ public class SpeechBubble : MonoBehaviour
         {
             confirmBubble.rectTransform.localScale = new Vector3(0.01f, 0.01f);
             confirmBubble.rectTransform.DOScale(new Vector3(-1.0f, 1.0f), 0.4f);
-            confirmBubble.GetComponent<CanvasGroup>().DOFade(1.0f, 0.4f);
+            CanvasGroup confirmCanvasGroup = confirmBubble.GetComponent<CanvasGroup>();
+            confirmCanvasGroup.DOFade(1.0f, 0.4f).onComplete = () => {
+                confirmCanvasGroup.interactable = true;
+                confirmCanvasGroup.blocksRaycasts = true;
+            };
             cancelBubble.rectTransform.localScale = new Vector3(0.01f, 0.01f);
             cancelBubble.rectTransform.DOScale(new Vector3(1.0f, 1.0f), 0.4f).OnComplete( () =>
             {
@@ -78,7 +82,11 @@ public class SpeechBubble : MonoBehaviour
                 choicesVisible = true;
                 confirmBubble.GetComponent<Button>().Select();
             });
-            cancelBubble.GetComponent<CanvasGroup>().DOFade(1.0f, 0.4f);
+            CanvasGroup cancelCanvasGroup = cancelBubble.GetComponent<CanvasGroup>();
+            cancelCanvasGroup.DOFade(1.0f, 0.4f).onComplete = () => {
+                cancelCanvasGroup.interactable = true;
+                cancelCanvasGroup.blocksRaycasts = true;
+            };
             queueShowChoices = false;
         }
         if (choicesVisible && EventSystem.current.currentSelectedGameObject == null && Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f) {
@@ -122,8 +130,14 @@ public class SpeechBubble : MonoBehaviour
             characterTransform = null;
         });
         GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
-        confirmBubble.GetComponent<CanvasGroup>().DOFade(0.0f, 0.2f);
-        cancelBubble.GetComponent<CanvasGroup>().DOFade(0.0f, 0.2f);
+        CanvasGroup confirmCanvasGroup = confirmBubble.GetComponent<CanvasGroup>();
+        confirmCanvasGroup.interactable = false;
+        confirmCanvasGroup.blocksRaycasts = false;
+        confirmCanvasGroup.DOFade(0.0f, 0.2f);
+        CanvasGroup cancelCanvasGroup = cancelBubble.GetComponent<CanvasGroup>();
+        cancelCanvasGroup.interactable = false;
+        cancelCanvasGroup.blocksRaycasts = false;
+        cancelCanvasGroup.DOFade(0.0f, 0.2f);
         confirmBubble.rectTransform.DOScale(0.0f, 0.4f).OnComplete(() => {
             playerTransform = null;
         }); ;

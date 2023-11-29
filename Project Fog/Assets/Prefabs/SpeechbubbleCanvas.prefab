@@ -729,8 +729,8 @@ CanvasGroup:
   m_GameObject: {fileID: 9099652518272796297}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &9099652518272796304
 MonoBehaviour:
@@ -932,8 +932,8 @@ CanvasGroup:
   m_GameObject: {fileID: 9099652518328905319}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &9099652518328905326
 MonoBehaviour:

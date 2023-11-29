@@ -18,7 +18,7 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load()
+    public GameData Load(int index)
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         GameData loadedData = new GameData();
@@ -49,7 +49,7 @@ public class FileDataHandler
         return loadedData;
     }
 
-    public void Save(GameData gameData)
+    public void Save(GameData gameData, int index)
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         try
