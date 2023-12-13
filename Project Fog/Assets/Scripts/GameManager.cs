@@ -126,4 +126,16 @@ public class GameManager : MonoBehaviour
         }
         return null;
     }
+
+    public void PauseGame() {
+        if(pauseGameEvent != null) {
+            pauseGameEvent.Invoke();
+        }
+    }
+
+    public void UnpauseGame() {
+        if (unpauseGameEvent != null) {
+            unpauseGameEvent.Invoke();
+        }
+    }
 }

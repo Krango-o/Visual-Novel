@@ -21,7 +21,7 @@ public class EscMenu : MonoBehaviour
     [SerializeField]
     private CanvasGroup inputBlocker;
     [SerializeField]
-    private RawImage patternBg;
+    private Image tabletBg;
 
     [SerializeField]
     private RectTransform mainMenu;
@@ -41,15 +41,11 @@ public class EscMenu : MonoBehaviour
     private float pauseCooldown = 0.5f;
     private float pauseTimer = 0.0f;
 
-    private float endPosY = 0;
-
-    private Vector2 patternSpeed = new Vector2(-0.5f, 0.5f);
-
     private Animator playerAnim;
     private CinemachineVirtualCamera EscCamera;
     private CinemachineVirtualCamera FollowCamera;
 
-    private RectTransform activeMenu;
+    private Menu activeMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -62,22 +58,12 @@ public class EscMenu : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         contentContainer.anchoredPosition = new Vector2(contentContainer.anchoredPosition.x, GetOffScreenPosition());
+        tabletBg.material = new Material(tabletBg.material);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Rect uvRect = patternBg.uvRect;
-        uvRect.x = uvRect.x + (Time.deltaTime * patternSpeed.x);
-        if(Mathf.Abs(uvRect.x) > 100) {
-            uvRect.x = Mathf.Abs(uvRect.x) - 100;
-        }
-        uvRect.y = uvRect.y + (Time.deltaTime * patternSpeed.y);
-        if (Mathf.Abs(uvRect.y) > 100) {
-            uvRect.y = Mathf.Abs(uvRect.y) - 100;
-        }
-        patternBg.uvRect = uvRect;
-
         pauseTimer -= Time.deltaTime;
         if (pauseTimer > 0) { return; }
         if (Input.GetButtonDown("Cancel"))
@@ -85,11 +71,11 @@ public class EscMenu : MonoBehaviour
             pauseTimer = pauseCooldown;
             if(isPaused)
             {
-                GameManager.instance.unpauseGameEvent.Invoke();
+                GameManager.instance.UnpauseGame();
             }
             else if(GameManager.instance.CurrentGameState != GameState.WORLDDIALOGUE)
             {
-                GameManager.instance.pauseGameEvent.Invoke();
+                GameManager.instance.PauseGame();
             }
         }
     }
@@ -111,6 +97,7 @@ public class EscMenu : MonoBehaviour
             //EscCamera.gameObject.transform.rotation = FollowCamera.gameObject.transform.rotation;
         }
         GameManager.instance.SetState(GameState.PAUSEMENU);
+        activeMenu = mainMenu.GetComponent<Menu>();
         ShowMenu(ESC_SCREEN.MAINMENU, true);
     }
 
@@ -175,25 +162,30 @@ public class EscMenu : MonoBehaviour
             HideMenu(settingsMenu, skipAnimation);
         }
 
-        CanvasGroup menuCanvasGroup = menuTransform.GetComponent<CanvasGroup>();
-        if (skipAnimation) {
-            menuCanvasGroup.alpha = 1;
-            menuCanvasGroup.interactable = true;
-            menuCanvasGroup.blocksRaycasts = true;
-
-        } else {
-            menuCanvasGroup.DOFade(1, 0.2f).SetDelay(0.2f).onComplete = () => {
-                menuCanvasGroup.interactable = true;
-                menuCanvasGroup.blocksRaycasts = true;
-            };
-        }
-        IScreenInterface screen = menuTransform.GetComponent<IScreenInterface>();
+        Menu screen = menuTransform.GetComponent<Menu>();
         if(screen != null) {
-            screen.OnTransitionIn();
+            screen.OnTransitionIn(skipAnimation);
         }
+
+        if (skipAnimation) {
+            tabletBg.materialForRendering.SetColor("_TopColor", screen.GetTopColor());
+            tabletBg.materialForRendering.SetColor("_BottomColor", screen.GetBottomColor());
+        } else {
+            Menu currentActiveMenu = activeMenu;
+            DOVirtual.Float(0, 1, 1.2f, v => {
+                Color activeTopColor = currentActiveMenu.GetTopColor();
+                Color screenTopColor = screen.GetTopColor();
+                Color newTopColor = Color.Lerp(activeTopColor, screenTopColor, v);
+                Color newBottomColor = Color.Lerp(currentActiveMenu.GetBottomColor(), screen.GetBottomColor(), v);
+                tabletBg.materialForRendering.SetColor("_TopColor", newTopColor);
+                tabletBg.materialForRendering.SetColor("_BottomColor", newBottomColor);
+            });
+        }
+
+        activeMenu = screen;
 
         float backButtonAlpha = screenToShow != ESC_SCREEN.MAINMENU ? 1 : 0;
-        float backButtonDelay = screenToShow != ESC_SCREEN.MAINMENU ? 0.2f : 0;
+        float backButtonDelay = screenToShow != ESC_SCREEN.MAINMENU ? 0.4f : 0;
         CanvasGroup buttonCanvasGroup = backButton.GetComponent<CanvasGroup>();
         if (skipAnimation) {
             buttonCanvasGroup.alpha = backButtonAlpha;
@@ -208,19 +200,9 @@ public class EscMenu : MonoBehaviour
     }
 
     private void HideMenu(RectTransform menu, bool skipAnimation = false) {
-        CanvasGroup menuCanvasGroup = menu.GetComponent<CanvasGroup>();
-        if (skipAnimation) {
-            menuCanvasGroup.alpha = 0;
-            menuCanvasGroup.interactable = false;
-            menuCanvasGroup.blocksRaycasts = false;
-        } else {
-            menuCanvasGroup.DOFade(0, 0.2f);
-            menuCanvasGroup.interactable = false;
-            menuCanvasGroup.blocksRaycasts = false;
-        }
-        IScreenInterface screen = menu.GetComponent<IScreenInterface>();
+        Menu screen = menu.GetComponent<Menu>();
         if(screen != null) {
-            screen.OnTransitionOut();
+            screen.OnTransitionOut(skipAnimation);
         }
     }
 

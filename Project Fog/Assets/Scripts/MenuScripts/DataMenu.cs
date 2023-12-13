@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public enum SAVEMENU_STATE { NONE, SAVE, LOAD, DELETE }
 
-public class DataMenu : MonoBehaviour, IScreenInterface
-{
+public class DataMenu : Menu {
     [SerializeField]
     private List<SaveDataPrefab> saveDataList;
 
-    public void OnTransitionIn() {
+    public override void OnTransitionIn(bool skipAnimation = false) {
+        base.OnTransitionIn(skipAnimation);
         int index = 0;
         foreach(SaveDataPrefab save in saveDataList) {
             save.SetData(index, new GameData());
