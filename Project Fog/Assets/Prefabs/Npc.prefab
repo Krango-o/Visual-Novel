@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 7849152685150342334}
   - component: {fileID: 7849152685150342333}
   - component: {fileID: 7849152685150342329}
+  - component: {fileID: 2790375818291063642}
   - component: {fileID: 7849152685150342330}
   m_Layer: 0
   m_Name: Npc
@@ -248,13 +249,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe97d1e8f366bf4d837cb7646a8646e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueId: 
+  closeIndicator: {fileID: 0}
+  shortDialogue: 
   vnSceneObject: {fileID: 0}
   confirmChoiceString: 
   cancelChoiceString: 
   spriteHolder: {fileID: 2478524166806149828}
   sprite: {fileID: 7849152684298914005}
   speakIcon: {fileID: 5549072485346201971}
+--- !u!114 &2790375818291063642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849152685150342332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283fd09f5406aee418e4be59cd0b393e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VNSceneIdToListenTo: {fileID: 0}
+  VNSceneIdToChangeTo: {fileID: 0}
 --- !u!135 &7849152685150342330
 SphereCollider:
   m_ObjectHideFlags: 0

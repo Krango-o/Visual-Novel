@@ -94,7 +94,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: d2faffcb32557e044ac66e2097604f15
-    m_Address: Assets/Images/VNSprites/Sylvester/Sylv.prefab
+    m_Address: Assets/Images/VNSprites/Sylv/Sylv.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 00b86e881763f6748bea443675ecc316
