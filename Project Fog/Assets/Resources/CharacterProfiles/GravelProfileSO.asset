@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb70c9feded302e4995ffa7bb541f724, type: 3}
+  m_Name: GravelProfileSO
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: GravelProfileSO
+  listItemImage: {fileID: 21300000, guid: 73f7660a1a3f2224c8f9a9715499109c, type: 3}
+  portraitImage: {fileID: 21300000, guid: c456cb6ee3ed9034cba0890afc1a428f, type: 3}
+  galleryImage1: {fileID: 0}
+  galleryImage2: {fileID: 0}
+  galleryImage3: {fileID: 0}
+  galleryImage4: {fileID: 0}
+  characterName: Gravel
+  age: 21
+  pronouns: He/Him
+  occupation: Student
+  firstBio: Likes leather jackets especially when they ahve that fresh new car smell
+  secondBio: He gets up to bad stuff like using a magnifying glass on an anthill

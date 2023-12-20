@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb70c9feded302e4995ffa7bb541f724, type: 3}
+  m_Name: KoiProfileSO
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: KoiProfileSO
+  listItemImage: {fileID: 21300000, guid: e045b461118cbed46a430007e435f974, type: 3}
+  portraitImage: {fileID: 21300000, guid: c8940a675940c554e9939da55dd2d5ec, type: 3}
+  galleryImage1: {fileID: 0}
+  galleryImage2: {fileID: 0}
+  galleryImage3: {fileID: 0}
+  galleryImage4: {fileID: 0}
+  characterName: Koi
+  age: 24
+  pronouns: He/Him
+  occupation: Professor
+  firstBio: He likes plants
+  secondBio: He hates Zangua
