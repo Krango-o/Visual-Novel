@@ -7,7 +7,7 @@ using DG.Tweening;
 using TMPro;
 
 public class CharacterMenu : Menu {
-
+    [Header("Character Menu")]
     [SerializeField]
     private GameObject characterProfilePrefab;
     [SerializeField]
