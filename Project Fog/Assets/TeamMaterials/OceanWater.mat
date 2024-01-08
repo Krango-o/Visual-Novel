@@ -94,7 +94,7 @@ Material:
     - _FoamSoftness: 1
     - _FoamSpeed: 1
     - _FoamStrength: 1
-    - _FoamTiling: 1
+    - _FoamTiling: 0.25
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 0
@@ -131,7 +131,7 @@ Material:
     - _SurfaceDistort: 0.1
     - _SurfaceSpeed: 0.5
     - _SurfaceStrength: 0.078
-    - _SurfaceTiling: 1
+    - _SurfaceTiling: 0.25
     - _SurfaceUseWorld: 1
     - _TCP2_DISABLE_WRAPPED_LIGHT: 1
     - _TCP2_RAMPTEXT: 0
