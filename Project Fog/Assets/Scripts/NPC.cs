@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class NPC : Interactable, IDataPersistence {
+public class NPC : Interactable {
     [Header("NPC")]
     [SerializeField]
     private string shortDialogue;
@@ -110,15 +110,5 @@ public class NPC : Interactable, IDataPersistence {
 
     public void ChangeVNSceneId(TextAsset newVNTextAsset) {
         vnSceneObject = newVNTextAsset;
-    }
-
-    public void LoadData(GameData gameData)
-    {
-
-    }
-
-    public void SaveData(ref GameData gameData)
-    {
-
     }
 }

@@ -9,8 +9,8 @@ public class NovelManager : MonoBehaviour, IDataPersistence
     public EventManager EventManager { get; private set; }
     public UIUtility UIUtility { get; private set; }
     public SaveManager SaveManager { get; private set; }
-
-    private List<string> completedDialogues;
+    
+    public List<string> CompletedDialogues { get; private set; }
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class NovelManager : MonoBehaviour, IDataPersistence
             EventManager = this.GetComponent<EventManager>();
             UIUtility = this.GetComponent<UIUtility>();
             SaveManager = this.GetComponent<SaveManager>();
-            completedDialogues = new List<string>();
+            CompletedDialogues = new List<string>();
         }
         else if (instance != null)
         {
@@ -42,19 +42,19 @@ public class NovelManager : MonoBehaviour, IDataPersistence
     public void EndScene(TextAsset dialogueTextAsset)
     {
         GameManager.instance.vnSceneEnded.Invoke(dialogueTextAsset.name);
-        if(!completedDialogues.Contains(dialogueTextAsset.name)) {
-            completedDialogues.Add(dialogueTextAsset.name);
+        if(!CompletedDialogues.Contains(dialogueTextAsset.name)) {
+            CompletedDialogues.Add(dialogueTextAsset.name);
         }
     }
 
     public void LoadData(GameData gameData)
     {
-        completedDialogues = gameData.completedDialogues;
+        CompletedDialogues = gameData.completedDialogues;
     }
 
     public void SaveData(ref GameData gameData)
     {
-        foreach (string item in completedDialogues)
+        foreach (string item in CompletedDialogues)
         {
             if (!gameData.completedDialogues.Contains(item))
             {

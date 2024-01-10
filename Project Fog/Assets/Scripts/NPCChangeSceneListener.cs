@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCChangeSceneListener : MonoBehaviour, IDataPersistence {
+public class NPCChangeSceneListener : MonoBehaviour {
     [SerializeField]
     private TextAsset VNSceneIdToListenTo;
     [SerializeField]
@@ -23,9 +23,9 @@ public class NPCChangeSceneListener : MonoBehaviour, IDataPersistence {
         }
     }
 
-    public void LoadData(GameData gameData)
+    public void CheckCompletedDialogues(List<string> completedDialogues)
     {
-        if (gameData.completedDialogues.Contains(VNSceneIdToListenTo.name))
+        if (completedDialogues.Contains(VNSceneIdToListenTo.name))
         {
             npcComponent.ChangeVNSceneId(VNSceneIdToChangeTo);
         }

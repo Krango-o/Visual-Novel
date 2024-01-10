@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: LostItem_Yellow_Ribbon
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: 371fe1516ee3f484d853a45a562799b4, type: 3}
-  selectedItemImage: {fileID: 0}
+  hoverItemImage: {fileID: 21300000, guid: 52e61ef76a31d42479e9f3fd05243a4a, type: 3}
+  selectedItemImage: {fileID: 21300000, guid: 371fe1516ee3f484d853a45a562799b4, type: 3}
   itemDescription: 

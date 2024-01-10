@@ -25,11 +25,20 @@ public class LostItemsMenu : Menu {
         selectedItem.DOFade(0, 0);
         itemText.text = "";
 
-        Image[] lostItems = itemGrid.GetComponentsInChildren<Image>();
+        LostItemButton[] lostItems = itemGrid.GetComponentsInChildren<LostItemButton>();
         int index = 0;
-        foreach(Image item in lostItems) {
-            if(lostItemList.Length > index) {
-                item.sprite = lostItemList[index] != null ? lostItemList[index].itemImage : defaultItemSprite;
+        foreach(LostItemButton item in lostItems) {
+            if(lostItemList.Length > index && lostItemList[index] != null) {
+                // Check what items we've unlocked to show.
+                if (GameManager.instance.PlayerDataManager.LostItemsUnlockedIds.Contains(lostItemList[index].name)) {
+                    item.SetData(lostItemList[index].itemImage, lostItemList[index].hoverItemImage, GameManager.instance.PlayerDataManager.LostItemsCompletedIds.Contains(lostItemList[index].name));
+                } else {
+                    item.SetData(defaultItemSprite, defaultItemSprite, false);
+                }
+                // DEBUG - hardcode show the image
+                item.SetData(lostItemList[index].itemImage, lostItemList[index].hoverItemImage, GameManager.instance.PlayerDataManager.LostItemsCompletedIds.Contains(lostItemList[index].name));
+            } else {
+                item.SetData(defaultItemSprite, defaultItemSprite, false);
             }
             index++;
         }
