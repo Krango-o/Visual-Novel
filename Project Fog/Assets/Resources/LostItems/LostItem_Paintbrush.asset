@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: bc5b7649b4938a6419bdb82315d59108, type: 3}
   selectedItemImage: {fileID: 21300000, guid: bc5b7649b4938a6419bdb82315d59108, type: 3}
-  itemDescription: 
+  itemDescription: 'This paintbrush been used so much it '

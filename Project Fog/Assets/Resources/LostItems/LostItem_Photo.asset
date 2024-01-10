@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: ef5484b67137ff74cb8c03574a2d88bf, type: 3}
   selectedItemImage: {fileID: 21300000, guid: ef5484b67137ff74cb8c03574a2d88bf, type: 3}
-  itemDescription: 
+  itemDescription: A photo of a couple together. They seemed so happy.
