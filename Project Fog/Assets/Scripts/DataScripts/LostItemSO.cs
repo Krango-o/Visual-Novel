@@ -7,6 +7,7 @@ public class LostItemSO : ScriptableObject {
 
     [Header("Item Images")]
     public Sprite itemImage;
+    public Sprite hoverItemImage;
     public Sprite selectedItemImage;
 
     [Header("Description")]

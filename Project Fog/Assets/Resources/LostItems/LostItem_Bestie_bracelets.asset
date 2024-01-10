@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: LostItem_Bestie_bracelets
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: c1a1739b92108df4cb82031e2f66fee5, type: 3}
+  hoverItemImage: {fileID: 21300000, guid: 51ed964f6e58c9045b197e7eee61b289, type: 3}
   selectedItemImage: {fileID: 21300000, guid: c1a1739b92108df4cb82031e2f66fee5, type: 3}
   itemDescription: 

@@ -31,12 +31,12 @@ public class DataPersistenceManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         dataPersistenceObjects = GetAllDataPersistenceObjects();
-        LoadGame();
     }
 
     void OnSceneUnloaded(Scene scene)
     {
-        SaveGame();
+        // Auto Save?
+        //SaveGame();
     }
 
     public void NewGame()
@@ -53,6 +53,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             item.LoadData(gameData);
         }
+        GameManager.instance.LoadScene(this.gameData.currentScene);
     }
 
     public void SaveGame(int index = -1)
@@ -61,6 +62,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             item.SaveData(ref gameData);
         }
+        gameData.currentScene = SceneManager.GetActiveScene().name;
         fileDataHandler.Save(gameData, index);
     }
 

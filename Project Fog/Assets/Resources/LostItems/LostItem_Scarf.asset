@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LostItem_Scarf
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: 681bd0736d2662c4da2ace1690708be2, type: 3}
+  hoverItemImage: {fileID: 21300000, guid: b3107b3cc2eab3f4aaa7bbb185f71b99, type: 3}
   selectedItemImage: {fileID: 21300000, guid: 681bd0736d2662c4da2ace1690708be2, type: 3}
   itemDescription: This scarf seems very old. It has some faded symbols that I don't
     understand sowed into it.

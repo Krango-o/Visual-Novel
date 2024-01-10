@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public UnityEvent confirmChoiceEvent = new UnityEvent();
     public UnityEvent cancelChoiceEvent = new UnityEvent();
     public UnityEvent<string> vnSceneEnded = new UnityEvent<string>();
+    public UnityEvent<string> lostItemUnlocked = new UnityEvent<string>();
+    public UnityEvent<string> lostItemCompleted = new UnityEvent<string>();
+    public UnityEvent<string> characterDataUnlocked = new UnityEvent<string>();
 
     public GameState CurrentGameState { get; private set; }
     public GameState PrevGameState { get; private set; }
@@ -33,6 +36,8 @@ public class GameManager : MonoBehaviour
     public AnimDialogueManager DialogueManager { get; private set; }
     public CameraTriggerManager CameraTriggerManager { get; private set; }
     public DataPersistenceManager DataPersistenceManager { get; private set; }
+    public NPCManager NPCManager { get; private set; }
+    public PlayerDataManager PlayerDataManager { get; private set; }
 
     private List<GameObject> interactablesList;
 
@@ -78,6 +83,8 @@ public class GameManager : MonoBehaviour
         DialogueManager = GameObject.Find("NovelCanvas").GetComponent<AnimDialogueManager>();
         CameraTriggerManager = gameObject.GetComponent<CameraTriggerManager>();
         DataPersistenceManager = gameObject.GetComponent<DataPersistenceManager>();
+        NPCManager = gameObject.GetComponent<NPCManager>();
+        PlayerDataManager = gameObject.GetComponent<PlayerDataManager>();
         if (GameObject.Find("Player") != null) {
             Player = GameObject.Find("Player").GetComponent<PlayerController>();
         }
@@ -136,6 +143,24 @@ public class GameManager : MonoBehaviour
     public void UnpauseGame() {
         if (unpauseGameEvent != null) {
             unpauseGameEvent.Invoke();
+        }
+    }
+
+    public void UnlockLostItem(string lostItemId) {
+        if(lostItemUnlocked != null) {
+            lostItemUnlocked.Invoke(lostItemId);
+        }
+    }
+
+    public void CompleteLostItem(string lostItemId) {
+        if (lostItemCompleted != null) {
+            lostItemCompleted.Invoke(lostItemId);
+        }
+    }
+
+    public void UnlockCharacterData(string characterId) {
+        if (characterDataUnlocked != null) {
+            characterDataUnlocked.Invoke(characterId);
         }
     }
 }

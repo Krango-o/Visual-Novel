@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: LostItem_Funni_book
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: cd33c9c7a24fcf84593ca81645faa045, type: 3}
+  hoverItemImage: {fileID: 21300000, guid: 0d7b169d97ba5a047baaae46c1f984ed, type: 3}
   selectedItemImage: {fileID: 21300000, guid: cd33c9c7a24fcf84593ca81645faa045, type: 3}
   itemDescription: 

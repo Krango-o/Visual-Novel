@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LostItem_WatchSO
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: a5089aa93b422194e9a468d9cb536e05, type: 3}
+  hoverItemImage: {fileID: 21300000, guid: 4343945b37be6a242aca8b21af53cc60, type: 3}
   selectedItemImage: {fileID: 21300000, guid: a5089aa93b422194e9a468d9cb536e05, type: 3}
   itemDescription: Someone's gonna be very late to a very important date without
     their handy watch!
