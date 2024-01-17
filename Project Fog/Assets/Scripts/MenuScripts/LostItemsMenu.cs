@@ -46,7 +46,7 @@ public class LostItemsMenu : Menu {
 
     public void OnItemClick(Button clickedButton) {
         int index = clickedButton.GetComponent<RectTransform>().GetSiblingIndex();
-        if (lostItemList.Length > index) {
+        if (lostItemList.Length > index && GameManager.instance.PlayerDataManager.LostItemsUnlockedIds.Contains(lostItemList[index].name)) {
             selectedItem.DOFade(1, 0);
             selectedItem.sprite = lostItemList[index] != null ? lostItemList[index].itemImage : defaultItemSprite;
             itemText.text = lostItemList[index] != null ? lostItemList[index].itemDescription : "";
