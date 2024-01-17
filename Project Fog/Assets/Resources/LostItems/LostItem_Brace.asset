@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f00be16f002f5408c60d2e31dae37d, type: 3}
   m_Name: LostItem_Brace
   m_EditorClassIdentifier: 
+  <Id>k__BackingField: LostItem_Brace
   itemImage: {fileID: 21300000, guid: b31f3dc2f51b07c46a1afe6d94354233, type: 3}
   hoverItemImage: {fileID: 21300000, guid: 868da5ce4eb8cdf44a5a5219f7164fab, type: 3}
   selectedItemImage: {fileID: 21300000, guid: b31f3dc2f51b07c46a1afe6d94354233, type: 3}
-  itemDescription: 
+  itemDescription: 'I''ve seen thsese so much back in the day, but this one looks
+    brand new. '

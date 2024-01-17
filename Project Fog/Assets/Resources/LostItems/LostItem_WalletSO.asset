@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f00be16f002f5408c60d2e31dae37d, type: 3}
   m_Name: LostItem_WalletSO
   m_EditorClassIdentifier: 
+  <Id>k__BackingField: LostItem_WalletSO
   itemImage: {fileID: 21300000, guid: 559d79d7f0e90364881611038f5bae79, type: 3}
   hoverItemImage: {fileID: 21300000, guid: 49f3e716944b4d24d857236c91adbe75, type: 3}
   selectedItemImage: {fileID: 21300000, guid: 559d79d7f0e90364881611038f5bae79, type: 3}

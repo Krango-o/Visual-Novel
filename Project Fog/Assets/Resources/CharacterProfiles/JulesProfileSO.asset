@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb70c9feded302e4995ffa7bb541f724, type: 3}
   m_Name: JulesProfileSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 
+  <Id>k__BackingField: JulesProfileSO
   listItemImage: {fileID: 0}
   portraitImage: {fileID: 0}
   galleryImage1: {fileID: 0}
   galleryImage2: {fileID: 0}
   galleryImage3: {fileID: 0}
   galleryImage4: {fileID: 0}
-  characterName: 
-  age: 
-  pronouns: 
-  occupation: 
+  characterName: Jules
+  age: 50
+  pronouns: He/Him
+  occupation: Ceo of BaxCorps
   firstBio: 
   secondBio: 

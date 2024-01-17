@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f00be16f002f5408c60d2e31dae37d, type: 3}
   m_Name: LostItem_Clipboard
   m_EditorClassIdentifier: 
+  <Id>k__BackingField: LostItem_Clipboard
   itemImage: {fileID: 21300000, guid: 5009d031623672f4bb0181659b5e9c3e, type: 3}
   hoverItemImage: {fileID: 21300000, guid: b17af969a97cadf46a1219448930e68a, type: 3}
   selectedItemImage: {fileID: 21300000, guid: 5009d031623672f4bb0181659b5e9c3e, type: 3}
-  itemDescription: 
+  itemDescription: Someone pretty organized will probably carry this around. But
+    if they lost it does that mean they're unorganized?

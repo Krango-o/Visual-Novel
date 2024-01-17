@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f00be16f002f5408c60d2e31dae37d, type: 3}
   m_Name: LostItem_Game
   m_EditorClassIdentifier: 
+  <Id>k__BackingField: LostItem_Game
   itemImage: {fileID: 21300000, guid: 3845077850e64de4ba9af435b593b2c5, type: 3}
   hoverItemImage: {fileID: 21300000, guid: 627ad8d934e6ef141831d9f572ed5bee, type: 3}
   selectedItemImage: {fileID: 21300000, guid: 3845077850e64de4ba9af435b593b2c5, type: 3}
-  itemDescription: 
+  itemDescription: I remember this game. It was very popular when it first came out.
+    I wonder who this belongs too.

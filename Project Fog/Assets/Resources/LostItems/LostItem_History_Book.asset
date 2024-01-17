@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f00be16f002f5408c60d2e31dae37d, type: 3}
   m_Name: LostItem_History_Book
   m_EditorClassIdentifier: 
+  <Id>k__BackingField: LostItem_History_Book
   itemImage: {fileID: 21300000, guid: 2aa32e157faae3c4696bbd85bd72530a, type: 3}
   hoverItemImage: {fileID: 21300000, guid: 2e94734577fa11e478537bfc44affabd, type: 3}
   selectedItemImage: {fileID: 21300000, guid: 2aa32e157faae3c4696bbd85bd72530a, type: 3}
-  itemDescription: 
+  itemDescription: A history book that gives descriptions on the many cities and
+    towns founded on Rajah island.
