@@ -43,7 +43,7 @@ public class LostItemInteractable : Interactable
         base.Interact();
         if (!pickedUp)
         {
-            GameManager.instance.UnlockLostItem(lostItemSO.Id);
+            GameManager.instance.UnlockLostItem(lostItemSO);
             pickedUp = true;
             Destroy(gameObject);
         }

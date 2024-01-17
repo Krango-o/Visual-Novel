@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent confirmChoiceEvent = new UnityEvent();
     public UnityEvent cancelChoiceEvent = new UnityEvent();
     public UnityEvent<string> vnSceneEnded = new UnityEvent<string>();
-    public UnityEvent<string> lostItemUnlocked = new UnityEvent<string>();
-    public UnityEvent<string> lostItemCompleted = new UnityEvent<string>();
+    public UnityEvent<LostItemSO> lostItemUnlocked = new UnityEvent<LostItemSO>();
+    public UnityEvent<LostItemSO> lostItemCompleted = new UnityEvent<LostItemSO>();
     public UnityEvent<string> characterDataUnlocked = new UnityEvent<string>();
 
     public GameState CurrentGameState { get; private set; }
@@ -146,15 +146,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UnlockLostItem(string lostItemId) {
+    public void UnlockLostItem(LostItemSO lostItem) {
         if(lostItemUnlocked != null) {
-            lostItemUnlocked.Invoke(lostItemId);
+            lostItemUnlocked.Invoke(lostItem);
         }
     }
 
-    public void CompleteLostItem(string lostItemId) {
+    public void CompleteLostItem(LostItemSO lostItem) {
         if (lostItemCompleted != null) {
-            lostItemCompleted.Invoke(lostItemId);
+            lostItemCompleted.Invoke(lostItem);
         }
     }
 

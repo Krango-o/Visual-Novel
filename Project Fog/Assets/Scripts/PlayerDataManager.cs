@@ -24,15 +24,15 @@ public class PlayerDataManager : MonoBehaviour, IDataPersistence
         }
     }
 
-    public void UnlockLostItemId(string lostItemId) {
-        if (!LostItemsUnlockedIds.Contains(lostItemId)) {
-            LostItemsUnlockedIds.Add(lostItemId);
+    public void UnlockLostItemId(LostItemSO lostItem) {
+        if (!LostItemsUnlockedIds.Contains(lostItem.Id)) {
+            LostItemsUnlockedIds.Add(lostItem.Id);
         }
     }
 
-    public void CompleteLostItemId(string lostItemId) {
-        if (!LostItemsCompletedIds.Contains(lostItemId)) {
-            LostItemsCompletedIds.Add(lostItemId);
+    public void CompleteLostItemId(LostItemSO lostItem) {
+        if (!LostItemsCompletedIds.Contains(lostItem.Id)) {
+            LostItemsCompletedIds.Add(lostItem.Id);
         }
     }
 
