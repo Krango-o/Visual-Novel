@@ -14,6 +14,7 @@ public class DataMenu : Menu {
         base.OnTransitionIn(skipAnimation);
         int index = 0;
         foreach(SaveDataPrefab save in saveDataList) {
+            //TODO - Get game data from datapersistencemanager
             save.SetData(index, new GameData());
             save.SetButtonState(SAVEMENU_STATE.NONE);
             index++;

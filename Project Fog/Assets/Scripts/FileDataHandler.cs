@@ -18,8 +18,8 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load(int index)
-    {
+    public GameData Load(int index) {
+        dataFileName += index.ToString();
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         GameData loadedData = new GameData();
         if (File.Exists(fullPath))
@@ -49,8 +49,8 @@ public class FileDataHandler
         return loadedData;
     }
 
-    public void Save(GameData gameData, int index)
-    {
+    public void Save(GameData gameData, int index) {
+        dataFileName += index.ToString();
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         try
         {

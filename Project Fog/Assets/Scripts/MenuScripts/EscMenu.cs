@@ -41,7 +41,6 @@ public class EscMenu : MonoBehaviour
     private float pauseCooldown = 0.5f;
     private float pauseTimer = 0.0f;
 
-    private Animator playerAnim;
     private CinemachineVirtualCamera EscCamera;
     private CinemachineVirtualCamera FollowCamera;
 
@@ -52,7 +51,6 @@ public class EscMenu : MonoBehaviour
     {
         GameManager.instance.pauseGameEvent.AddListener(PauseGame);
         GameManager.instance.unpauseGameEvent.AddListener(ResumeGame);
-        playerAnim = GameManager.instance.Player.GetAnimator();
         EscCamera = GameObject.Find("EscCamera").GetComponent<CinemachineVirtualCamera>();
         FollowCamera = GameObject.Find("FollowCam").GetComponent<CinemachineVirtualCamera>();
         canvasGroup.alpha = 0;
@@ -91,7 +89,7 @@ public class EscMenu : MonoBehaviour
         contentContainer.DOAnchorPosY(0, 0.4f).SetEase(Ease.OutBack);
         if (GameManager.instance.CurrentGameState == GameState.OVERWORLD) 
         {
-            playerAnim.SetBool("isPaused" , true);
+            GameManager.instance.Player.GetAnimator().SetBool("isPaused" , true);
             //EscCamera.m_Priority = (int)CAMERA_PRIORITY.PAUSE;
             //EscCamera.gameObject.transform.position = FollowCamera.gameObject.transform.position + (FollowCamera.gameObject.transform.right * 4.5f);
             //EscCamera.gameObject.transform.rotation = FollowCamera.gameObject.transform.rotation;
@@ -109,7 +107,7 @@ public class EscMenu : MonoBehaviour
         inputBlocker.DOFade(0, 0.2f).onComplete = () => {
             canvasGroup.alpha = 0;
             if (GameManager.instance.PrevGameState == GameState.OVERWORLD) {
-                playerAnim.SetBool("isPaused", false);
+                GameManager.instance.Player.GetAnimator().SetBool("isPaused", false);
                 //EscCamera.m_Priority = (int)CAMERA_PRIORITY.INACTIVE;
             }
             GameManager.instance.SetState(GameManager.instance.PrevGameState);

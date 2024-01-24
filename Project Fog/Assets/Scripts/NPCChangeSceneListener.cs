@@ -25,9 +25,10 @@ public class NPCChangeSceneListener : MonoBehaviour {
 
     public void CheckCompletedDialogues(List<string> completedDialogues)
     {
-        if (completedDialogues.Contains(VNSceneIdToListenTo.name))
-        {
-            npcComponent.ChangeVNSceneId(VNSceneIdToChangeTo);
+        if(VNSceneIdToChangeTo != null && VNSceneIdToListenTo != null) {
+            if (completedDialogues.Contains(VNSceneIdToListenTo.name)) {
+                npcComponent.ChangeVNSceneId(VNSceneIdToChangeTo);
+            }
         }
     }
 }

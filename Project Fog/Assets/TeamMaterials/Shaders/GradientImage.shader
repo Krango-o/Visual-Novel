@@ -5,6 +5,7 @@ Shader "UI/GradientImage"
     Properties
     {
         [PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
+        _Color("Tint", Color) = (1,1,1,1)
         _TopColor("TopColor", Color) = (0,1,0,1)
         _BottomColor("BottomColor", Color) = (0,0,1,1)
 
@@ -80,6 +81,7 @@ Shader "UI/GradientImage"
                 };
 
                 sampler2D _MainTex;
+                fixed4 _Color;
                 fixed4 _TopColor;
                 fixed4 _BottomColor;
                 fixed4 _TextureSampleAdd;
@@ -97,6 +99,7 @@ Shader "UI/GradientImage"
                     OUT.vertex = UnityObjectToClipPos(OUT.worldPosition);
 
                     OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+                    OUT.color = v.color * _Color;
 
                     return OUT;
                 }
@@ -106,6 +109,7 @@ Shader "UI/GradientImage"
                     float threshold = IN.texcoord.y + _GradientOffset;
                     threshold = clamp(threshold, 0, 1);
                     fixed4 color = lerp(_BottomColor, _TopColor, threshold);
+                    color = color * IN.color;
 
                     return color;
                 }

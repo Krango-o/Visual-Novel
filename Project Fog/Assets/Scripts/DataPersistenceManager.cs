@@ -48,16 +48,22 @@ public class DataPersistenceManager : MonoBehaviour
     {
         this.gameData = fileDataHandler.Load(index);
 
+        dataPersistenceObjects = GetAllDataPersistenceObjects();
         //Get all data persistance things in the scene
         foreach (IDataPersistence item in dataPersistenceObjects)
         {
             item.LoadData(gameData);
         }
         GameManager.instance.LoadScene(this.gameData.currentScene);
+        GameManager.instance.UnpauseGame();
+        GameManager.instance.SetState(GameState.OVERWORLD);
     }
 
-    public void SaveGame(int index = -1)
-    {
+    public void SaveGame(int index = -1) {
+        if (this.gameData == null) {
+            this.gameData = new GameData();
+        }
+        dataPersistenceObjects = GetAllDataPersistenceObjects();
         foreach (IDataPersistence item in dataPersistenceObjects)
         {
             item.SaveData(ref gameData);
