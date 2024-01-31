@@ -13,6 +13,10 @@ public class SpawnPoint : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    private void OnDestroy() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start() {
         referenceSphere.SetActive(false);
     }
