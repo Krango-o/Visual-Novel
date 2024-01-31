@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameData
 {
     public string currentScene;
+    public float playTime;
     public List<string> completedDialogues;
     public List<string> lostItemsUnlockedIds;
     public List<string> lostItemsCompletedIds;
@@ -13,6 +14,7 @@ public class GameData
     public GameData()
     {
         this.currentScene = "";
+        this.playTime = 0;
         this.completedDialogues = new List<string>();
         this.lostItemsUnlockedIds = new List<string>();
         this.lostItemsCompletedIds = new List<string>();

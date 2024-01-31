@@ -12,10 +12,10 @@ public class DataMenu : Menu {
 
     public override void OnTransitionIn(bool skipAnimation = false) {
         base.OnTransitionIn(skipAnimation);
+        List<GameData> gameDataList = GameManager.instance.DataPersistenceManager.GetAllSaveData();
         int index = 0;
         foreach(SaveDataPrefab save in saveDataList) {
-            //TODO - Get game data from datapersistencemanager
-            save.SetData(index, new GameData());
+            save.SetData(index, gameDataList[index]);
             save.SetButtonState(SAVEMENU_STATE.NONE);
             index++;
         }

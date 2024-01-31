@@ -19,8 +19,8 @@ public class FileDataHandler
     }
 
     public GameData Load(int index) {
-        dataFileName += index.ToString();
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        string fileName = dataFileName + index.ToString();
+        string fullPath = Path.Combine(dataDirPath, fileName);
         GameData loadedData = new GameData();
         if (File.Exists(fullPath))
         {
@@ -50,8 +50,8 @@ public class FileDataHandler
     }
 
     public void Save(GameData gameData, int index) {
-        dataFileName += index.ToString();
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        string fileName = dataFileName + index.ToString();
+        string fullPath = Path.Combine(dataDirPath, fileName);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));

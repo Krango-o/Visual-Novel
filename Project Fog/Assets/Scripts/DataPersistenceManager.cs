@@ -14,6 +14,7 @@ public class DataPersistenceManager : MonoBehaviour
     FileDataHandler fileDataHandler;
     GameData gameData = null;
     List<IDataPersistence> dataPersistenceObjects;
+    private int maxSaves = 3;
 
     private void Awake()
     {
@@ -44,7 +45,7 @@ public class DataPersistenceManager : MonoBehaviour
         this.gameData = new GameData();
     }
 
-    public void LoadGame(int index = -1)
+    public GameData LoadGame(int index = -1)
     {
         this.gameData = fileDataHandler.Load(index);
 
@@ -57,9 +58,10 @@ public class DataPersistenceManager : MonoBehaviour
         GameManager.instance.LoadScene(this.gameData.currentScene);
         GameManager.instance.UnpauseGame();
         GameManager.instance.SetState(GameState.OVERWORLD);
+        return this.gameData;
     }
 
-    public void SaveGame(int index = -1) {
+    public GameData SaveGame(int index = -1) {
         if (this.gameData == null) {
             this.gameData = new GameData();
         }
@@ -70,6 +72,7 @@ public class DataPersistenceManager : MonoBehaviour
         }
         gameData.currentScene = SceneManager.GetActiveScene().name;
         fileDataHandler.Save(gameData, index);
+        return gameData;
     }
 
     public void DeleteGameFromEditor() {
@@ -81,6 +84,14 @@ public class DataPersistenceManager : MonoBehaviour
     {
         IEnumerable<IDataPersistence> dataPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
         return new List<IDataPersistence>(dataPersistences);
+    }
+
+    public List<GameData> GetAllSaveData() {
+        List<GameData> gameDataList = new List<GameData>();
+        for(int i=0; i < maxSaves; i++) {
+            gameDataList.Add(fileDataHandler.Load(i));
+        }
+        return gameDataList;
     }
 }
 

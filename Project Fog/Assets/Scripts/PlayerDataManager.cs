@@ -8,6 +8,8 @@ public class PlayerDataManager : MonoBehaviour, IDataPersistence
     public List<string> LostItemsCompletedIds { get; private set; }
     public List<string> CharacterInfoUnlockedIds { get; private set; }
 
+    private float playTime = 0;
+
     private void Start() {
         GameManager.instance.characterDataUnlocked.AddListener(UnlockCharacterDataId);
         GameManager.instance.lostItemUnlocked.AddListener(UnlockLostItemId);
@@ -16,6 +18,10 @@ public class PlayerDataManager : MonoBehaviour, IDataPersistence
         LostItemsUnlockedIds = new List<string>();
         LostItemsCompletedIds = new List<string>();
         CharacterInfoUnlockedIds = new List<string>();
+    }
+
+    private void Update() {
+        playTime += Time.deltaTime;
     }
 
     public void UnlockCharacterDataId(string characterId) {
@@ -39,10 +45,12 @@ public class PlayerDataManager : MonoBehaviour, IDataPersistence
     public void SaveData(ref GameData gameData) {
         gameData.lostItemsUnlockedIds = LostItemsUnlockedIds;
         gameData.characterInfoUnlockedIds = CharacterInfoUnlockedIds;
+        gameData.playTime = playTime;
     }
 
     void IDataPersistence.LoadData(GameData gameData) {
         LostItemsUnlockedIds = gameData.lostItemsUnlockedIds;
         CharacterInfoUnlockedIds = gameData.characterInfoUnlockedIds;
+        playTime = gameData.playTime;
     }
 }
