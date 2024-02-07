@@ -56,13 +56,27 @@ public class SaveDataPrefab : MonoBehaviour
         switch (buttonState) {
             case SAVEMENU_STATE.SAVE:
                 if (hasSave) {
-                    //TODO: Genpop alert to overwrite save data
+                    GeneralPopupData savePopupData = new GeneralPopupData();
+                    savePopupData.title = "Overwrite Save Data";
+                    savePopupData.description = "Are you sure you'd like to overwrite this save data?";
+                    savePopupData.confirmCallback = () => {
+                        GameData newSaveData = GameManager.instance.DataPersistenceManager.SaveGame(saveIndex);
+                        SetData(saveIndex, newSaveData);
+                    };
+                    PopupManager.ShowPopup(savePopupData);
+                } else {
+                    GameData newSaveData = GameManager.instance.DataPersistenceManager.SaveGame(saveIndex);
+                    SetData(saveIndex, newSaveData);
                 }
-                GameData newSaveData = GameManager.instance.DataPersistenceManager.SaveGame(saveIndex);
-                SetData(saveIndex, newSaveData);
                 break;
             case SAVEMENU_STATE.LOAD:
-                GameManager.instance.DataPersistenceManager.LoadGame(saveIndex);
+                GeneralPopupData loadPopupData = new GeneralPopupData();
+                loadPopupData.title = "Load Data";
+                loadPopupData.description = "All current progress will be lost. Are you sure you'd like to load this file?";
+                loadPopupData.confirmCallback = () => {
+                    GameManager.instance.DataPersistenceManager.LoadGame(saveIndex);
+                };
+                PopupManager.ShowPopup(loadPopupData);
                 break;
             case SAVEMENU_STATE.DELETE:
                 //Todo

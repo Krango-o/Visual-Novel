@@ -8,7 +8,7 @@ using UnityEngine.Events;
 [System.Serializable]
 public class SpeechBubbleUnityEvent : UnityEvent<string, string, string> { }
 
-public enum GameState { OVERWORLD, NOVEL, WORLDDIALOGUE, PAUSEMENU }
+public enum GameState { OVERWORLD, NOVEL, WORLDDIALOGUE, PAUSEMENU, POPUP }
 
 public class GameManager : MonoBehaviour
 {

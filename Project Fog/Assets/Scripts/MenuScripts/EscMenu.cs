@@ -46,6 +46,8 @@ public class EscMenu : MonoBehaviour
 
     private Menu activeMenu;
 
+    private GameState previousState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,7 @@ public class EscMenu : MonoBehaviour
         FollowCamera = GameObject.Find("FollowCam").GetComponent<CinemachineVirtualCamera>();
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
         contentContainer.anchoredPosition = new Vector2(contentContainer.anchoredPosition.x, GetOffScreenPosition());
         tabletBg.material = new Material(tabletBg.material);
     }
@@ -64,7 +67,7 @@ public class EscMenu : MonoBehaviour
     {
         pauseTimer -= Time.deltaTime;
         if (pauseTimer > 0) { return; }
-        if (Input.GetButtonDown("Cancel"))
+        if (GameManager.instance.CurrentGameState != GameState.POPUP && Input.GetButtonDown("Cancel"))
         {
             pauseTimer = pauseCooldown;
             if(isPaused)
@@ -83,6 +86,7 @@ public class EscMenu : MonoBehaviour
         isPaused = true;
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
         inputBlocker.DOFade(1, 0.2f);
         contentContainer.localScale = new Vector3(0.6f, 0.6f, 1.0f);
         contentContainer.DOScale(new Vector3(1, 1, 1), 0.4f);
@@ -94,6 +98,7 @@ public class EscMenu : MonoBehaviour
             //EscCamera.gameObject.transform.position = FollowCamera.gameObject.transform.position + (FollowCamera.gameObject.transform.right * 4.5f);
             //EscCamera.gameObject.transform.rotation = FollowCamera.gameObject.transform.rotation;
         }
+        previousState = GameManager.instance.CurrentGameState;
         GameManager.instance.SetState(GameState.PAUSEMENU);
         activeMenu = mainMenu.GetComponent<Menu>();
         ShowMenu(ESC_SCREEN.MAINMENU, true);
@@ -103,14 +108,15 @@ public class EscMenu : MonoBehaviour
     {
         isPaused = false;
         canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
         contentContainer.DOAnchorPosY(GetOffScreenPosition(), 0.2f).SetEase(Ease.OutBack);
         inputBlocker.DOFade(0, 0.2f).onComplete = () => {
             canvasGroup.alpha = 0;
-            if (GameManager.instance.PrevGameState == GameState.OVERWORLD) {
+            if (previousState == GameState.OVERWORLD) {
                 GameManager.instance.Player.GetAnimator().SetBool("isPaused", false);
                 //EscCamera.m_Priority = (int)CAMERA_PRIORITY.INACTIVE;
             }
-            GameManager.instance.SetState(GameManager.instance.PrevGameState);
+            GameManager.instance.SetState(previousState);
         };
     }
 
@@ -225,8 +231,13 @@ public class EscMenu : MonoBehaviour
     }
 
     public void OnExitButton() {
-        //TODO: make an alert that will ask the player if they want to close the game or go to main menu
-        QuitGame();
+        GeneralPopupData popupData = new GeneralPopupData();
+        popupData.confirmCallback = () => {
+            QuitGame();
+        };
+        popupData.title = "Quit Game?";
+        popupData.description = "Would you like to close the game?";
+        PopupManager.ShowPopup(popupData);
     }
 
     public void GoToMainMenu()
@@ -234,8 +245,10 @@ public class EscMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void QuitGame()
-    {
+    public void QuitGame() {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
         Application.Quit();
     }
 }

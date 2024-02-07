@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 110, y: 0}
-  m_SizeDelta: {x: 200, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9099652516909887777
 CanvasRenderer:
@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 9099652517093140154}
   - component: {fileID: 9099652517093140153}
   - component: {fileID: 9099652517093140101}
+  - component: {fileID: 169187557245350524}
   m_Layer: 5
   m_Name: SpeechbubbleCanvas
   m_TagString: Untagged
@@ -265,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76fdc5f2effbc542b050e9e8f38ba5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 169187557245350524}
   speechBubbleBg: {fileID: 9099652518334393212}
   dialogueText: {fileID: 9099652518010045642}
   choices: {fileID: 9099652517564501279}
@@ -274,6 +276,18 @@ MonoBehaviour:
   cancelText: {fileID: 9099652518124691527}
   npcCam: {fileID: 0}
   camOffsetY: 2
+--- !u!225 &169187557245350524
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099652517093140152}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &9099652517564501278
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,8 +498,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 110, y: 0}
-  m_SizeDelta: {x: 200, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9099652518124691520
 CanvasRenderer:

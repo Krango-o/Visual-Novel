@@ -7,8 +7,9 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 
-public class SpeechBubble : MonoBehaviour
-{
+public class SpeechBubble : MonoBehaviour {
+    [SerializeField]
+    private CanvasGroup canvasGroup;
     [SerializeField]
     protected Image speechBubbleBg;
     [SerializeField]
@@ -100,6 +101,8 @@ public class SpeechBubble : MonoBehaviour
 
     public void ShowSpeechBubble(string dialogue, Transform characterTransform, string confirmString = "", string cancelString = "")
     {
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
         speechBubbleBg.GetComponent<CanvasGroup>().alpha = 0;
         speechBubbleBg.GetComponent<CanvasGroup>().DOFade(1, 0.2f).SetDelay(0.4f);
         dialogueText.SetText(dialogue);
@@ -123,8 +126,9 @@ public class SpeechBubble : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(speechBubbleBg.rectTransform);
     }
 
-    public void HideSpeechBubble()
-    {
+    public void HideSpeechBubble() {
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
         speechBubbleBg.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
         speechBubbleBg.rectTransform.DOScale(0.0f, 0.4f).OnComplete(() => {
             characterTransform = null;
