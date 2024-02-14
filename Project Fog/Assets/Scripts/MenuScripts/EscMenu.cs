@@ -12,6 +12,7 @@ public class EscMenu : MonoBehaviour
 {
     public static bool isPaused;
 
+    [Header("Canvas")]
     [SerializeField]
     private Canvas canvas;
     [SerializeField]
@@ -23,6 +24,7 @@ public class EscMenu : MonoBehaviour
     [SerializeField]
     private Image tabletBg;
 
+    [Header("Sub Menus")]
     [SerializeField]
     private RectTransform mainMenu;
     [SerializeField]
@@ -34,6 +36,7 @@ public class EscMenu : MonoBehaviour
     [SerializeField]
     private RectTransform settingsMenu;
 
+    [Header("Misc")]
     [SerializeField]
     private Button backButton;
 

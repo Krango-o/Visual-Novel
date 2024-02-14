@@ -11,6 +11,8 @@ public class LostItemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private Sprite defaultImage;
     private Sprite hoverImage;
+    [SerializeField]
+    private AudioClip hoverSound;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class LostItemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData) {
         button.image.sprite = hoverImage;
+        GameManager.instance.AudioManager.PlaySoundFXClip(hoverSound, transform);
     }
 
     public void OnPointerExit(PointerEventData eventData) {

@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public DataPersistenceManager DataPersistenceManager { get; private set; }
     public NPCManager NPCManager { get; private set; }
     public PlayerDataManager PlayerDataManager { get; private set; }
+    public AudioManager AudioManager { get; private set; }
 
     private List<GameObject> interactablesList;
 
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
         DataPersistenceManager = gameObject.GetComponent<DataPersistenceManager>();
         NPCManager = gameObject.GetComponent<NPCManager>();
         PlayerDataManager = gameObject.GetComponent<PlayerDataManager>();
+        AudioManager = gameObject.GetComponent<AudioManager>();
         if (GameObject.Find("Player") != null) {
             Player = GameObject.Find("Player").GetComponent<PlayerController>();
         }
