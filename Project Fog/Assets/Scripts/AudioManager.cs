@@ -27,6 +27,7 @@ public class AudioManager : MonoBehaviour
     public void PlayMusicClip(AudioClip audioClip, float fadeDuration = 1f, float volume = 1f) {
         if(musicSource == null) {
             musicSource = Instantiate(musicPrefab, Vector3.zero, Quaternion.identity, GameManager.instance.gameObject.transform);
+            musicSource.volume = 0;
         }
         if(musicSource.isPlaying && musicSource.clip == audioClip) { return; }
 

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SylvProfileSO
   m_EditorClassIdentifier: 
   <Id>k__BackingField: SylvProfileSO
-  listItemImage: {fileID: 0}
-  portraitImage: {fileID: 0}
+  listItemImage: {fileID: 21300000, guid: 38cab59e3eaa75e4d8c3752081bd4ceb, type: 3}
+  portraitImage: {fileID: 21300000, guid: 54631cc77157cf640a1f431972996088, type: 3}
   galleryImage1: {fileID: 0}
   galleryImage2: {fileID: 0}
   galleryImage3: {fileID: 0}
