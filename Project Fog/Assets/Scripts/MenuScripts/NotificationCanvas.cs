@@ -23,6 +23,7 @@ public class NotificationCanvas : MonoBehaviour
     // Start is called before the first frame update
     void Start(){
         GameManager.instance.lostItemUnlocked.AddListener(OnLostItemUnlocked);
+        GameManager.instance.characterDataUnlocked.AddListener(OnCharacterDataUnlocked);
         notificationWidth = notificationHolder.rect.width;
         notificationQueue = new Queue<NotificationData>();
     }
@@ -55,6 +56,10 @@ public class NotificationCanvas : MonoBehaviour
 
     public void OnLostItemUnlocked(LostItemSO lostItem) {
         notificationQueue.Enqueue(new NotificationData("You found a lost item!", "Press [ESC] to view.", lostItem.selectedItemImage));
+    }
+
+    public void OnCharacterDataUnlocked(string characterId) {
+        notificationQueue.Enqueue(new NotificationData("You unlocked new info!", "Press [ESC] to view."));
     }
 }
 

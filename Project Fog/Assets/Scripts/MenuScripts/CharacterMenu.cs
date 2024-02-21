@@ -16,6 +16,8 @@ public class CharacterMenu : Menu {
     [SerializeField]
     private Image characterPortrait;
     [SerializeField]
+    private TextMeshProUGUI nameText;
+    [SerializeField]
     private TextMeshProUGUI ageText;
     [SerializeField]
     private TextMeshProUGUI pronounsText;
@@ -36,7 +38,8 @@ public class CharacterMenu : Menu {
         int i = 0;
         Button firstItem = null;
         foreach (CharacterProfileSO profile in characterProfiles) {
-            GameObject listItem = GameObject.Instantiate<GameObject>(characterProfilePrefab, listContentParent.transform);
+            if (!GameManager.instance.PlayerDataManager.CharacterInfoUnlockedIds.Contains(profile.Id)) { continue; }
+            GameObject listItem = Instantiate(characterProfilePrefab, listContentParent.transform);
             CharacterListButton menuItem = listItem.GetComponent<CharacterListButton>();
             Button characterButton = menuItem.ButtonComponent;
             characterButton.onClick.AddListener(() => { OnCharacterClicked(characterButton); });
@@ -61,7 +64,7 @@ public class CharacterMenu : Menu {
 
     public void OnCharacterClicked(Button button) {
         CharacterListButton menuItem = button.GetComponentInParent<CharacterListButton>();
-        // TODO fill in content on the right side
+        nameText.text = menuItem.profileData.characterName;
         characterPortrait.sprite = menuItem.profileData.portraitImage;
         ageText.text = menuItem.profileData.age;
         pronounsText.text = menuItem.profileData.pronouns;
