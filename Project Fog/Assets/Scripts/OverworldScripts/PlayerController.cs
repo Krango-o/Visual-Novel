@@ -14,11 +14,15 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private Transform sprite;
     [SerializeField]
+    private ParticleSystem runParticles;
+    [SerializeField]
     private float jumpStrength = 10;
     [SerializeField]
     private float gravityStrength = 30;
     [SerializeField]
     private float moveSpeed;
+    [SerializeField]
+    private float runMultiplier = 1.5f;
     [SerializeField]
     private float camCooldown = 1.0f;
     [SerializeField]
@@ -106,7 +110,16 @@ public class PlayerController : MonoBehaviour {
             {
                 camForward.x += .001f;
             }
-            move = (moveInput.y * camForward + moveInput.x * Camera.main.transform.right) * moveSpeed;
+            float multiplier = 1;
+            if (Input.GetButton("Sprint")) {
+                multiplier = runMultiplier;
+                if (!runParticles.isPlaying) {
+                    runParticles.Play();
+                }
+            } else {
+                runParticles.Stop();
+            }
+            move = (moveInput.y * camForward + moveInput.x * Camera.main.transform.right) * moveSpeed * multiplier;
 
             //Jump
             if (controller.isGrounded) {
