@@ -9,10 +9,13 @@ public class CameraTriggerBox : MonoBehaviour
     private Cinemachine.CinemachineVirtualCamera cam;
     [SerializeField]
     private bool followPlayer;
+    [SerializeField]
+    private bool lookaAtPlayer;
 
     private void Start()
     {
         cam.Follow = followPlayer ? GameManager.instance.Player.transform : null;
+        cam.LookAt = lookaAtPlayer ? GameManager.instance.Player.transform : null;
     }
 
     private void OnTriggerEnter(Collider other)
