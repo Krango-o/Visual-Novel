@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
+using Febucci.UI;
 
 public class DialogueBox : MonoBehaviour
 {
     [SerializeField]
-    protected Text boxText;
+    protected TextMeshProUGUI dialogueText;
+    [SerializeField]
+    protected TypewriterByCharacter typewriter;
     [SerializeField]
     protected Image boxImage;
     [SerializeField]
@@ -44,7 +48,7 @@ public class DialogueBox : MonoBehaviour
             timer += Time.deltaTime * timeScale;
             if (timer >= textSpeed)
             {
-                boxText.text = currentLine.Text.Substring(0, currentCharacter + 1);
+                //dialogueText.text = currentLine.Text.Substring(0, currentCharacter + 1);
                 timer = 0;
                 currentCharacter++;
                 if (currentCharacter >= currentLine.Text.Length)
@@ -59,7 +63,7 @@ public class DialogueBox : MonoBehaviour
 
     public void ResetBox()
     {
-        boxText.text = "";
+        dialogueText.text = "";
         currentCharacter = 0;
         timer = 0;
         currentPlate = 0;
@@ -70,7 +74,7 @@ public class DialogueBox : MonoBehaviour
 
     public void ResetText()
     {
-        boxText.text = "";
+        dialogueText.text = "";
         currentCharacter = 0;
         timer = 0;
     }
@@ -82,7 +86,8 @@ public class DialogueBox : MonoBehaviour
 
     public void SetCompleteLine(DialogueLine newLine)
     {
-        boxText.text = newLine.Text;
+        dialogueText.text = newLine.Text;
+        typewriter.SkipTypewriter();
         currentCharacter = newLine.Text.Length;
         currentLine = newLine;
         if (currentLine.Character != "")
@@ -149,11 +154,13 @@ public class DialogueBox : MonoBehaviour
             GameManager.instance.DialogueManager.Active = true;
         }
         currentLine = newLine;
+        typewriter.ShowText(currentLine.Text);
     }
 
     public void SkipAnimation()
     {
-        boxText.text = currentLine.Text;
+        //dialogueText.text = currentLine.Text;
+        typewriter.SkipTypewriter();
         currentCharacter = currentLine.Text.Length;
         nameTween?.Complete();
     }
