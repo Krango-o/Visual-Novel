@@ -3,7 +3,12 @@ guid: c5ac007db28e73a41abc3739d195959f
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flat screen Tv
+    second: {fileID: 2100000, guid: e223b8e237e9f6349913addd74c88b29, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

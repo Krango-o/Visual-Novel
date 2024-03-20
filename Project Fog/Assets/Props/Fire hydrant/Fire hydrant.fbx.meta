@@ -3,7 +3,12 @@ guid: 2f330633d04c12c4b8635ff5dbec0361
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire hydrant
+    second: {fileID: 2100000, guid: ac62c5756fcac5141801e087da3a922e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
