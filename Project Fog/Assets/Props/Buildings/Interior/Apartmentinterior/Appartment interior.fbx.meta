@@ -3,7 +3,27 @@ guid: 2252afbb376e955489210f26fee4ead5
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Counter
+    second: {fileID: 2100000, guid: a91a298c02f0149418077985920d4a81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Record display
+    second: {fileID: 2100000, guid: 2c8b1d3733fbd0f43afde1fde2a16d36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Support Table
+    second: {fileID: 2100000, guid: 48f9b06459e49f24da5e6b91a4262c6c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tv Cabinet
+    second: {fileID: 2100000, guid: 73624eee5bc4c4a45a0935f3e2d5dadd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

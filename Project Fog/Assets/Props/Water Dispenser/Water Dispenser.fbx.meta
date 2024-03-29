@@ -3,7 +3,17 @@ guid: 41b49c8de38a39044a47ff1bff84708d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Water Tank
+    second: {fileID: 2100000, guid: d0e100b1952acb74284b82bae3606579, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Water dispenser
+    second: {fileID: 2100000, guid: 6374f2911415019429b95f43a5f1d4e3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

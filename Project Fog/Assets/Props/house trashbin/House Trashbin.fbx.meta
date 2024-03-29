@@ -3,7 +3,12 @@ guid: ee3f3f831edf6ab49bbaddd2149e3caf
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House TrashBin
+    second: {fileID: 2100000, guid: d4f555e6ee3d6f342bbe222353f252b3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
