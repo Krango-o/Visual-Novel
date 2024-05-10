@@ -3,7 +3,12 @@ guid: b1bab93de5de71d408d322fa6d489907
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dumpster
+    second: {fileID: 2100000, guid: ce1fb3d4d850873409e55ecced29a500, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
