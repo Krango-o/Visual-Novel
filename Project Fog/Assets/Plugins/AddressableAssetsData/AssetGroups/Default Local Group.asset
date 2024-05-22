@@ -125,6 +125,14 @@ MonoBehaviour:
     m_Address: Assets/Images/VNSprites/Zee/Zee.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3f669e30c2f20db459475cfd48809263
+    m_Address: Assets/Images/Background/PlazaDaytime.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 36930ed022188b34992bf53b119fb6f1
+    m_Address: Assets/Images/Background/Screenshot 2024-01-09 225924.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b1f3b881bb982949a263ad303fdf9eb, type: 2}
   m_SchemaSet:
