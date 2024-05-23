@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 4e6213a55d97df947880a15145720888
+guid: 4cd4bfca0e0aa204481a62c647ab64de
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Fance
-    second: {fileID: 2100000, guid: 974d99ef86cdf5e41a388dc48df3f1f6, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
