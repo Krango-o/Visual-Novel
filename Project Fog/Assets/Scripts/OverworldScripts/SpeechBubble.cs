@@ -133,7 +133,6 @@ public class SpeechBubble : MonoBehaviour {
         speechBubbleBg.rectTransform.DOScale(0.0f, 0.4f).OnComplete(() => {
             characterTransform = null;
         });
-        GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
         CanvasGroup confirmCanvasGroup = confirmBubble.GetComponent<CanvasGroup>();
         confirmCanvasGroup.interactable = false;
         confirmCanvasGroup.blocksRaycasts = false;
@@ -161,5 +160,6 @@ public class SpeechBubble : MonoBehaviour {
         GameManager.instance.cancelChoiceEvent.Invoke();
         confirmBubble.GetComponent<Button>().interactable = false;
         cancelBubble.GetComponent<Button>().interactable = false;
+        GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
     }
 }

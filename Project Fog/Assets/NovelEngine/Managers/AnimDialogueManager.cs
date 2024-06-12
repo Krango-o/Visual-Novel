@@ -43,6 +43,10 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     protected ChoiceList ChoicesList;
     [SerializeField]
     protected CanvasGroup ButtonsCanvasGroup;
+    [SerializeField]
+    protected CanvasGroup SidePanelsGroup;
+    [SerializeField]
+    protected CanvasGroup MaskGroup;
 
     protected int currentLine = -1;
     private float timeScale = 1.0f;
@@ -360,29 +364,13 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     {
         if (dataLoaded == backgroundDictionary.Keys.Count + prefabDictionary.Keys.Count + musicDictionary.Keys.Count + soundDictionary.Keys.Count || pForceDone)
         {
+            MaskGroup.alpha = 1;
             if (currentSave != null)
             {
                 CatchUp();
             }
-            else
-            {
-                if (lines[0].Background != "")
-                {
-                    if (lines[0].Background == "None")
-                    {
-                        if ( currentBackground != null) {
-                            currentBackground.DOFade(0, 0);
-                        }
-                    }
-                    else
-                    {
-                        if (currentBackground == null)
-                        {
-                            currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
-                        }
-                        currentBackground.sprite = backgroundDictionary[lines[0].Background];
-                    }
-                }
+            else {
+                SidePanelsGroup.alpha = 0;
                 FadeImage.color = new Color(0, 0, 0, 0);
                 FadeIn().onComplete = () =>
                 {
@@ -478,6 +466,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
             currentBackground.sprite = backgroundDictionary[spriteName];
             currentBackground.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            SidePanelsGroup.DOFade(1, 2.0f);
+        } else {
+            SidePanelsGroup.DOFade(0, 0.2f);
         }
     }
 
@@ -521,7 +512,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         {
             tweenSequence.Append(FadeIn());
         }
-        if (current.Background != "" && currentLine != 0)
+        if (current.Background != "")
         {
             //change backgroundimage image
             //new image on top, .DOFade image on top
@@ -745,6 +736,8 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             MusicTrack.DOFade(0.0f, 1.0f);
             FadeOut().onComplete = () =>
             {
+                MaskGroup.alpha = 0;
+                GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
                 NovelCanvasGroup.DOFade(0.0f, 0.2f).onComplete = () => {
                     GameManager.instance.SetState(GameState.OVERWORLD);
                     Reset();
