@@ -39,12 +39,15 @@ public class NovelManager : MonoBehaviour, IDataPersistence
 #endif
     }
 
-    public void EndScene(TextAsset dialogueTextAsset)
-    {
-        GameManager.instance.vnSceneEnded.Invoke(dialogueTextAsset.name);
-        if(!CompletedDialogues.Contains(dialogueTextAsset.name)) {
+    public void EndScene(TextAsset dialogueTextAsset) {
+        if (!CompletedDialogues.Contains(dialogueTextAsset.name)) {
             CompletedDialogues.Add(dialogueTextAsset.name);
         }
+        GameManager.instance.vnSceneEnded.Invoke(dialogueTextAsset.name);
+    }
+
+    public bool CheckIfDialogueCompleted(TextAsset vnScene) {
+        return CompletedDialogues.Contains(vnScene.name);
     }
 
     public void LoadData(GameData gameData)

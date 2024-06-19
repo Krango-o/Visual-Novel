@@ -20,6 +20,12 @@ public class NPC : Interactable {
     [SerializeField]
     private GameObject speakIcon;
 
+    [Header("Lost Item")]
+    [SerializeField]
+    private LostItemSO LostItemRequired;
+    [SerializeField]
+    private TextAsset LostItemVNScene;
+
     private bool canInteract;
     private bool speechOpen = false;
     private SpeechBubble speechBubble;
@@ -49,6 +55,12 @@ public class NPC : Interactable {
             // If the player can interact then we can show the speech bubble
             if (GameManager.instance.CurrentGameState == GameState.OVERWORLD && canInteract) {
                 if (!speechOpen) {
+                    if(LostItemRequired != null && LostItemVNScene != null && 
+                            GameManager.instance.PlayerDataManager.CheckIfItemUnlocked(LostItemRequired) && 
+                            !NovelManager.instance.CheckIfDialogueCompleted(LostItemVNScene)) {
+                        StartVNScene(LostItemVNScene);
+                        return;
+                    }
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
                     speechBubble.ShowSpeechBubble(shortDialogue, gameObject.transform, confirmChoiceString, cancelChoiceString);
                     speakIcon.transform.DOScale(0.01f, 0.2f).SetEase(Ease.OutQuad);
@@ -86,23 +98,28 @@ public class NPC : Interactable {
         GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
     }
 
+    private void StartVNScene(TextAsset vnScene) {
+        GameManager.instance.DelayInteract();
+        GameManager.instance.DialogueManager.LoadDialogue(vnScene);
+        GameManager.instance.SetState(GameState.NOVEL);
+    }
+
     public void OnConfirmBubble()
     {
         if (vnSceneObject != null)
         {
             speechOpen = false;
             speechBubble.HideSpeechBubble();
-            GameManager.instance.DelayInteract();
             GameManager.instance.confirmChoiceEvent.RemoveListener(OnConfirmBubble);
             GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
-            GameManager.instance.DialogueManager.LoadDialogue(vnSceneObject);
-            GameManager.instance.SetState(GameState.NOVEL);
+            StartVNScene(vnSceneObject);
         }
         else
         {
             onCloseBubble();
         }
     }
+
     public void OnCancelBubble()
     {
         onCloseBubble();

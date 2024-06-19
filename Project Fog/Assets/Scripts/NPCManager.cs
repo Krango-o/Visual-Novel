@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NPCManager : MonoBehaviour
 {
-    List<NPCChangeSceneListener> NPCListenerList;
+    List<NPCDialogueChanger> NPCListenerList;
 
     // Start is called before the first frame update
     void Start() {
@@ -13,8 +13,8 @@ public class NPCManager : MonoBehaviour
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        NPCListenerList = new List<NPCChangeSceneListener>(Resources.FindObjectsOfTypeAll<NPCChangeSceneListener>());
-        foreach(NPCChangeSceneListener npc in NPCListenerList) {
+        NPCListenerList = new List<NPCDialogueChanger>(Resources.FindObjectsOfTypeAll<NPCDialogueChanger>());
+        foreach(NPCDialogueChanger npc in NPCListenerList) {
             npc.CheckCompletedDialogues(NovelManager.instance.CompletedDialogues);
         }
     }

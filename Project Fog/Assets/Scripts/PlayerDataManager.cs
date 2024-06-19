@@ -42,6 +42,10 @@ public class PlayerDataManager : MonoBehaviour, IDataPersistence
         }
     }
 
+    public bool CheckIfItemUnlocked(LostItemSO lostItem) {
+        return LostItemsUnlockedIds.Contains(lostItem.Id);
+    }
+
     public void SaveData(ref GameData gameData) {
         gameData.lostItemsUnlockedIds = LostItemsUnlockedIds;
         gameData.characterInfoUnlockedIds = CharacterInfoUnlockedIds;

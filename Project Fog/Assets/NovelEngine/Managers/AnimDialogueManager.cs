@@ -70,6 +70,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     private List<string> choices = new List<string>();
     private SaveObject currentSave;
     private float[] spritePositions = { -1500.0f, -600.0f, -350.0f, 0.0f, 350.0f, 600.0f, 1500.0f };
+    private string currentBackgroundName = "None";
 
     const string DIALOGUE = "Dialogue";
     const string CHARACTER = "Character";
@@ -461,6 +462,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     void DisplayBackground(string spriteName)
     {
+        currentBackgroundName = spriteName;
         if (spriteName != "None")
         {
             currentBackground = GameObject.Instantiate(BackgroundPrefab, BackgroundsParent.transform).GetComponent<Image>();
@@ -736,9 +738,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             MusicTrack.DOFade(0.0f, 1.0f);
             FadeOut().onComplete = () =>
             {
-                MaskGroup.alpha = 0;
+                MaskGroup.DOFade(0.0f, 0.4f);
                 GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
-                NovelCanvasGroup.DOFade(0.0f, 0.2f).onComplete = () => {
+                NovelCanvasGroup.DOFade(0.0f, 0.4f).onComplete = () => {
                     GameManager.instance.SetState(GameState.OVERWORLD);
                     Reset();
                     NovelCanvasGroup.interactable = false;
@@ -754,6 +756,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         currentLine = -1;
         moveOn = false;
         choosing = false;
+        currentBackgroundName = "None";
         DialogueBox.ResetBox();
         foreach ( string k in characterDictionary.Keys)
         {
@@ -771,6 +774,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
 
     Tween FadeOut()
     {
+        if(currentBackgroundName == "None") {
+            return FadeImage.DOFade(0, 0.2f);
+        }
         return FadeImage.DOFade(1, 1);
     }
 

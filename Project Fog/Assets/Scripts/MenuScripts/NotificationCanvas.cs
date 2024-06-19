@@ -36,6 +36,7 @@ public class NotificationCanvas : MonoBehaviour
 
     private void OnDestroy() {
         GameManager.instance.lostItemUnlocked.RemoveListener(OnLostItemUnlocked);
+        GameManager.instance.characterDataUnlocked.RemoveListener(OnCharacterDataUnlocked);
     }
 
     private void ShowNotification(NotificationData data) {

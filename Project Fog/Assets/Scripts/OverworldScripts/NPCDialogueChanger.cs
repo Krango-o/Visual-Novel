@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCChangeSceneListener : MonoBehaviour {
+public class NPCDialogueChanger : MonoBehaviour {
     [SerializeField]
     private TextAsset VNSceneIdToListenTo;
     [SerializeField]
