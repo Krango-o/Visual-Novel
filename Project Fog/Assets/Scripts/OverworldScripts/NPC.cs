@@ -26,6 +26,13 @@ public class NPC : Interactable {
     [SerializeField]
     private TextAsset LostItemVNScene;
 
+    [Header("Load Scene")]
+    [SerializeField]
+    private SpawnPointSO NextSceneSpawnPoint;
+    [SerializeField]
+    private bool SpawnAfterLostItem;
+
+
     private bool canInteract;
     private bool speechOpen = false;
     private SpeechBubble speechBubble;
@@ -58,7 +65,8 @@ public class NPC : Interactable {
                     if(LostItemRequired != null && LostItemVNScene != null && 
                             GameManager.instance.PlayerDataManager.CheckIfItemUnlocked(LostItemRequired) && 
                             !NovelManager.instance.CheckIfDialogueCompleted(LostItemVNScene)) {
-                        StartVNScene(LostItemVNScene);
+                        SpawnPointSO nextScene = SpawnAfterLostItem ? NextSceneSpawnPoint : null;
+                        StartVNScene(LostItemVNScene, nextScene);
                         return;
                     }
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
@@ -98,9 +106,9 @@ public class NPC : Interactable {
         GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
     }
 
-    private void StartVNScene(TextAsset vnScene) {
+    private void StartVNScene(TextAsset vnScene, SpawnPointSO nextScene = null) {
         GameManager.instance.DelayInteract();
-        GameManager.instance.DialogueManager.LoadDialogue(vnScene);
+        GameManager.instance.DialogueManager.LoadDialogue(vnScene, nextScene);
         GameManager.instance.SetState(GameState.NOVEL);
     }
 
@@ -112,7 +120,8 @@ public class NPC : Interactable {
             speechBubble.HideSpeechBubble();
             GameManager.instance.confirmChoiceEvent.RemoveListener(OnConfirmBubble);
             GameManager.instance.cancelChoiceEvent.RemoveListener(OnCancelBubble);
-            StartVNScene(vnSceneObject);
+            SpawnPointSO nextScene = SpawnAfterLostItem ? null : NextSceneSpawnPoint;
+            StartVNScene(vnSceneObject, nextScene);
         }
         else
         {

@@ -71,6 +71,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
     private SaveObject currentSave;
     private float[] spritePositions = { -1500.0f, -600.0f, -350.0f, 0.0f, 350.0f, 600.0f, 1500.0f };
     private string currentBackgroundName = "None";
+    private SpawnPointSO spawnAfterDialogue;
 
     const string DIALOGUE = "Dialogue";
     const string CHARACTER = "Character";
@@ -144,8 +145,9 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void LoadDialogue(TextAsset dialogueTextAsset)
+    public void LoadDialogue(TextAsset dialogueTextAsset, SpawnPointSO spawnPoint = null)
     {
+        spawnAfterDialogue = spawnPoint;
         NovelCanvasGroup.blocksRaycasts = true;
         NovelCanvasGroup.interactable = true;
         //Dimmer.color = new Color(0, 0, 0, 0);
@@ -740,13 +742,21 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
             {
                 MaskGroup.DOFade(0.0f, 0.4f);
                 GameManager.instance.NPCCam.Priority = (int)CAMERA_PRIORITY.INACTIVE;
-                NovelCanvasGroup.DOFade(0.0f, 0.4f).onComplete = () => {
+                if(spawnAfterDialogue != null) {
+                    //Load new scene
                     GameManager.instance.SetState(GameState.OVERWORLD);
                     Reset();
-                    NovelCanvasGroup.interactable = false;
-                    NovelCanvasGroup.blocksRaycasts = false;
-                    NovelManager.instance.EndScene(DialogueTextAsset);
-                };
+                    GameManager.instance.LoadScene(spawnAfterDialogue);
+                } else {
+                    //Go back to gameplay
+                    NovelCanvasGroup.DOFade(0.0f, 0.4f).onComplete = () => {
+                        GameManager.instance.SetState(GameState.OVERWORLD);
+                        Reset();
+                        NovelCanvasGroup.interactable = false;
+                        NovelCanvasGroup.blocksRaycasts = false;
+                        NovelManager.instance.EndScene(DialogueTextAsset);
+                    };
+                }
             };
         };
     }
@@ -757,6 +767,7 @@ public class AnimDialogueManager : MonoBehaviour, IPointerClickHandler
         moveOn = false;
         choosing = false;
         currentBackgroundName = "None";
+        spawnAfterDialogue = null;
         DialogueBox.ResetBox();
         foreach ( string k in characterDictionary.Keys)
         {
