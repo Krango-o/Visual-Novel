@@ -117,6 +117,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void LoadSceneAdditive(string sceneName) {
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+    }
+
     public void AddInteractable(GameObject interactable) {
         if (!interactablesList.Contains(interactable)) {
             interactablesList.Add(interactable);
