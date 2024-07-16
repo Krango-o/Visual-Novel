@@ -14,5 +14,17 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/NovelEngine/Scenes/TestScene.unity
     guid: e9a54ca8814542342b16a127c4888291
+  - enabled: 1
+    path: Assets/Scenes/Template/TemplateScene 1.unity
+    guid: 111c66ae422ee67438acc80e7d55a63c
+  - enabled: 1
+    path: Assets/Scenes/Template/TemplateSceneAdd1.unity
+    guid: bdcda1daa9148fa4d9c5c3652b50e20b
+  - enabled: 1
+    path: Assets/Scenes/The plaza/Plaza.unity
+    guid: ca3882a676b8cd84495d821e15953ef9
+  - enabled: 1
+    path: Assets/Scenes/The plaza/Plaza_Chapter1.unity
+    guid: 5e44e861c1b6eab499c6feeecd3c8a5e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 2d1a5bec728e2a94cb05fb04542df7b0, type: 2}
