@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> interactablesList;
 
+    [SerializeField]
+    private GameObject LoadingPrefab;
+
     private void Awake()
     {
         if (instance == null)
@@ -110,7 +113,14 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(SpawnPointSO spawnPointSO = null) {
         SpawnPointToLoad = spawnPointSO.Id;
-        SceneManager.LoadScene(spawnPointSO.sceneToLoad.Name);
+        //SceneManager.LoadScene(spawnPointSO.sceneToLoad.Name);
+
+        LoadingScreen loadingScreen = GameObject.Instantiate(LoadingPrefab).GetComponent<LoadingScreen>();
+        Tween transitionTween = loadingScreen.TransitionIn();
+        transitionTween.OnComplete(() => {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(spawnPointSO.sceneToLoad.Name);
+            loadingScreen.StartLoading(loadOperation);
+        });
     }
 
     public void LoadScene(string sceneName) {
