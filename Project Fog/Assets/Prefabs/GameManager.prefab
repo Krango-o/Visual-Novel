@@ -74,6 +74,7 @@ MonoBehaviour:
   characterDataUnlocked:
     m_PersistentCalls:
       m_Calls: []
+  LoadingPrefab: {fileID: 9214874524098946521, guid: b3a3986abcf684d4db4a947870af640d, type: 3}
 --- !u!114 &1454270178
 MonoBehaviour:
   m_ObjectHideFlags: 0

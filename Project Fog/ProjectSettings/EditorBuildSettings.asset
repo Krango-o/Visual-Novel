@@ -26,5 +26,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/The plaza/Plaza_Chapter1.unity
     guid: 5e44e861c1b6eab499c6feeecd3c8a5e
+  - enabled: 0
+    path: Assets/Scenes/L Building Interior/L Building Interior.unity
+    guid: 2596af2becced174ab1236636c55cdec
+  - enabled: 1
+    path: Assets/Scenes/The L Building/L Building Interior.unity
+    guid: 87a0f89a1483e794983f6fcb50fe43a3
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 2d1a5bec728e2a94cb05fb04542df7b0, type: 2}
