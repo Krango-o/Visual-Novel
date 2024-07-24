@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private Transform sprite;
     [SerializeField]
+    private InteractionHint interactionHint;
+    [SerializeField]
     private ParticleSystem runParticles;
     [SerializeField]
     private float jumpStrength = 10;
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour {
         Cinemachine.CinemachineCore.CameraUpdatedEvent.AddListener(CinemachineUpdate);
         controller = GetComponent<CharacterController>();
         anim = sprite.gameObject.GetComponent<Animator>();
+        interactionHint.SetVisible(false);
     }
 
     void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
@@ -67,7 +70,6 @@ public class PlayerController : MonoBehaviour {
             spriteHolder.forward = Camera.main.transform.forward;
         }
     }
-
 
     void Update()
     {
@@ -165,6 +167,15 @@ public class PlayerController : MonoBehaviour {
         {
             //RotateCamera();
         }
+    }
+
+    public void ShowInteractionHint(InteractionType type) {
+        interactionHint.SetInteractionType(type);
+        interactionHint.SetVisible(true);
+    }
+
+    public void HideInteractionHint() {
+        interactionHint.SetVisible(false);
     }
 
     private void RotateCamera()

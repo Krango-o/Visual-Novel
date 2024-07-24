@@ -17,8 +17,6 @@ public class NPC : Interactable {
     private Transform spriteHolder;
     [SerializeField]
     private Transform sprite;
-    [SerializeField]
-    private GameObject speakIcon;
 
     [Header("Lost Item")]
     [SerializeField]
@@ -32,7 +30,6 @@ public class NPC : Interactable {
     [SerializeField]
     private bool SpawnAfterLostItem;
 
-
     private bool canInteract;
     private bool speechOpen = false;
     private SpeechBubble speechBubble;
@@ -40,16 +37,15 @@ public class NPC : Interactable {
     // Start is called before the first frame update
     void Start()
     {
-        speakIcon.SetActive(false);
         speechBubble = GameObject.Find("SpeechbubbleCanvas").GetComponent<SpeechBubble>();
         Cinemachine.CinemachineCore.CameraUpdatedEvent.AddListener(CinemachineUpdate);
+        interactionHint.SetInteractionType(InteractionType.TALKNEW);
     }
 
     void CinemachineUpdate(Cinemachine.CinemachineBrain brain)
     {
         //Make sprite constantly look at camera
         spriteHolder.forward = Camera.main.transform.forward;
-        speakIcon.transform.forward = Camera.main.transform.forward;
     }
 
     public override void Interact() {
@@ -71,7 +67,7 @@ public class NPC : Interactable {
                     }
                     // Show the speech bubble here. Get rid of the interact icon for now and disable character movement
                     speechBubble.ShowSpeechBubble(shortDialogue, gameObject.transform, confirmChoiceString, cancelChoiceString);
-                    speakIcon.transform.DOScale(0.01f, 0.2f).SetEase(Ease.OutQuad);
+                    interactionHint.SetVisible(false);
                     GameManager.instance.SetState(GameState.WORLDDIALOGUE);
                     speechOpen = true;
                     GameManager.instance.DelayInteract();
@@ -86,12 +82,26 @@ public class NPC : Interactable {
         base.ToggleClosest(isClosest);
         if (isClosest) {
             canInteract = true;
-            speakIcon.SetActive(true);
-            speakIcon.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-            speakIcon.transform.DOScale(1.0f, 0.2f).SetEase(Ease.OutQuad);
+            UpdateInteractionHint();
         } else {
             canInteract = false;
-            speakIcon.SetActive(false);
+        }
+    }
+
+    private void UpdateInteractionHint() {
+        //Lost Item
+        if (LostItemRequired != null && LostItemVNScene != null &&
+                            GameManager.instance.PlayerDataManager.CheckIfItemUnlocked(LostItemRequired) &&
+                            !NovelManager.instance.CheckIfDialogueCompleted(LostItemVNScene)) {
+            interactionHint.SetInteractionType(InteractionType.TALKGIFT);
+        }
+        //Already Read
+        else if (vnSceneObject != null && NovelManager.instance.CheckIfDialogueCompleted(vnSceneObject)) {
+            interactionHint.SetInteractionType(InteractionType.TALKOLD);
+        }
+        //New Text
+        else {
+            interactionHint.SetInteractionType(InteractionType.TALKNEW);
         }
     }
 
@@ -99,7 +109,7 @@ public class NPC : Interactable {
     {
         speechOpen = false;
         speechBubble.HideSpeechBubble();
-        speakIcon.transform.DOScale(1.0f, 0.2f).SetEase(Ease.OutQuad);
+        interactionHint.SetVisible(true);
         GameManager.instance.SetState(GameState.OVERWORLD);
         GameManager.instance.DelayInteract();
         GameManager.instance.confirmChoiceEvent.RemoveListener(OnConfirmBubble);

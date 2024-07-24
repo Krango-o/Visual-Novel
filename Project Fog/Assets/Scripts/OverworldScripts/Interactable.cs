@@ -4,7 +4,7 @@ public abstract class Interactable : MonoBehaviour {
 
     [Header("Interactable")]
     [SerializeField]
-    protected GameObject closeIndicator;
+    protected InteractionHint interactionHint;
     protected bool inRange = false;
     protected bool isClosest = false;
     protected bool isInteracting = false;
@@ -23,6 +23,9 @@ public abstract class Interactable : MonoBehaviour {
         //if (questInfo != null) {
         //    questId = questInfo.id;
         //}
+        if (interactionHint != null) {
+            interactionHint.SetVisible(false);
+        }
     }
 
     //private void OnEnable() {
@@ -68,8 +71,8 @@ public abstract class Interactable : MonoBehaviour {
 
     protected virtual void ToggleClosest(bool isClosest) {
         this.isClosest = isClosest;
-        if(closeIndicator != null) {
-            closeIndicator.SetActive(isClosest);
+        if(interactionHint != null) {
+            interactionHint.SetVisible(isClosest);
         }
     }
 

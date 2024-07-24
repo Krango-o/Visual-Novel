@@ -11,4 +11,13 @@ public class SceneChanger : Interactable {
     public override void Interact() {
         GameManager.instance.LoadScene(spawnPointSO);
     }
+
+    protected override void ToggleClosest(bool isClosest) {
+        base.ToggleClosest(isClosest);
+        if (isClosest) {
+            GameManager.instance.Player.ShowInteractionHint(InteractionType.RUN);
+        } else {
+            GameManager.instance.Player.HideInteractionHint();
+        }
+    }
 }

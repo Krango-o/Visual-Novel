@@ -18,10 +18,21 @@ public class InteractableDialogueObject : Interactable {
             interacting = true;
             prevGameState = GameManager.instance.CurrentGameState;
             GameManager.instance.SetState(GameState.WORLDDIALOGUE);
+            GameManager.instance.Player.HideInteractionHint();
             InteractableDialogueManager.ShowDialogue(lines, dialoguePrefab, () => {
                 interacting = false;
                 GameManager.instance.SetState(prevGameState);
+                GameManager.instance.Player.ShowInteractionHint(InteractionType.LOOK);
             });
+        }
+    }
+
+    protected override void ToggleClosest(bool isClosest) {
+        base.ToggleClosest(isClosest);
+        if (isClosest) {
+            GameManager.instance.Player.ShowInteractionHint(InteractionType.LOOK);
+        } else {
+            GameManager.instance.Player.HideInteractionHint();
         }
     }
 }

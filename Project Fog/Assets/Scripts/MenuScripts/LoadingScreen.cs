@@ -26,7 +26,7 @@ public class LoadingScreen : MonoBehaviour
     }
 
     private void TransitionOut() {
-        canvasGroup.DOFade(0, 0.5f).OnComplete(() => {
+        canvasGroup.DOFade(0, 0.5f).SetDelay(1.0f).OnComplete(() => {
             GameObject.Destroy(gameObject);
         });
     }
